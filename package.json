@@ -1,0 +1,115 @@
+{
+  "name": "tik",
+  "private": "true",
+  "version": "1.1.1",
+  "author": "xiaowuyaya, Inc <liaolingwei605@163.com>",
+  "description": "通过获取游戏开始时的双方玩家的历史对局数据（也可在英雄选择时队友的历史对局数据），对数据进行算法分析，依照算法，对每个人的历史对局数据进行评分。根据评分结果，得出每位玩家的大致游戏水平，在游戏中能做出针对性的判断结果。",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . ",
+    "dev": "electron . --env=local",
+    "reload": "nodemon",
+    "test": "set DEBUG=* && electron . --env=local",
+    "build-w": "electron-builder -w --ia32",
+    "build-w-64": "electron-builder -w --x64",
+    "build-m": "electron-builder -m",
+    "build-m-arm64": "electron-builder -m --arm64",
+    "build-l": "electron-builder -l",
+    "rd": "ee-core rd --dist_dir=./frontend/dist",
+    "compress": "ee-core compress",
+    "restore": "ee-core restore"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "electron/",
+      "main.js"
+    ],
+    "ignore": [],
+    "ext": "js,json",
+    "verbose": true,
+    "exec": "electron . --env=local --hot-reload=1",
+    "restartable": "hr",
+    "colours": true,
+    "events": {}
+  },
+  "build": {
+    "productName": "Serendipity",
+    "appId": "serendipity.lol-tool.com",
+    "copyright": "XiaoWuYaYa (lol-tool.com) All rights",
+    "directories": {
+      "output": "out"
+    },
+    "asar": true,
+    "files": [
+      "**/*",
+      "!frontend/",
+      "!run/",
+      "!logs/",
+      "!data/"
+    ],
+    "extraResources": {
+      "from": "./build/extraResources/",
+      "to": "extraResources"
+    },
+    "electronDownload": {
+      "mirror": "https://npmmirror.com/mirrors/electron/"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "./build/icons/icon.ico",
+      "uninstallerIcon": "./build/icons/icon.ico",
+      "installerHeaderIcon": "./build/icons/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Serendipity LoL对局助手"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://github.com/wallace5303/electron-egg"
+      }
+    ],
+    "mac": {
+      "icon": "./build/icons/icon.icns",
+      "artifactName": "${productName}-macos-${version}.${ext}",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "./build/icons/icon.ico",
+      "artifactName": "${productName}-windows-${version}.${ext}",
+      "requestedExecutionLevel": "highestAvailable",
+      "target": [
+        {
+          "target": "nsis"
+        }
+      ]
+    },
+    "linux": {
+      "icon": "./build/icons/256x256.png",
+      "artifactName": "${productName}-linux-${version}.${ext}",
+      "target": [
+        "deb"
+      ]
+    }
+  },
+  "devDependencies": {
+    "debug": "^4.3.3",
+    "electron": "^13.6.9",
+    "electron-builder": "^23.0.3",
+    "eslint": "^5.13.0",
+    "eslint-config-egg": "^7.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.7",
+    "ee-core": "^1.2.7",
+    "electron-is": "^3.0.0",
+    "lodash": "^4.17.21"
+  }
+}
