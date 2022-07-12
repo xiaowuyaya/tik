@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const dayjs = require('dayjs');
+const dayjs = require('dayjs')
 
 /**
  * 默认配置
@@ -10,7 +10,7 @@ module.exports = (appInfo) => {
    * built-in config
    * @type {Ee.EeAppConfig}
    **/
-  const config = {};
+  const config = {}
 
   /* 应用模式配置 */
   config.developmentMode = {
@@ -29,14 +29,14 @@ module.exports = (appInfo) => {
         indexPage: 'index.html'
       },
     }
-  };
+  }
 
   /**
    * 应用程序顶部菜单
    * boolean | string
    * true, false, 'dev-show'(dev环境显示，prod环境隐藏)
    */
-  config.openAppMenu = false;
+  config.openAppMenu = false
 
   /**
    * 主窗口
@@ -54,19 +54,19 @@ module.exports = (appInfo) => {
       nodeIntegration: true,
       allowRunningInsecureContent: true
     },
-  };
+  }
 
   /* ee框架日志 */
   config.logger = {
-    appLogName: `serendipity-${dayjs().format('YYYY-MM-DD')}.log`, 
-    errorLogName: `serendipity-error-${dayjs().format('YYYY-MM-DD')}.log` 
+    appLogName: `serendipity-${dayjs().format('YYYY-MM-DD')}.log`,
+    errorLogName: `serendipity-error-${dayjs().format('YYYY-MM-DD')}.log`
   }
 
   /* 远程web地址 (可选) */
   config.remoteUrl = {
     enable: false, // 是否启用
     url: 'http://lol-tool.com/' // Any web url
-  };
+  }
 
   /* 内置socket服务 */
   config.socketServer = {
@@ -81,7 +81,7 @@ module.exports = (appInfo) => {
     cors: {
       origin: true, // http协议时，要设置允许跨域
     }
-  };
+  }
 
   /* 内置http服务 */
   config.httpServer = {
@@ -90,20 +90,20 @@ module.exports = (appInfo) => {
     cors: {
       origin: "*" // 跨域
     }
-  };
+  }
 
   /* 主进程 */
   config.mainServer = {
     host: '127.0.0.1',
     port: 7072, // 默认端口（如果端口被使用，则随机获取一个）
-  }; 
+  }
 
   /**
    * 硬件加速
    */
   config.hardGpu = {
     enable: false
-  };   
+  }
 
   /* 应用自动升级 (可选) */
   config.autoUpdate = {
@@ -115,13 +115,13 @@ module.exports = (appInfo) => {
       url: 'http://qiniu.lol-tool.com/latest' // resource dir, end with '/'
     },
     force: true, // 强制更新（运行软件时，检查新版本并后台下载安装）
-  };
+  }
 
   /* 被浏览器唤醒 (可选) */
   config.awakeProtocol = {
     protocol: 'lol-tool', // 自定义协议名（默认你的应用名称-英文）
     args: []
-  };
+  }
 
   /* 托盘 (可选)  */
   config.tray = {
@@ -129,13 +129,13 @@ module.exports = (appInfo) => {
     icon: '/public/images/tray_logo.png' // 托盘图标
   }
 
-    /* 托盘 (可选)  */
-    config.tray = {
-      title: 'Serendipity 英雄联盟对局助手', // 托盘显示标题
-      icon: '/public/images/logo.png' // 托盘图标
-    }
+  /* 托盘 (可选)  */
+  config.tray = {
+    title: 'Serendipity 英雄联盟对局助手', // 托盘显示标题
+    icon: '/public/images/logo.png' // 托盘图标
+  }
 
   return {
     ...config
-  };
+  }
 }
