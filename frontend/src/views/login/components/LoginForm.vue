@@ -27,9 +27,20 @@
           placeholder="请输入密码"
         />
       </el-form-item>
-      <!-- <el-form-item label="Activity form">
-        <el-input v-model="" />
-      </el-form-item> -->
+      <el-form-item label="验证码" prop="verifyCode">
+        <el-input
+          class="w-[70%]"
+          v-model="loginForm.verifyCode"
+          size="large"
+          placeholder="请输入验证码"
+        />
+        <img
+          class="w-[30%] h-40px"
+          :src="captchaImg"
+          alt="加载异常"
+          @click="getCaptchaImg"
+        />
+      </el-form-item>
       <el-form-item>
         <div class="w-full">
           <el-button
@@ -52,16 +63,35 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules } from "element-plus";
-import { reactive, ref } from "vue";
+import { getCaptcha } from "@/api/common";
+import { useAppInfoStore } from "@/stores/modules/appInfo";
+import { useUserStore } from "@/stores/modules/user";
+import { FormInstance, FormRules } from "element-plus";
+import { onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+onMounted(async () => {
+  await getCaptchaImg();
+});
 
 const formRef = ref<FormInstance>();
 
-const loginForm = reactive({
-  username: "",
-  password: "",
-});
+const appInfoStore = useAppInfoStore();
+const userStore = useUserStore();
 
+const { appVersion, macAddr } = appInfoStore;
+
+const captchaImg = ref<string>("");
+const loginForm = reactive({
+  username: "xiaowuyaya",
+  password: "123123",
+  captchaId: "",
+  verifyCode: "",
+  clientVersion: appVersion,
+  mac: macAddr,
+});
 const rules = reactive<FormRules>({
   username: [
     { required: true, message: "用户名不能为空", trigger: "blur" },
@@ -71,13 +101,30 @@ const rules = reactive<FormRules>({
     { required: true, message: "登录密码不能为空", trigger: "blur" },
     { min: 6, max: 32, message: "密码长度为3到32位", trigger: "blur" },
   ],
+  verifyCode: [{ required: true, message: "验证码不能为空", trigger: "blur" }],
 });
+
+const getCaptchaImg = async () => {
+  const res = await getCaptcha();
+  const { id, img } = res.data;
+  loginForm.captchaId = id;
+  captchaImg.value = img;
+};
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
-      // TODO:LOGIN
+      try {
+        await userStore.doLogin(loginForm);
+        setTimeout(() => {
+          router.push({ name: "dashboard" });
+        }, 1000);
+      } catch (err) {
+        console.log(err);
+
+        await getCaptchaImg();
+      }
     }
   });
 };

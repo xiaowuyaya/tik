@@ -58,8 +58,8 @@ module.exports = (appInfo) => {
 
   /* ee框架日志 */
   config.logger = {
-    appLogName: `serendipity-${dayjs().format('YYYY-MM-DD')}.log`,
-    errorLogName: `serendipity-error-${dayjs().format('YYYY-MM-DD')}.log`
+    appLogName: `tik-${dayjs().format('YYYY-MM-DD')}.log`,
+    errorLogName: `tik-error-${dayjs().format('YYYY-MM-DD')}.log`
   }
 
   /* 远程web地址 (可选) */
@@ -89,6 +89,12 @@ module.exports = (appInfo) => {
     port: 7071, // 默认端口（如果端口被使用，则随机获取一个）
     cors: {
       origin: "*" // 跨域
+    },
+    body: {
+      multipart: true,
+      formidable: {
+        keepExtensions: true
+      }
     }
   }
 
@@ -125,13 +131,7 @@ module.exports = (appInfo) => {
 
   /* 托盘 (可选)  */
   config.tray = {
-    title: 'EE程序', // 托盘显示标题
-    icon: '/public/images/tray_logo.png' // 托盘图标
-  }
-
-  /* 托盘 (可选)  */
-  config.tray = {
-    title: 'Serendipity 英雄联盟对局助手', // 托盘显示标题
+    title: 'tik 英雄联盟对局助手', // 托盘显示标题
     icon: '/public/images/logo.png' // 托盘图标
   }
 

@@ -1,8 +1,8 @@
 
 export const TOKEN_KEY = 'TOKEN'
 
-export function getToken(): string {
-  return localStorage.getItem(TOKEN_KEY) || ''
+export function getToken(): string | null {
+  return localStorage.getItem(TOKEN_KEY) || null
 }
 
 export function setToken(token: string): void {

@@ -1,4 +1,5 @@
 'use strict';
+const chromeExtension = require('../library/chromeExtension')
 
 /**
  * 预加载模块入口
@@ -6,5 +7,7 @@
  */
 module.exports = async (app) => {
 
+  // chrome拓展
+  chromeExtension.install()
 
 }

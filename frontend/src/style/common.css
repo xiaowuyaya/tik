@@ -1,0 +1,11 @@
+img {
+  -webkit-user-drag: none;
+}
+
+.user-drag {
+  -webkit-app-region: drag;
+}
+
+.no-drag{
+  -webkit-app-region: none;
+}

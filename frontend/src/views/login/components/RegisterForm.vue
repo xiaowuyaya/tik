@@ -6,13 +6,13 @@
     <el-form
       class="w-[70%]"
       label-position="top"
-      :model="loginForm"
+      :model="registerForm"
       ref="formRef"
       :rules="rules"
     >
       <el-form-item label="用户名" prop="username">
         <el-input
-          v-model="loginForm.username"
+          v-model="registerForm.username"
           size="large"
           clearable
           placeholder="请输入用户名"
@@ -20,7 +20,7 @@
       </el-form-item>
       <el-form-item label="密码" prop="password">
         <el-input
-          v-model="loginForm.password"
+          v-model="registerForm.password"
           type="Password"
           size="large"
           show-password
@@ -29,7 +29,7 @@
       </el-form-item>
       <el-form-item label="确认密码" prop="rePassword">
         <el-input
-          v-model="loginForm.rePassword"
+          v-model="registerForm.rePassword"
           type="Password"
           size="large"
           show-password
@@ -38,7 +38,7 @@
       </el-form-item>
       <el-form-item label="邮箱" prop="mail">
         <el-input
-          v-model="loginForm.mail"
+          v-model="registerForm.mail"
           size="large"
           placeholder="请输入邮箱"
         />
@@ -66,29 +66,29 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules } from "element-plus";
+import { register } from "@/api/user";
+import { ElMessage, FormInstance, FormRules } from "element-plus";
 import { reactive, ref } from "vue";
 
 const formRef = ref<FormInstance>();
 
-const loginForm = reactive({
+const registerForm = reactive({
   username: "",
   password: "",
   rePassword: "",
   mail: "",
 });
 
-
 const checkRePassword = (_rule: any, value: any, callback: any) => {
-   if (value === '') {
-    callback(new Error('请再次输入登录密码'))
+  if (value === "") {
+    callback(new Error("请再次输入登录密码"));
   } else {
-    if (loginForm.password !== value) {
-      callback(new Error('两次密码输入不同'))
+    if (registerForm.password !== value) {
+      callback(new Error("两次密码输入不同"));
     }
-    callback()
+    callback();
   }
-}
+};
 
 const rules = reactive<FormRules>({
   username: [
@@ -99,16 +99,26 @@ const rules = reactive<FormRules>({
     { required: true, message: "登录密码不能为空", trigger: "blur" },
     { min: 6, max: 32, message: "密码长度为3到32位", trigger: "blur" },
   ],
-  rePassword: [
-    { validator: checkRePassword, trigger: 'blur' },
-  ]
+  rePassword: [{ validator: checkRePassword, trigger: "blur" }],
 });
+
+const doRegister = async () => {
+  try {
+    await register(registerForm);
+    ElMessage({
+      message: "注册成功！",
+      type: "success",
+      duration: 3 * 1000,
+    });
+    toRegister();
+  } catch (err) {}
+};
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      // TODO:REGISTER
+      doRegister();
     }
   });
 };

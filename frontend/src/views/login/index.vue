@@ -1,16 +1,23 @@
 <template>
   <div class="login-container">
+    <!-- 关闭按钮 -->
+    <img
+      class="absolute z-10 top-3 right-3 w-7"
+      src="@/assets/svgs/close.svg"
+      @click="handleQuit"
+    />
     <div class="flex flex-row h-full">
       <!-- 左半部分 -->
-      <div
-        class="no-drag flex-1 bg-custom-grayBlue relative p-20px text-white"
-      >
+      <div class="user-drag flex-1 bg-custom-grayBlue relative p-20px text-white">
         <!-- logo -->
         <div class="flex items-center">
           <img class="w-42px h-42px mr-10px" src="@/assets/logo.png" />
           <span class="font-youshe font-medium subpixel-antialiased">
             <span class="text-22px mr-5px">Tik</span>
             <span class="text-24px">英雄联盟对局助手</span>
+            <span class="text-white">
+              V{{appInfoStore.appVersion}}
+            </span>
           </span>
         </div>
         <!-- bg -->
@@ -23,6 +30,11 @@
             </div>
           </div>
         </div>
+        <!-- footer -->
+        <span class="absolute bottom-1 w-[90%] z-10 text-xs font-light text-gray-400  text-center">
+          <span>©CopyRight 2022, XiaoWuYaYa.</span>
+          <span class="ml-4">Q群：914241626</span>
+        </span>
       </div>
       <!-- 右半部分 -->
       <div class="flex-1 bg-white relative p-20px">
@@ -43,10 +55,21 @@
 </template>
 
 <script setup lang="ts">
+import ipcRenderer from "@/utils/ipcRenderer";
 import { ref } from "vue";
 import { LoginForm, RegisterForm } from "./components";
+import { useAppInfoStore } from "@/stores/modules/appInfo";
+
+const appInfoStore = useAppInfoStore()
 
 const showRegister = ref<boolean>(false);
+
+const handleQuit = async () => {
+  await ipcRenderer.invoke("controller.common.handleWindow", {
+    btn: 1,
+    quitType: 0,
+  });
+};
 </script>
 
 <style scoped lang="scss">

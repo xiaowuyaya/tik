@@ -1,12 +1,30 @@
 <script setup lang="ts">
+import { useAppInfoStore } from './stores/modules/appInfo';
+import { useRouter } from "vue-router";
+import { getToken } from './utils/auth';
+
+const router = useRouter()
+
+/* 加载应用配置信息 */
+const appInfoStore = useAppInfoStore()
+appInfoStore.load()
+
+/* 判断是否已经登入 */
+const token = getToken()
+if( token){
+  router.push({name: 'dashboard'})
+}else{
+  router.push({name: 'login'})
+}
 </script>
 
 <template>
-  <router-view class="font-pingfang shadow select-none" />
+  <router-view class="font-pingfang shadow-md select-none" />
 </template>
 
 <style lang="less">
 @import url(./style/font.css);
+@import url(./style/common.css);
 .size {
   width: 100%;
   height: 100%;
@@ -24,13 +42,5 @@ body {
   background-color: rgba(0, 0, 0, 0);
   border-radius: 6px;
   overflow: hidden;
-}
-
-img {
-  -webkit-user-drag: none;
-}
-
-.no-drag {
-  -webkit-app-region: drag;
 }
 </style>
