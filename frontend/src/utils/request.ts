@@ -109,6 +109,7 @@ class AxiosHttpRequest implements BaseType {
         ElMessage({
           message: msg,
           type: 'error',
+          offset: 54
         })
         if (code === 11001) {
           // TODO: 跳转重新登入
@@ -127,6 +128,7 @@ class AxiosHttpRequest implements BaseType {
       ElMessage({
         message: message,
         type: 'warning',
+        offset: 54,
         duration: 5 * 1000,
       })
       return Promise.reject(err)

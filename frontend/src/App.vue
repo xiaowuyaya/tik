@@ -11,7 +11,7 @@ appInfoStore.load()
 
 /* 判断是否已经登入 */
 const token = getToken()
-if( token){
+if(token){
   router.push({name: 'dashboard'})
 }else{
   router.push({name: 'login'})
@@ -23,6 +23,7 @@ if( token){
 </template>
 
 <style lang="less">
+@import url('@arco-themes/vue-gi-demo/index.less');
 @import url(./style/font.css);
 @import url(./style/common.css);
 .size {

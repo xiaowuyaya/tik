@@ -1,6 +1,6 @@
 import http from "@/utils/request";
 
-interface CreateClientUser {
+export interface CreateClientUser {
   username: string;
   password: string;
   nickName?: string;
@@ -11,7 +11,7 @@ interface CreateClientUser {
   status?: number;
 }
 
-interface LoginClientUserDto {
+export interface LoginClientUserDto {
   username: string;
   password: string;
   mac: string;
@@ -20,11 +20,16 @@ interface LoginClientUserDto {
   verifyCode: string;
 }
 
+export interface MyInfoDto {
+  mac: string;
+  clientVersion: string;
+}
+
 /**
  * 用户注册
  * @returns 
  */
-export function register(data: CreateClientUser){
+export function register(data: CreateClientUser) {
   return http.request({
     url: '/user/register',
     method: 'POST',
@@ -37,9 +42,22 @@ export function register(data: CreateClientUser){
  * @param data 
  * @returns 
  */
-export function login(data: LoginClientUserDto){
+export function login(data: LoginClientUserDto) {
   return http.request({
     url: '/user/login',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 获取我的个人信息
+ * @param data 
+ * @returns 
+ */
+export function getMyInfo(data: MyInfoDto) {
+  return http.request({
+    url: '/user/getMyInfo',
     method: 'POST',
     data
   })

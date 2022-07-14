@@ -29,13 +29,13 @@
       </el-form-item>
       <el-form-item label="验证码" prop="verifyCode">
         <el-input
-          class="w-[70%]"
+          class="!w-[70%]"
           v-model="loginForm.verifyCode"
           size="large"
           placeholder="请输入验证码"
         />
         <img
-          class="w-[30%] h-40px"
+          class="!w-[30%] h-40px"
           :src="captchaImg"
           alt="加载异常"
           @click="getCaptchaImg"

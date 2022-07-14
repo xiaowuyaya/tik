@@ -15,7 +15,7 @@
           v-model="registerForm.username"
           size="large"
           clearable
-          placeholder="请输入用户名"
+          placeholder="请输入用户名（登入使用）"
         />
       </el-form-item>
       <el-form-item label="密码" prop="password">
@@ -34,6 +34,14 @@
           size="large"
           show-password
           placeholder="请再次输入密码"
+        />
+      </el-form-item>
+      <el-form-item label="昵称" prop="nickName">
+        <el-input
+          v-model="registerForm.nickName"
+          size="large"
+          clearable
+          placeholder="请输入昵称"
         />
       </el-form-item>
       <el-form-item label="邮箱" prop="mail">
@@ -77,6 +85,7 @@ const registerForm = reactive({
   password: "",
   rePassword: "",
   mail: "",
+  nickName: ""
 });
 
 const checkRePassword = (_rule: any, value: any, callback: any) => {
@@ -100,6 +109,9 @@ const rules = reactive<FormRules>({
     { min: 6, max: 32, message: "密码长度为3到32位", trigger: "blur" },
   ],
   rePassword: [{ validator: checkRePassword, trigger: "blur" }],
+  nickName: [
+    { required: true, message: "昵称不能为空", trigger: "blur" },
+  ]
 });
 
 const doRegister = async () => {
@@ -109,6 +121,7 @@ const doRegister = async () => {
       message: "注册成功！",
       type: "success",
       duration: 3 * 1000,
+      offset: 54
     });
     toRegister();
   } catch (err) {}

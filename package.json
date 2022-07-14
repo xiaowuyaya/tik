@@ -114,6 +114,7 @@
     "ee-core": "^1.2.8",
     "electron-is": "^3.0.0",
     "getmac": "^5.20.0",
+    "league-connect": "6.0.0-rc3",
     "lodash": "^4.17.21"
   }
 }

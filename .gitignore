@@ -4,5 +4,5 @@ logs/
 run/
 .idea/
 package-lock.json
-data/
+data/system.json
 .vscode/launch.json

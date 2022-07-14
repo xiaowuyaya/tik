@@ -13,6 +13,7 @@ const invoke = (channel, param) => {
     ElMessage({
       type: "error",
       message: `当前操作发生异常：${resp.err}`,
+      offset: 54
     })
   }
   return resp

@@ -1,7 +1,7 @@
 <template>
   <div class="user-drag w-full flex items-center justify-between border-b-1">
     <!-- logo -->
-    <div class="w-9 my-1 ml-3">
+    <div class="w-9 my-2 ml-3">
       <img src="@/assets/logo.png" />
     </div>
     <!-- title -->
@@ -37,6 +37,7 @@
         "
         src="@/assets/svgs/mini.svg"
         alt=""
+        @click="handleMinisize"
       />
       <img
         class="
@@ -63,6 +64,7 @@
         "
         src="@/assets/svgs/close.svg"
         alt=""
+        @click="handleQuit"
       />
     </div>
   </div>
@@ -70,6 +72,15 @@
 
 <script setup lang="ts">
 import { useAppInfoStore } from "@/stores/modules/appInfo";
+import ipcRenderer from "@/utils/ipcRenderer";
 
 const appInfoStore = useAppInfoStore();
+
+const handleMinisize = () => {
+  ipcRenderer.sendSync("controller.common.handleWindow", { btn: 0 });
+};
+
+const handleQuit = () => {
+  ipcRenderer.sendSync("controller.common.handleWindow", { btn: 1, quitType: 0 });
+}
 </script>

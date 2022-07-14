@@ -1,3 +1,6 @@
+/**
+ * 通用结果集
+ */
 class R {
   constructor(code, data, msg = 'success') {
     this.code = code
