@@ -19,7 +19,7 @@ if(token){
 </script>
 
 <template>
-  <router-view class="font-pingfang shadow-md select-none" />
+  <router-view class="font-pingfang shadow-md select-none border rounded-md" />
 </template>
 
 <style lang="less">
@@ -34,7 +34,7 @@ html,
 body {
   padding: 0 !important;
   margin: 0;
-  overflow: hidden;
+  // overflow: hidden;
   .size;
   #app {
     .size;
@@ -42,6 +42,6 @@ body {
   /* 圆框需要 不然圆角会有背景色*/
   background-color: rgba(0, 0, 0, 0);
   border-radius: 6px;
-  overflow: hidden;
+  // overflow: hidden;
 }
 </style>

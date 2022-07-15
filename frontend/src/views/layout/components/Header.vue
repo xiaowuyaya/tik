@@ -1,7 +1,7 @@
 <template>
   <div class="user-drag w-full flex items-center justify-between border-b-1">
     <!-- logo -->
-    <div class="w-9 my-2 ml-3">
+    <div class="w-9 my-1 ml-3">
       <img src="@/assets/logo.png" />
     </div>
     <!-- title -->

@@ -1,6 +1,7 @@
 'use strict'
 
 const dayjs = require('dayjs')
+const { app } = require('electron')
 
 /**
  * 默认配置
@@ -133,6 +134,58 @@ module.exports = (appInfo) => {
   config.tray = {
     title: 'tik 英雄联盟对局助手', // 托盘显示标题
     icon: '/public/images/logo.png' // 托盘图标
+  }
+
+  config.settings = {
+    version: app.getVersion(),
+    send: {
+      enable: true,
+      onlyRank: false,
+      matchCount: 5,
+      keys: {
+        order: [61001],
+        chaos: [61009],
+        muteAll: [60999],
+      },
+      blackListNotice: false,
+      title: {
+        no1: "老大",
+        no2: "老二",
+        no3: "老三",
+        no4: "老四",
+        no5: "老六",
+      }
+    },
+    app: {
+      quit: "",
+      accept: true,
+      confirm: false,
+      muteAll: false,
+      normalAuto: {
+        pick: false,
+        pickSelect: "",
+        ban: false,
+        banSelect: "",
+      },
+      rankAuto: {
+        pick: {
+          enable: false,
+          top: [],
+          jungle: [],
+          middle: [],
+          bottom: [],
+          utility: [],
+        },
+        ban: {
+          enable: false,
+          top: [],
+          jungle: [],
+          middle: [],
+          bottom: [],
+          utility: [],
+        }
+      }
+    }
   }
 
   return {

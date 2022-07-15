@@ -4,7 +4,7 @@
     <!-- body -->
     <div class="flex h-full">
       <!-- left-part -->
-      <div class="h-full w-[18%] border-r">
+      <div class="h-full w-[15%] border-r">
         <!-- userinfo -->
         <div class="flex flex-col items-center pt-4 pb-1 mb-1">
           <img
@@ -16,45 +16,31 @@
             userStore.nickName
           }}</span>
         </div>
-        <a-button type="primary">Primary</a-button>
         <!-- menu body -->
         <a-menu
           :style="{ height: '100%' }"
           :collapsed="false"
-          :default-open-keys="['0']"
-          :default-selected-keys="['0_2']"
+          :default-selected-keys="selectedKey"
+          :selected-keys="selectedKey"
           show-collapse-button
+          :accordion="true"
           breakpoint="xl"
+          @menu-item-click="changePath"
         >
-          <a-sub-menu key="0">
-            <template #icon><icon-apps></icon-apps></template>
-            <template #title>Navigation 1</template>
-            <a-menu-item key="0_0">Menu 1</a-menu-item>
-            <a-menu-item key="0_1">Menu 2</a-menu-item>
-            <a-menu-item key="0_2">Menu 3</a-menu-item>
-            <a-menu-item key="0_3">Menu 4</a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="1">
-            <template #icon><icon-bug></icon-bug></template>
-            <template #title>Navigation 2</template>
-            <a-menu-item key="1_0">Menu 1</a-menu-item>
-            <a-menu-item key="1_1">Menu 2</a-menu-item>
-            <a-menu-item key="1_2">Menu 3</a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="2">
-            <template #icon><icon-bulb></icon-bulb></template>
-            <template #title>Navigation 3</template>
-            <a-menu-item key="2_0">Menu 1</a-menu-item>
-            <a-menu-item key="2_1">Menu 2</a-menu-item>
-            <a-sub-menu key="2_2" title="Navigation 4">
-              <a-menu-item key="2_2_0">Menu 1</a-menu-item>
-              <a-menu-item key="2_2_1">Menu 2</a-menu-item>
-            </a-sub-menu>
-          </a-sub-menu>
+          <a-menu-item key="dashboard"><icon-dashboard />个人中心</a-menu-item>
+          <a-menu-item key="panel"><icon-list />对局面板</a-menu-item>
+          <a-menu-item key="func"><icon-apps />常用功能</a-menu-item>
+          <a-menu-item key="blacklist"><icon-user-group />黑名单</a-menu-item>
+          <a-menu-item key="hero-data"><icon-bar-chart />英雄数据</a-menu-item>
+          <a-menu-item key="send-settings"
+            ><icon-settings />发送设置</a-menu-item
+          >
+          <a-menu-item key="auto-game"><icon-send />排位自选</a-menu-item>
         </a-menu>
       </div>
+      <router-view class="h-full w-full bg-gray-50" />
     </div>
-    <router-view class="bg-white" />
+    
   </div>
 </template>
 
@@ -62,18 +48,37 @@
 import { useUserStore } from "@/stores/modules/user";
 import { useAppInfoStore } from "@/stores/modules/appInfo";
 import Header from "./components/Header.vue";
-import { IconApps, IconBug, IconBulb } from "@arco-design/web-vue/es/icon";
+import { onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const appInfoStore = useAppInfoStore();
+const router = useRouter();
+const route = useRoute();
 
-/* 如果用户信息不存在 重新获取 */
-if (!userStore.username) {
-  userStore.myInfo({
-    mac: appInfoStore.macAddr,
-    clientVersion: appInfoStore.appVersion,
-  });
-}
+const selectedKey = ref<string[]>(['dashboard'])
+
+onMounted(() => {
+  /* 如果用户信息不存在 重新获取 */
+  if (!userStore.username) {
+    userStore.myInfo({
+      mac: appInfoStore.macAddr,
+      clientVersion: appInfoStore.appVersion,
+    });
+  }
+});
+
+// 监听路由变化 更改菜单选中
+watch(
+  () => route.name,
+  (newRoute) => {
+    selectedKey.value[0] = newRoute as any
+  }
+);
+
+const changePath = (name) => {
+  router.push({ name });
+};
 </script>
 
 <style scoped lang="scss">

@@ -1,5 +1,6 @@
 'use strict';
 const chromeExtension = require('../library/chromeExtension')
+const initialize = require('../library/initialize')
 const security = require('../library/security')
 
 /**
@@ -8,11 +9,13 @@ const security = require('../library/security')
  */
 module.exports = async (app) => {
 
+  // 项目初始化校验
+  initialize.install(app)
 
   // chrome拓展
   chromeExtension.install()
 
   // 禁止远程调试
-  security.install()
+  security.install(app)
 
 }

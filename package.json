@@ -7,7 +7,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron . ",
-    "dev": "electron . --env=local",
+    "dev": " chcp 65001 && electron . --env=local",
     "reload": "nodemon",
     "test": "set DEBUG=* && electron . --env=local",
     "build-w": "electron-builder -w --ia32",
@@ -110,11 +110,13 @@
     "nodemon": "^2.0.16"
   },
   "dependencies": {
+    "cache": "^3.0.0",
     "dayjs": "^1.10.7",
     "ee-core": "^1.2.8",
     "electron-is": "^3.0.0",
     "getmac": "^5.20.0",
     "league-connect": "6.0.0-rc3",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "superagent": "^8.0.0"
   }
 }

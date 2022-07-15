@@ -1,0 +1,57 @@
+{
+  "version": "1.1.1",
+  "send": {
+    "enable": true,
+    "onlyRank": false,
+    "matchCount": 5,
+    "keys": {
+      "order": [
+        61001
+      ],
+      "chaos": [
+        61009
+      ],
+      "muteAll": [
+        60999
+      ]
+    },
+    "blackListNotice": false,
+    "title": {
+      "no1": "老大",
+      "no2": "老二",
+      "no3": "老三",
+      "no4": "老四",
+      "no5": "老六"
+    }
+  },
+  "app": {
+    "quit": "",
+    "accept": true,
+    "confirm": false,
+    "muteAll": false,
+    "normalAuto": {
+      "pick": false,
+      "pickSelect": "",
+      "ban": false,
+      "banSelect": ""
+    },
+    "rankAuto": {
+      "pick": {
+        "enable": false,
+        "top": [],
+        "jungle": [],
+        "middle": [],
+        "bottom": [],
+        "utility": []
+      },
+      "ban": {
+        "enable": false,
+        "top": [],
+        "jungle": [],
+        "middle": [],
+        "bottom": [],
+        "utility": []
+      }
+    }
+  }
+}

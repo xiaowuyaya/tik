@@ -22,7 +22,44 @@ const routes: Array<RouteRecordRaw> = [
         name: 'dashboard',
         meta: { index: 3 },
         component: () => import('@/views/dashboard/index.vue')
+      },
+      {
+        path: '/panel',
+        name: 'panel',
+        meta: { index: 3 },
+        component: () => import('@/views/panel/index.vue')
+      },
+      {
+        path: '/func',
+        name: 'func',
+        meta: { index: 3 },
+        component: () => import('@/views/func/index.vue')
+      },
+      {
+        path: '/blacklist',
+        name: 'blacklist',
+        meta: { index: 3 },
+        component: () => import('@/views/blacklist/index.vue')
+      },
+      {
+        path: '/hero-data',
+        name: 'hero-data',
+        meta: { index: 3 },
+        component: () => import('@/views/hero-data/index.vue')
+      },
+      {
+        path: '/send-settings',
+        name: 'send-settings',
+        meta: { index: 3 },
+        component: () => import('@/views/send-settings/index.vue')
+      },
+      {
+        path: '/auto-game',
+        name: 'auto-game',
+        meta: { index: 3 },
+        component: () => import('@/views/auto-game/index.vue')
       }
+      
     ]
   }
 ]
