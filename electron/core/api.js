@@ -43,9 +43,9 @@ exports.getConversationsId = async () => {
 }
 
 /**
- * 返回当前房间队友的summonerId
+ * 返回当前房间所有队友的summonerId
  */
-exports.getRankedStatusInfoByPuuid = async () => {
+exports.getRoomPlayerIdList = async () => {
   const cId = await this.getConversationsId()
   const data = await http2Request(`/lol-chat/v1/conversations/${cId}/messages`)
   let list = []
@@ -141,7 +141,7 @@ exports.getHistoryDetailByGameId = async (gameid) => {
 /**
  * 创建房间
  */
-exports.getHistoryDetailByGameId = async (gameMode, mapId, lobbyName) => {
+exports.createCustomLobby = async (gameMode, mapId, lobbyName) => {
   const req = {
     customGameLobby: {
       configuration: {
@@ -249,7 +249,7 @@ exports.getSessionInfo = async () => {
 /**
  * 获取当前所有的符文配置
  */
-exports.getSessionInfo = async () => {
+exports.getAllRunePage = async () => {
   return await http2Request(`/lol-perks/v1/pages`)
 }
 
@@ -263,20 +263,20 @@ exports.postRunePage = async (data) => {
 /**
  * 删除一套符文配置
  */
-exports.postRunePage = async (id) => {
+exports.delRunePage = async (id) => {
   return await http2Request(`/lol-perks/v1/pages/${id}`, 'DELETE')
 }
 
 /**
  * 获取某英雄的信息（皮肤，台词等）
+ * @param{ key: "backgroundSkinId", value: '皮肤id' }
  */
 exports.getChampionSkinListById = async (championId) => {
   return await http2Request(`/lol-game-data/assets/v1/champions/${championId}.json`)
 }
 
 /**
- * 获取某英雄的信息（皮肤，台词等）
- * @param{ key: "backgroundSkinId", value: '皮肤id' }
+ * 设置生涯背景
  */
 exports.setBackgroundSkinId = async (param) => {
   return await http2Request(`/lol-summoner/v1/current-summoner/summoner-profile`, 'POST', param)

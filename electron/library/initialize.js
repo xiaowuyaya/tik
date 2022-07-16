@@ -16,6 +16,7 @@ module.exports = {
     await checkChampionsData(eeApp)
     checkSettings(eeApp)
     checkBlacklist(eeApp)
+    clearnPanelData(eeApp)
     await checkCredentials(eeApp)
   }
 }
@@ -96,5 +97,15 @@ async function checkCredentials (eeApp) {
     eeApp.logger.info(`[check:credentials] 获取credentials成功`)
   } catch (err) {
     eeApp.logger.info(`[check:credentials] 发送异常: ${err}`)
+  }
+}
+
+function clearnPanelData (eeApp) {
+  try {
+    const db = Storage.JsonDB.connection('panel-data').db
+    db.set('orderList', []).set('chaosList', []).write()
+    eeApp.logger.info(`[clearn:panel] 已重置面板配置文件`)
+  } catch (err) {
+    eeApp.logger.error(`[clearn:panel] 发生异常: ${err}`)
   }
 }
