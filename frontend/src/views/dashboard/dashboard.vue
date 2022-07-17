@@ -50,7 +50,9 @@
             </div>
           </div>
         </div>
-        <div class="px-1 mt-2">当前游戏状态：<span class="font-black">{{ gameStatus }}</span></div>
+        <div class="px-1 mt-2">
+          当前游戏状态：<span class="font-black">{{ gameStatus }}</span>
+        </div>
       </a-card>
       <a-card
         class="mt-4"
@@ -86,7 +88,7 @@
     <!-- 右侧显示最近战绩-->
     <div class="flex-1 p-2">
       <a-card class="h-full" title="近期战绩" :hoverable="true">
-      <template #extra>
+        <template #extra>
           <a-link>更多</a-link>
         </template>
         <block
@@ -101,15 +103,14 @@
             class="
               w-[78px]
               flex flex-col
-              px-[2px]
-              font-extrabold
+              px-[1px]
               items-start
               justify-center
             "
           >
             <div
               :class="[
-                'text-[16px]',
+                'text-[14px] font-extrabold',
                 item.participants[0].stats.win
                   ? 'text-green-500'
                   : 'text-red-500',
@@ -117,7 +118,7 @@
             >
               {{ item.participants[0].stats.win ? "胜利" : "失败" }}
             </div>
-            <div class="font-bold text-sm mt-1">
+            <div class="text-sm mt-1 ">
               {{ item.queueId }}
             </div>
           </div>
