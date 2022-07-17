@@ -30,7 +30,7 @@ async function checkChampionsData (eeApp) {
     const tempChampionsData = championsDataReq.data.data
     let champions = {}
     _.forIn(tempChampionsData, (data, enName) => {
-      const championId = data.id
+      const championId = data.key
       const cnName = data.name
       const avatarUrl = `http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${championId}.png`
       const key = enName.toLocaleLowerCase()
@@ -78,6 +78,7 @@ function checkBlacklist (eeApp) {
 }
 
 async function checkCredentials (eeApp) {
+  let credentials = null
   try {
     let authenticationOptions = [{
       windowsShell: 'cmd',
@@ -86,7 +87,6 @@ async function checkCredentials (eeApp) {
       windowsShell: 'powershell',
       useDeprecatedWmic: false
     }]
-    let credentials
     try {
       credentials = await authenticate(authenticationOptions[0])
     } catch (error) {
@@ -98,6 +98,11 @@ async function checkCredentials (eeApp) {
   } catch (err) {
     eeApp.logger.info(`[check:credentials] 发送异常: ${err}`)
   }
+  // 将结果装发给转发到渲染进程
+  eeApp.electron.mainWindow.webContents.send(
+    "controller.lcu.enable",
+    credentials
+  );
 }
 
 function clearnPanelData (eeApp) {

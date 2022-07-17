@@ -5,6 +5,7 @@ interface AppInfo {
   appVersion: string
   macAddr: string
   logDir: string
+  lcuEnable: boolean
 }
 
 export const useAppInfoStore = defineStore({
@@ -14,6 +15,7 @@ export const useAppInfoStore = defineStore({
       appVersion: '',
       macAddr: '',
       logDir: '',
+      lcuEnable: false
     }
   },
   getters: {},

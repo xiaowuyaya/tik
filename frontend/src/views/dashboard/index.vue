@@ -1,18 +1,22 @@
 <template>
-  <div class="dashboard-container">
-    <!-- 左侧账号信息 -->
-    <div></div>
-    <!-- 右侧 -->
-    <div>
-      <!-- 上显示近期战绩 -->
-      <!-- 下显示近期截图 -->
-    </div>
-    <NoClientStart />
-  </div>
+  <component :is="currentTabComponent"></component>
 </template>
 
 <script setup lang="ts">
 import NoClientStart from "@/components/NoClientStart.vue";
+import Dashboard from "./dashboard.vue";
+import { onBeforeMount, ref } from "vue";
+import { useAppInfoStore } from "@/stores/modules/appInfo";
+
+const appInfoStore = useAppInfoStore();
+
+const currentTabComponent = ref<any>(NoClientStart);
+
+onBeforeMount(() => {
+  if (appInfoStore.lcuEnable !== null) {
+    currentTabComponent.value = Dashboard;
+  }
+});
 </script>
 
 <style scoped>

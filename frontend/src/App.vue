@@ -2,6 +2,7 @@
 import { useAppInfoStore } from './stores/modules/appInfo';
 import { useRouter } from "vue-router";
 import { getToken } from './utils/auth';
+import ipcRenderer from './utils/ipcRenderer';
 
 const router = useRouter()
 
@@ -16,6 +17,11 @@ if(token){
 }else{
   router.push({name: 'login'})
 }
+
+/* 监听credentials是否存在，用于判断客户端是否启动 */
+ipcRenderer.ipc.on("controller.lcu.enable", (_event, data) => {
+  appInfoStore.lcuEnable = data
+});
 </script>
 
 <template>

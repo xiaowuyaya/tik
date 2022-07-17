@@ -1,5 +1,6 @@
 const { Controller, Storage } = require('ee-core')
 const R = require('../utils/res')
+const { translate } = require('../utils/translate')
 
 class LcuController extends Controller {
   constructor(ctx) {
@@ -10,7 +11,7 @@ class LcuController extends Controller {
     try {
       return await this.service.lcu.getChampionInfo()
     } catch (err) {
-      ctx.logger.error(`[controller:lcu] 获取英雄数据失败:${err}`)
+      this.app.logger.error(`[controller:lcu] 获取英雄数据失败:${err}`)
     }
   }
 
@@ -20,47 +21,48 @@ class LcuController extends Controller {
 
   async getPlayerInfo (args, event) {
     try {
-      return await this.service.lcu.getSummonerData()
+      return await this.service.lcu.getSummonerInfo()
     } catch (err) {
-      ctx.logger.error(`[controller:lcu] 获取玩家信息失败:${err}`)
+      this.app.logger.error(`[controller:lcu] 获取玩家信息失败:${err}`)
     }
   }
 
   async getPlayerStatus (args, event) {
     try {
-      return await this.service.lcu.getGameStatus()
+      const status = await this.service.lcu.getGameStatus()
+      return translate('status', status)
     } catch (err) {
-      ctx.logger.error(`[controller:lcu] 获取游戏状态失败:${err}`)
+      this.app.logger.error(`[controller:lcu] 获取游戏状态失败:${err}`)
     }
   }
 
   async changeTiger (args, event) {
     const r = await this.service.lcu.changeTier(args.tiger)
     if (r) {
-      ctx.logger.info(`[controller:lcu] 段位伪造${args.tiger}成功`)
+      this.app.logger.info(`[controller:lcu] 段位伪造${args.tiger}成功`)
       return R.success()
     }
-    ctx.logger.error(`[controller:lcu] 段位伪造${args.tiger}失败`)
+    this.app.logger.error(`[controller:lcu] 段位伪造${args.tiger}失败`)
     return R.fail(`未检测到游戏客户端`)
   }
 
   async changeStatus (args, event) {
     const r = await this.service.lcu.changeStatus(args.status)
     if (r) {
-      ctx.logger.info(`[controller:lcu] 状态更改${args.status}成功`)
+      this.app.logger.info(`[controller:lcu] 状态更改${args.status}成功`)
       return R.success()
     }
-    ctx.logger.error(`[controller:lcu] 状态更改${args.status}失败`)
+    this.app.logger.error(`[controller:lcu] 状态更改${args.status}失败`)
     return R.fail(`未检测到游戏客户端`)
   }
 
   async spectatorLaunch (args, event) {
     const r = await this.service.lcu.spectatorLaunch(args.summonerName)
     if (r) {
-      ctx.logger.info(`[controller:lcu] 拉起观战${args.summonerName}成功`)
+      this.app.logger.info(`[controller:lcu] 拉起观战${args.summonerName}成功`)
       return R.success()
     }
-    ctx.logger.error(`[controller:lcu] 拉起观战${args.summonerName}失败`)
+    this.app.logger.error(`[controller:lcu] 拉起观战${args.summonerName}失败`)
     return R.fail(`玩家：${args.summonerName}非法或未登入游戏`)
   }
 
@@ -68,10 +70,10 @@ class LcuController extends Controller {
     if (args.mode == "5v5PracticeToolMode") {
       const r = await this.service.lcu.create5v5PracticeToolMode()
       if (r) {
-        ctx.logger.info(`[controller:lcu] 创建房间${args.mode}成功`)
+        this.app.logger.info(`[controller:lcu] 创建房间${args.mode}成功`)
         return R.success()
       }
-      ctx.logger.error(`[controller:lcu] 创建房间${args.mode}失败`)
+      this.app.logger.error(`[controller:lcu] 创建房间${args.mode}失败`)
       return R.fail(`未登入游戏或当前已在游戏中`)
     }
   }
@@ -87,20 +89,20 @@ class LcuController extends Controller {
     try {
       // 如果在选人阶段，队友信息为空，则重新获取
       if (status == "ChampSelect" && panelData.orderList.length < 5) {
-        ctx.logger.info(`[controller:lcu] 正在获取选人界面的面板数据`)
+        this.app.logger.info(`[controller:lcu] 正在获取选人界面的面板数据`)
         panelData = await this.service.lcu.getPanelDataInChampSelect()
         // 发送提示信息
-        ctx.logger.info(`[controller:lcu] 选人界面的面板数据获取成功`)
+        this.app.logger.info(`[controller:lcu] 选人界面的面板数据获取成功`)
         await this.service.lcu.sendMsgInChampSelect("me", `队友信息获取成功`)
       }
       // 获取游戏中的对局信息
       if (status == "InProgress" && panelData.chaosList.length == 0) {
-        ctx.logger.info(`[controller:lcu] 正在获取游戏中的面板数据`)
+        this.app.logger.info(`[controller:lcu] 正在获取游戏中的面板数据`)
         panelData = await this.service.lcu.getPanelDataInProgress()
-        ctx.logger.info(`[controller:lcu] 游戏中的面板数据获取成功`)
+        this.app.logger.info(`[controller:lcu] 游戏中的面板数据获取成功`)
       }
     } catch (err) {
-      ctx.logger.error(`[controller:lcu] 获取面板数据失败:${err}`)
+      this.app.logger.error(`[controller:lcu] 获取面板数据失败:${err}`)
     }
     return panelData
   }
@@ -114,23 +116,25 @@ class LcuController extends Controller {
   async getHistoryMatches (args, event) {
     try {
       const page = args.page
-      const begin = (page - 1) * 7
-      const end = begin + 7
+      const size = args.size || 7
+      const begin = (page - 1) * size
+      const end = begin + size
       let history = await this.service.lcu.getHistoryMatchesBySummonerName(args.summonerName, begin, end)
       for (let i = 0; i < history.games.games.length; i++) {
         history.games.games[i].avatarUrl = await this.service.lcu.getAvatarUrlByChampId(history.games.games[i].participants[0].championId)
+        history.games.games[i].queueId = translate('queue', history.games.games[i].queueId)
       }
       const data = {
         items: history.games.games.reverse(),
         total: history.games.games.length,
       }
-      ctx.logger.info(
+      this.app.logger.info(
         `[controller:lcu] 获取${args.summonerName}历史对局成功，当前页:${args.page}`
       )
 
       return data
     } catch (err) {
-      ctx.logger.error(
+      this.app.logger.error(
         `[controller:lcu] 获取${args.summonerName}历史对局失败:${err}`
       )
     }
@@ -142,10 +146,10 @@ class LcuController extends Controller {
   async getMatchesDetail (args, event) {
     try {
       const data = await this.service.lcu.getGameDetailByGameId(args.gameId)
-      ctx.logger.info(`[controller:lcu] 获取对局${args.gameId}详情成功`)
+      this.app.logger.info(`[controller:lcu] 获取对局${args.gameId}详情成功`)
       return data
     } catch (err) {
-      ctx.logger.error(`[controller:lcu] 获取对局${args.失败}详情成功`)
+      this.app.logger.error(`[controller:lcu] 获取对局${args.失败}详情成功`)
     }
   }
 
@@ -163,7 +167,7 @@ class LcuController extends Controller {
     try {
       return await this.service.lcu.getChampionSkinListByChampionId(args.championId)
     } catch (err) {
-      ctx.logger.error(`[controller:lcu] 获取英雄的皮肤列表失败:${err}`)
+      this.app.logger.error(`[controller:lcu] 获取英雄的皮肤列表失败:${err}`)
     }
   }
 
@@ -180,7 +184,7 @@ class LcuController extends Controller {
         return R.fail(`切换背景失败`)
       }
     } catch (err) {
-      ctx.logger.error(`[controller:lcu] 设置为生涯背景失败:${err}`)
+      this.app.logger.error(`[controller:lcu] 设置为生涯背景失败:${err}`)
     }
   }
 

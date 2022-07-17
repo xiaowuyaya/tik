@@ -15,6 +15,8 @@ export default defineConfig({
       colors: {
         custom: {
           grayBlue: '#293146',
+          primary: '#168CFF',
+          layout: '#f8fafc',
         }
       }
     },

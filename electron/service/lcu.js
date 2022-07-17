@@ -2,6 +2,7 @@ const { Service, Storage } = require('ee-core')
 const api = require('../core/api')
 const { translate } = require('../utils/translate')
 const c = require('../utils/cache')
+const _ = require('lodash')
 
 class LcuService extends Service {
   constructor(ctx) {
@@ -14,21 +15,23 @@ class LcuService extends Service {
   }
 
   async getSummonerInfo () {
-    const summoner = await api.getSummonerInfo()
+    const summoner = await api.getSummonerData()
     const ranked = await api.getRankedStatusInfoByPuuid(summoner.puuid)
     const environment = await api.getEnvironment()
     const avatar = await api.getSummonerAvatarBase64(summoner.profileIconId)
-    const res = {
+    return {
       displayName: summoner.displayName,
       summonerLevel: summoner.summonerLevel,
       puuid: summoner.puuid,
       avatarBase64: avatar,
       environment: translate('environment', environment.environment),
+      rankedHighestTier: ranked.highestPreviousSeasonEndTier,
       rankedHighest: `${translate('rank', ranked.highestPreviousSeasonEndTier)} ${ranked.highestPreviousSeasonEndDivision}`,
+      rankedSoloTier: ranked.queueMap.RANKED_SOLO_5x5.tier,
       rankedSolo: `${translate('rank', ranked.queueMap.RANKED_SOLO_5x5.tier)} ${ranked.queueMap.RANKED_SOLO_5x5.division} ${ranked.queueMap.RANKED_SOLO_5x5.leaguePoints}`,
+      rankedFlexTier: ranked.queueMap.RANKED_FLEX_SR.tier,
       rankedFlex: `${translate('rank', ranked.queueMap.RANKED_FLEX_SR.tier)} ${ranked.queueMap.RANKED_FLEX_SR.division} ${ranked.queueMap.RANKED_FLEX_SR.leaguePoints}`,
     }
-    return res
   }
 
   async getGameStatus () {
@@ -101,16 +104,14 @@ class LcuService extends Service {
 
   async getAvatarUrlByChampName (championName) {
     const db = Storage.JsonDB.connection("champions").db
-    const championData = db.get('championData').value()
-    return championData[championName].avatarUrl
+    const championData = db.get('champions').value()
+    const champion = await api.getChampionSkinListById(championData[championName].championId)
+    return await this.getLcuImgBase64(champion.squarePortraitPath)
   }
 
   async getAvatarUrlByChampId (championId) {
-    const db = Storage.JsonDB.connection("champions").db
-    const championData = db.get('championData').value()
-    _.forIn(championData, (value, key) => {
-      if (value.championId == championId) return value.avatarUrl
-    })
+    const champion = await api.getChampionSkinListById(championId)
+    return await this.getLcuImgBase64(champion.squarePortraitPath)
   }
 
   async getFormatInfoByPlayerList () {

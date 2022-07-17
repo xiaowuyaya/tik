@@ -7,7 +7,11 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAvatar: typeof import('@arco-design/web-vue')['Avatar']
+    ABadge: typeof import('@arco-design/web-vue')['Badge']
     AButton: typeof import('@arco-design/web-vue')['Button']
+    ACard: typeof import('@arco-design/web-vue')['Card']
+    ALink: typeof import('@arco-design/web-vue')['Link']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     AResult: typeof import('@arco-design/web-vue')['Result']

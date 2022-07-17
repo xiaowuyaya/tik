@@ -2,9 +2,9 @@
   <div class="layout-container">
     <Header />
     <!-- body -->
-    <div class="flex h-full">
+    <div class="flex content">
       <!-- left-part -->
-      <div class="h-full w-[15%] border-r">
+      <div class="h-full w-[18%] border-r">
         <!-- userinfo -->
         <div class="flex flex-col items-center pt-4 pb-1 mb-1">
           <img
@@ -38,7 +38,7 @@
           <a-menu-item key="auto-game"><icon-send />排位自选</a-menu-item>
         </a-menu>
       </div>
-      <router-view class="h-full w-full bg-gray-50" />
+      <router-view class="h-full w-full bg-custom-layout" />
     </div>
     
   </div>
@@ -87,5 +87,9 @@ const changePath = (name) => {
   height: 100%;
   width: 100%;
   background-color: #fff;
+
+  .content{
+    height: calc(100% - 45px);
+  }
 }
 </style>
