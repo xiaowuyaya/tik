@@ -1,4 +1,4 @@
-const { http2Request, request, http1Request } = require('../utils/league-connect');
+const { http2Request, request } = require('../utils/league-connect');
 
 /* LCU API */
 
@@ -73,7 +73,7 @@ exports.getEnvironment = async () => {
  * 根据profile_icon_id获取头像base64
  */
 exports.getLcuImgBase64 = async (imgUrl) => {
-  const data = await request('GET', imgUrl, true);
+  const data = await http2Request(imgUrl);
   return 'data:image/png;base64,' + Buffer.from(data, 'utf8').toString('base64');
 };
 

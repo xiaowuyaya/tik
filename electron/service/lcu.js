@@ -23,6 +23,7 @@ class LcuService extends Service {
       displayName: summoner.displayName,
       summonerLevel: summoner.summonerLevel,
       puuid: summoner.puuid,
+      summonerId: summoner.summonerId,
       avatarBase64: avatar,
       environment: translate('environment', environment.environment),
       rankedHighestTier: ranked.highestPreviousSeasonEndTier,

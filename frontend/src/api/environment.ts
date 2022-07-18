@@ -1,6 +1,6 @@
 import http from "@/utils/request";
 
-interface CreateEnvironmentDto {
+export interface CreateEnvironmentDto {
   environment: string;
   summonerId: string;
   summonerName: string;

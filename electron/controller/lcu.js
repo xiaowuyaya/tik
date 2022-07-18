@@ -40,27 +40,28 @@ class LcuController extends Controller {
     const r = await this.service.lcu.changeTier(args.tiger);
     if (r) {
       this.app.logger.info(`[controller:lcu] 段位伪造${args.tiger}成功`);
-      return R.success();
+      return R.success(null, `段位伪造成功`);
     }
     this.app.logger.error(`[controller:lcu] 段位伪造${args.tiger}失败`);
-    return R.fail(`未检测到游戏客户端`);
+    return R.fail(`段位伪造失败: ${err}`);
   }
 
   async changeStatus(args, event) {
     const r = await this.service.lcu.changeStatus(args.status);
     if (r) {
       this.app.logger.info(`[controller:lcu] 状态更改${args.status}成功`);
-      return R.success();
+      return R.success(null, `状态更改成功`);
     }
     this.app.logger.error(`[controller:lcu] 状态更改${args.status}失败`);
-    return R.fail(`未检测到游戏客户端`);
+    return R.fail(`状态更改失败: ${err}`);
   }
 
+  // TODO: 该功能出问题了
   async spectatorLaunch(args, event) {
     const r = await this.service.lcu.spectatorLaunch(args.summonerName);
     if (r) {
       this.app.logger.info(`[controller:lcu] 拉起观战${args.summonerName}成功`);
-      return R.success();
+      return R.success(null, `拉起观战${args.summonerName}成功, 即将启动观战`);
     }
     this.app.logger.error(`[controller:lcu] 拉起观战${args.summonerName}失败`);
     return R.fail(`玩家：${args.summonerName}非法或未登入游戏`);
@@ -71,7 +72,7 @@ class LcuController extends Controller {
       const r = await this.service.lcu.create5v5PracticeToolMode();
       if (r) {
         this.app.logger.info(`[controller:lcu] 创建房间${args.mode}成功`);
-        return R.success();
+        return R.success(null, `创建房间${args.mode}成功`);
       }
       this.app.logger.error(`[controller:lcu] 创建房间${args.mode}失败`);
       return R.fail(`未登入游戏或当前已在游戏中`);
@@ -174,9 +175,9 @@ class LcuController extends Controller {
     try {
       const result = await this.service.lcu.setBackgroundSkinId(args);
       if (result.backgroundSkinId) {
-        return R.success();
+        return R.success(null, `切换生涯背景成功`);
       } else {
-        return R.fail(`切换背景失败`);
+        return R.fail(`切换生涯背景失败`);
       }
     } catch (err) {
       this.app.logger.error(`[controller:lcu] 设置为生涯背景失败:${err}`);

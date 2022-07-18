@@ -28,7 +28,7 @@
     "quit": "",
     "accept": true,
     "confirm": false,
-    "muteAll": false,
+    "muteAll": true,
     "normalAuto": {
       "pick": false,
       "pickSelect": "",

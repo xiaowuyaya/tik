@@ -69,7 +69,7 @@ export function addBlacklist(data: CreatBlacklist){
  export function pageBlacklist(data: pageBlacklist){
   return http.request({
     url: '/blacklist/page',
-    method: 'GET',
+    method: 'POST',
     data
   })
 }

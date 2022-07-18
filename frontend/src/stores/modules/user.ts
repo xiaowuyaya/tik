@@ -1,4 +1,5 @@
 import { getMyInfo, login, LoginClientUserDto, MyInfoDto } from "@/api/user";
+import { add, CreateEnvironmentDto } from '@/api/environment'
 import { UserInfo } from "@/types/user";
 import { setToken } from "@/utils/auth";
 import { ElMessage } from "element-plus";
@@ -13,6 +14,9 @@ export const useUserStore = defineStore({
       avatarUrl: "",
       email: "",
       phone: "",
+      environment: "",
+      summonerId: "",
+      summonerName: ""
     }
   },
   getters: {},
@@ -46,6 +50,14 @@ export const useUserStore = defineStore({
         duration: 3 * 1000,
         offset: 50
       });
+    },
+    async registerEnvironment() {
+      const data: CreateEnvironmentDto = {
+        summonerName: this.summonerName,
+        environment: this.environment,
+        summonerId: this.summonerId,
+      }
+      await add(data)
     }
   }
 })

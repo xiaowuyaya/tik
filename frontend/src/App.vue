@@ -1,29 +1,32 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router';
 import { useAppInfoStore } from '@/stores/modules/appInfo';
 import { useSettingsStore } from '@/stores/modules/settings';
+import { useChampionsStore } from '@/stores/modules/champions';
 import { getToken } from '@/utils/auth';
 import ipcRenderer from '@/utils/ipcRenderer';
 
-const router = useRouter()
+const router = useRouter();
 
 /* 初始化state */
-const appInfoStore = useAppInfoStore()
-const settingsStore = useSettingsStore()
-appInfoStore.load()
-settingsStore.load()
+const appInfoStore = useAppInfoStore();
+const settingsStore = useSettingsStore();
+const championsStore = useChampionsStore();
+appInfoStore.load();
+settingsStore.load();
+championsStore.load();
 
 /* 判断是否已经登入 */
-const token = getToken()
-if(token){
-  router.push({name: 'dashboard'})
-}else{
-  router.push({name: 'login'})
+const token = getToken();
+if (token) {
+  router.push({ name: 'dashboard' });
+} else {
+  router.push({ name: 'login' });
 }
 
 /* 监听credentials是否存在，用于判断客户端是否启动 */
-ipcRenderer.ipc.on("controller.lcu.enable", (_event, data) => {
-  appInfoStore.lcuEnable = data
+ipcRenderer.ipc.on('controller.lcu.enable', (_event, data) => {
+  appInfoStore.lcuEnable = data;
 });
 </script>
 
@@ -55,6 +58,4 @@ body {
 }
 </style>
 
-function useSettingsStore() {
-  throw new Error('Function not implemented.');
-}
+function useSettingsStore() { throw new Error('Function not implemented.'); }

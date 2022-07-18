@@ -8,8 +8,8 @@ class R {
     this.msg = msg;
   }
 
-  static success(data = '') {
-    return new R(200, data);
+  static success(data = '', msg= null) {
+    return new R(200, data, msg);
   }
 
   static fail(msg = '') {

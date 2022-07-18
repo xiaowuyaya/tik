@@ -7,14 +7,8 @@
       <div class="h-full w-[18%] border-r">
         <!-- userinfo -->
         <div class="flex flex-col items-center pt-4 pb-1 mb-1">
-          <img
-            class="w-18 rounded-full cursor-pointer shadow"
-            :src="userStore.avatarUrl"
-            alt="加载异常"
-          />
-          <span class="mt-3 text-base cursor-pointer font-semibold">{{
-            userStore.nickName
-          }}</span>
+          <img class="w-18 rounded-full cursor-pointer shadow" :src="userStore.avatarUrl" alt="加载异常" />
+          <span class="mt-3 text-base cursor-pointer font-semibold">{{ userStore.nickName }}</span>
         </div>
         <!-- menu body -->
         <a-menu
@@ -27,36 +21,54 @@
           breakpoint="xl"
           @menu-item-click="changePath"
         >
-          <a-menu-item key="dashboard"><icon-dashboard />个人中心</a-menu-item>
-          <a-menu-item key="panel"><icon-list />对局面板</a-menu-item>
-          <a-menu-item key="func"><icon-apps />常用功能</a-menu-item>
-          <a-menu-item key="blacklist"><icon-user-group />黑名单</a-menu-item>
-          <a-menu-item key="hero-data"><icon-bar-chart />英雄数据</a-menu-item>
-          <a-menu-item key="send-settings"
-            ><icon-settings />发送设置</a-menu-item
-          >
-          <a-menu-item key="auto-game"><icon-send />排位自选</a-menu-item>
+          <a-menu-item key="dashboard">
+            <icon-dashboard />
+            个人中心
+          </a-menu-item>
+          <a-menu-item key="panel">
+            <icon-list />
+            对局面板
+          </a-menu-item>
+          <a-menu-item key="func">
+            <icon-apps />
+            常用功能
+          </a-menu-item>
+          <a-menu-item key="auto-game">
+            <icon-send />
+            自动禁选
+          </a-menu-item>
+          <a-menu-item key="blacklist">
+            <icon-user-group />
+            黑名单
+          </a-menu-item>
+          <a-menu-item key="hero-data">
+            <icon-bar-chart />
+            英雄数据
+          </a-menu-item>
+          <a-menu-item key="send-settings">
+            <icon-settings />
+            发送设置
+          </a-menu-item>
         </a-menu>
       </div>
       <router-view class="h-full w-full bg-custom-layout" />
     </div>
-    
   </div>
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "@/stores/modules/user";
-import { useAppInfoStore } from "@/stores/modules/appInfo";
-import Header from "./components/Header.vue";
-import { onMounted, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from '@/stores/modules/user';
+import { useAppInfoStore } from '@/stores/modules/appInfo';
+import Header from './components/Header.vue';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const appInfoStore = useAppInfoStore();
 const router = useRouter();
 const route = useRoute();
 
-const selectedKey = ref<string[]>(['dashboard'])
+const selectedKey = ref<string[]>(['dashboard']);
 
 onMounted(() => {
   /* 如果用户信息不存在 重新获取 */
@@ -72,8 +84,8 @@ onMounted(() => {
 watch(
   () => route.name,
   (newRoute) => {
-    selectedKey.value[0] = newRoute as any
-  }
+    selectedKey.value[0] = newRoute as any;
+  },
 );
 
 const changePath = (name) => {
@@ -88,7 +100,7 @@ const changePath = (name) => {
   width: 100%;
   background-color: #fff;
 
-  .content{
+  .content {
     height: calc(100% - 45px);
   }
 }

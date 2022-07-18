@@ -4,4 +4,7 @@ export interface UserInfo {
   avatarUrl: string;
   email: string;
   phone: string;
+  environment: string;
+  summonerId: string;
+  summonerName: string;
 }
