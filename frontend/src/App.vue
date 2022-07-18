@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { useAppInfoStore } from './stores/modules/appInfo';
 import { useRouter } from "vue-router";
-import { getToken } from './utils/auth';
-import ipcRenderer from './utils/ipcRenderer';
+import { useAppInfoStore } from '@/stores/modules/appInfo';
+import { useSettingsStore } from '@/stores/modules/settings';
+import { getToken } from '@/utils/auth';
+import ipcRenderer from '@/utils/ipcRenderer';
 
 const router = useRouter()
 
-/* 加载应用配置信息 */
+/* 初始化state */
 const appInfoStore = useAppInfoStore()
+const settingsStore = useSettingsStore()
 appInfoStore.load()
+settingsStore.load()
 
 /* 判断是否已经登入 */
 const token = getToken()
@@ -25,7 +28,7 @@ ipcRenderer.ipc.on("controller.lcu.enable", (_event, data) => {
 </script>
 
 <template>
-  <router-view class="font-pingfang shadow-md select-none border rounded-md" />
+  <router-view class="font-pingfang shadow-md select-none rounded-md" />
 </template>
 
 <style lang="less">
@@ -48,6 +51,10 @@ body {
   /* 圆框需要 不然圆角会有背景色*/
   background-color: rgba(0, 0, 0, 0);
   border-radius: 6px;
-  // overflow: hidden;
+  overflow: hidden;
 }
 </style>
+
+function useSettingsStore() {
+  throw new Error('Function not implemented.');
+}

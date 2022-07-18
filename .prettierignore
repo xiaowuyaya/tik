@@ -1,0 +1,6 @@
+# Ignore artifacts:
+fronted
+logs
+public
+data
+build

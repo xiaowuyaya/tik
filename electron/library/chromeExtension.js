@@ -1,24 +1,23 @@
-'use strict'
+'use strict';
 
-const { app, session } = require('electron')
-const _ = require('lodash')
-const fs = require('fs')
-const path = require('path')
+const { app, session } = require('electron');
+const _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * chrome扩展模块
  */
 module.exports = {
-
   /**
    * 安装 (仅开发时使用)
    */
-  async install () {
+  async install() {
     if (!app.isPackaged) {
-      console.log('[preload] load chrome extension module')
-      const extensionIds = this.getAllIds()
+      console.log('[preload] load chrome extension module');
+      const extensionIds = this.getAllIds();
       for (let i = 0; i < extensionIds.length; i++) {
-        await this.load(extensionIds[i])
+        await this.load(extensionIds[i]);
       }
     }
   },
@@ -26,63 +25,65 @@ module.exports = {
   /**
    * 获取扩展id列表（crx解压后的目录名，即是该扩展的id）
    */
-  getAllIds () {
-    const extendsionDir = this.getDirectory()
-    const ids = getDirs(extendsionDir)
-    return ids
+  getAllIds() {
+    const extendsionDir = this.getDirectory();
+    const ids = getDirs(extendsionDir);
+    return ids;
   },
 
   /**
    * 扩展所在目录
    */
-  getDirectory () {
-    let extensionDirPath = ''
-    let variablePath = 'build' // 打包前路径
+  getDirectory() {
+    let extensionDirPath = '';
+    let variablePath = 'build'; // 打包前路径
     if (app.isPackaged) {
-      variablePath = '..' // 打包后路径
+      variablePath = '..'; // 打包后路径
     }
-    extensionDirPath = path.join(app.getAppPath(), variablePath, "extraResources", "chromeExtension")
-    console.log(extensionDirPath)
-    return extensionDirPath
+    extensionDirPath = path.join(app.getAppPath(), variablePath, 'extraResources', 'chromeExtension');
+    console.log(extensionDirPath);
+    return extensionDirPath;
   },
 
   /**
    * 加载扩展
    */
-  async load (extensionId = '') {
+  async load(extensionId = '') {
     if (_.isEmpty(extensionId)) {
-      return false
+      return false;
     }
 
     try {
-      const extensionPath = path.join(this.getDirectory(), extensionId)
-      console.log('[chromeExtension] [load] extensionPath:', extensionPath)
-      await session.defaultSession.loadExtension(extensionPath, { allowFileAccess: true })
+      const extensionPath = path.join(this.getDirectory(), extensionId);
+      console.log('[chromeExtension] [load] extensionPath:', extensionPath);
+      await session.defaultSession.loadExtension(extensionPath, {
+        allowFileAccess: true,
+      });
     } catch (e) {
-      console.log('[chromeExtension] [load] load extension error extensionId:%s, errorInfo:%s', extensionId, e.toString())
-      return false
+      console.log('[chromeExtension] [load] load extension error extensionId:%s, errorInfo:%s', extensionId, e.toString());
+      return false;
     }
 
-    return true
-  }
-}
+    return true;
+  },
+};
 
 /**
  * 获取目录下所有文件夹
  */
-function getDirs (dir) {
+function getDirs(dir) {
   if (!dir) {
-    return []
+    return [];
   }
 
-  const components = []
-  const files = fs.readdirSync(dir)
+  const components = [];
+  const files = fs.readdirSync(dir);
   files.forEach(function (item, index) {
-    const stat = fs.lstatSync(dir + '/' + item)
+    const stat = fs.lstatSync(dir + '/' + item);
     if (stat.isDirectory() === true) {
-      components.push(item)
+      components.push(item);
     }
-  })
+  });
 
-  return components
+  return components;
 }

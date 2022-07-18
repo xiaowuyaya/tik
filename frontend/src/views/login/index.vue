@@ -26,7 +26,7 @@
           <div class="w-86 mt-48px">
             <div class="text-2xl text-white">初次见面，</div>
             <div class="text-base text-white">
-              这可能是你用过最体验最好的英雄联盟游戏工具
+              这可能是你用过体验最好的英雄联盟游戏工具
             </div>
           </div>
         </div>

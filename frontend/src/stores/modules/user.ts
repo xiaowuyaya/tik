@@ -1,15 +1,8 @@
 import { getMyInfo, login, LoginClientUserDto, MyInfoDto } from "@/api/user";
+import { UserInfo } from "@/types/user";
 import { setToken } from "@/utils/auth";
 import { ElMessage } from "element-plus";
 import { defineStore } from "pinia";
-
-interface UserInfo {
-  username: string;
-  nickName: string;
-  avatarUrl: string;
-  email: string;
-  phone: string;
-}
 
 export const useUserStore = defineStore({
   id: 'user',
@@ -36,7 +29,7 @@ export const useUserStore = defineStore({
         message: "登入成功",
         type: "success",
         duration: 3 * 1000,
-        offset: 54
+        offset: 50
       });
       setToken(token);
     },
@@ -51,7 +44,7 @@ export const useUserStore = defineStore({
         message: `欢迎回来：${this.nickName}`,
         type: "success",
         duration: 3 * 1000,
-        offset: 54
+        offset: 50
       });
     }
   }

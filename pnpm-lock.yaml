@@ -16,6 +16,7 @@ specifiers:
   league-connect: 6.0.0-rc3
   lodash: ^4.17.21
   nodemon: ^2.0.16
+  prettier: 2.7.1
   superagent: ^8.0.0
 
 dependencies:
@@ -35,8 +36,9 @@ devDependencies:
   electron-rebuild: 3.2.8
   eslint: 5.16.0
   eslint-config-egg: 7.5.1_eslint@5.16.0
-  eslint-plugin-prettier: 3.4.1_eslint@5.16.0
+  eslint-plugin-prettier: 3.4.1_6yb5le2aflqhltdjxmvdfbl6n4
   nodemon: 2.0.19
+  prettier: 2.7.1
 
 packages:
 
@@ -2157,7 +2159,7 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /eslint-plugin-prettier/3.4.1_eslint@5.16.0:
+  /eslint-plugin-prettier/3.4.1_6yb5le2aflqhltdjxmvdfbl6n4:
     resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
     engines: {node: '>=6.0.0'}
     peerDependencies:
@@ -2169,6 +2171,7 @@ packages:
         optional: true
     dependencies:
       eslint: 5.16.0
+      prettier: 2.7.1
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -4275,6 +4278,12 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       fast-diff: 1.2.0
+    dev: true
+
+  /prettier/2.7.1:
+    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /process-nextick-args/2.0.1:

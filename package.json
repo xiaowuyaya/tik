@@ -107,7 +107,8 @@
     "eslint": "^5.13.0",
     "eslint-config-egg": "^7.1.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "prettier": "2.7.1"
   },
   "dependencies": {
     "cache": "^3.0.0",

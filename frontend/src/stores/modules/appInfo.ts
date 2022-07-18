@@ -1,12 +1,8 @@
+import { AppInfo } from "@/types/appInfo"
 import ipcRenderer from "@/utils/ipcRenderer"
 import { defineStore } from "pinia"
 
-interface AppInfo {
-  appVersion: string
-  macAddr: string
-  logDir: string
-  lcuEnable: boolean
-}
+
 
 export const useAppInfoStore = defineStore({
   id: 'appInfo',

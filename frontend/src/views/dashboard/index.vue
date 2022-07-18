@@ -13,7 +13,7 @@ const appInfoStore = useAppInfoStore();
 const currentTabComponent = ref<any>(NoClientStart);
 
 onBeforeMount(() => {
-  if (appInfoStore.lcuEnable !== null) {
+  if (appInfoStore.lcuEnable) {
     currentTabComponent.value = Dashboard;
   }
 });
