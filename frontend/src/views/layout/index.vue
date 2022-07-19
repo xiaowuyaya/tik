@@ -51,7 +51,12 @@
           </a-menu-item>
         </a-menu>
       </div>
-      <router-view class="h-full w-full bg-custom-layout" />
+      <router-view class="h-full w-full bg-custom-layout" v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" :key="$route.name" v-if="$route.meta.keepAlive" />
+        </keep-alive>
+        <component :is="Component" :key="$route.name" v-if="!$route.meta.keepAlive" />
+      </router-view>
     </div>
   </div>
 </template>

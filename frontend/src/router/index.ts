@@ -56,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/auto-game',
         name: 'auto-game',
-        meta: { index: 3 },
+        meta: { index: 3, keepAlive: true },
         component: () => import('@/views/auto-game/index.vue')
       }
       
