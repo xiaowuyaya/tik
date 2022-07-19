@@ -52,7 +52,7 @@ class LcuService extends Service {
     let players = [];
     for (let i = 0; i < data.participantIdentities.length; i++) {
       let player = {};
-      player.championAvatar = this.getAvatarUrlByChampId(data.participants[i].championId);
+      player.championAvatar = await this.getAvatarUrlByChampId(data.participants[i].championId);
       player.summonerName = data.participantIdentities[i].player.summonerName;
       player.summonerId = data.participantIdentities[i].player.summonerId;
       player.assists = data.participants[i].stats.assists;
@@ -89,7 +89,7 @@ class LcuService extends Service {
       gameId: data.gameId,
       gameDuration: data.gameDuration,
       gameMode: data.gameMode,
-      queueId: data.queueId,
+      queueId: translate('queue', data.queueId),
       killsOfTeam1,
       killsOfTeam2,
       goldOfTeam1,

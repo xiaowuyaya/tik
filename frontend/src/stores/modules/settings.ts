@@ -25,7 +25,7 @@ export const useSettingsStore = defineStore({
           message: msg,
           type: "error",
           duration: 3 * 1000,
-          offset: 50
+          offset: 45
         });
       }
     },
@@ -44,7 +44,7 @@ export const useSettingsStore = defineStore({
           message: `配置失败`,
           type: "error",
           duration: 3 * 1000,
-          offset: 50
+          offset: 45
         });
       }
     }

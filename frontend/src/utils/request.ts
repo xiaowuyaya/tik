@@ -56,7 +56,8 @@ class AxiosHttpRequest implements BaseType {
   }
   // 拦截设置
   interceptors(instance: AxiosInstance, url: string | number | undefined) {
-
+    console.log(url);
+    
     // 请求拦截
     instance.interceptors.request.use((config: AxiosRequestType) => {
       // 取消重复请求
@@ -109,7 +110,7 @@ class AxiosHttpRequest implements BaseType {
         ElMessage({
           message: msg,
           type: 'error',
-          offset: 50
+          offset: 45
         })
         if (code === 11001) {
           // TODO: 跳转重新登入
@@ -128,7 +129,7 @@ class AxiosHttpRequest implements BaseType {
       ElMessage({
         message: message,
         type: 'warning',
-        offset: 50,
+        offset: 45,
         duration: 5 * 1000,
       })
       return Promise.reject(err)

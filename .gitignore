@@ -1,6 +1,7 @@
 node_modules
 out/
 logs/
+public/
 run/
 .idea/
 package-lock.json

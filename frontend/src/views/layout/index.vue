@@ -29,6 +29,10 @@
             <icon-list />
             对局面板
           </a-menu-item>
+          <a-menu-item key="match-history">
+            <icon-search />
+            战绩查询
+          </a-menu-item>
           <a-menu-item key="func">
             <icon-apps />
             常用功能
@@ -45,9 +49,9 @@
             <icon-bar-chart />
             英雄数据
           </a-menu-item>
-          <a-menu-item key="send-settings">
+          <a-menu-item key="settings">
             <icon-settings />
-            发送设置
+            相关设置
           </a-menu-item>
         </a-menu>
       </div>

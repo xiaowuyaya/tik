@@ -126,7 +126,7 @@
 
 <script setup lang="ts">
 import { useSettingsStore } from '@/stores/modules/settings';
-import { onBeforeMount, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { statusOptions, rankOptions } from '@/utils/options';
 import ipcRenderer from '@/utils/ipcRenderer';
 import { Message } from '@/utils/useMessage';
@@ -179,6 +179,8 @@ const handleCreatePracticeToolMode = async () => {
 const handleSummonerBackground = async (type) => {
   if (type === 'champions') {
     const r = await ipcRenderer.invoke('controller.lcu.getChampionSkinListById', { championId: summonerBackground.curChampionId });
+    console.log(r);
+    
     curChampionSkinList.value = r.skins;
     summonerBackground.imgTitle = r.title;
     summonerBackground.imgDesc = r.shortBio;

@@ -6,14 +6,14 @@ export const Message = (r) => {
       message: r.msg,
       type: 'success',
       duration: 3 * 1000,
-      offset: 50,
+      offset: 45,
     });
   }else{
     ElMessage({
       message: r.msg,
       type: 'error',
       duration: 3 * 1000,
-      offset: 50,
+      offset: 45,
     });
   }
 }

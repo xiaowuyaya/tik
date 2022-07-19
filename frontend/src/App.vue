@@ -57,5 +57,3 @@ body {
   overflow: hidden;
 }
 </style>
-
-function useSettingsStore() { throw new Error('Function not implemented.'); }

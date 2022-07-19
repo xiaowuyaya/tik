@@ -26,37 +26,43 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/panel',
         name: 'panel',
-        meta: { index: 3 },
+        meta: { index: 4 },
         component: () => import('@/views/panel/index.vue')
+      },
+      {
+        path: '/match-history',
+        name: 'match-history',
+        meta: { index: 5 },
+        component: () => import('@/views/match-history/index.vue')
       },
       {
         path: '/func',
         name: 'func',
-        meta: { index: 3 },
+        meta: { index: 6 },
         component: () => import('@/views/func/index.vue')
       },
       {
         path: '/blacklist',
         name: 'blacklist',
-        meta: { index: 3 },
+        meta: { index: 7 , keepAlive: true},
         component: () => import('@/views/blacklist/index.vue')
       },
       {
         path: '/hero-data',
         name: 'hero-data',
-        meta: { index: 3 },
+        meta: { index: 8 },
         component: () => import('@/views/hero-data/index.vue')
       },
       {
-        path: '/send-settings',
-        name: 'send-settings',
-        meta: { index: 3 },
-        component: () => import('@/views/send-settings/index.vue')
+        path: '/settings',
+        name: 'settings',
+        meta: { index: 9, keepAlive: true },
+        component: () => import('@/views/settings/index.vue')
       },
       {
         path: '/auto-game',
         name: 'auto-game',
-        meta: { index: 3, keepAlive: true },
+        meta: { index: 10, keepAlive: true },
         component: () => import('@/views/auto-game/index.vue')
       }
       

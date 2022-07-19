@@ -64,10 +64,10 @@
     <div class="flex-1 p-2">
       <a-card class="h-full" title="近期战绩" :hoverable="true">
         <template #extra>
-          <a-link>更多</a-link>
+          <a-link @click="handleRouter('match-history')">更多</a-link>
         </template>
-        <block class="flex justify-between w-[188px] py-1.2" v-for="(item, index) in historyList" :key="index">
-          <div class="w-12">
+        <block class="flex justify-between w-[188px] py-1.4" v-for="(item, index) in historyList" :key="index">
+          <div class="w-11">
             <img :src="item.avatarUrl" />
           </div>
           <div class="w-[78px] flex flex-col px-[1px] items-start justify-center">
@@ -89,11 +89,13 @@
 
 <script lang="ts" setup>
 import { ref, onBeforeMount } from 'vue';
-import ipcRenderer from '../../utils/ipcRenderer';
+import ipcRenderer from '@/utils/ipcRenderer';
 import dayjs from 'dayjs';
 import { useUserStore } from '@/stores/modules/user';
+import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
+const router = useRouter();
 
 interface SummonerInfo {
   avatarBase64: string;
@@ -148,77 +150,16 @@ onBeforeMount(async () => {
   userStore.summonerId = summonerInfo.value.summonerId;
   userStore.summonerName = summonerInfo.value.displayName;
 
-  await userStore.registerEnvironment()
+  await userStore.registerEnvironment();
 });
-
-
 
 const getTigerImg = (tiger) => {
   return new URL(`../../assets/img/ranked/${tiger}.png`, import.meta.url).href;
 };
+
+const handleRouter = (name) => {
+  router.push({ name });
+};
 </script>
 
-<style scoped lang="less">
-.match-list-row:hover {
-  background-color: var(--background-hover-color);
-}
-
-.match-row-activate {
-  // background-color: red;
-  border-left: 2px solid var(--primary-text-color);
-  background-image: var(--record-row-record-active);
-}
-
-.match-list-row {
-  padding: 6px 8px 6px 8px;
-  height: 48px;
-  display: flex;
-  border-top: var(--border);
-  // margin-bottom: 0;
-  flex-direction: row;
-
-  .match-row-avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img {
-      width: 40px;
-      height: 40px;
-    }
-  }
-
-  .matches-row-text {
-    width: 72px;
-    display: flex;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 0 10px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-
-    .row-lose {
-      color: var(--record-lose-color);
-    }
-
-    .row-win {
-      color: var(--record-win-color);
-    }
-
-    .game-mode {
-      font-weight: 500;
-      color: var(--normal-text-color);
-      font-size: 13px;
-    }
-  }
-  .game-time {
-    color: var(--settings-text-color);
-    width: 40px;
-    font-size: 13px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-</style>
+<style scoped lang="less"></style>

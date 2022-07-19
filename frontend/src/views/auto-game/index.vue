@@ -159,7 +159,7 @@
               </template>
             </a-switch>
           </a-form-item>
-                    <!-- 选择 -->
+          <!-- 选择 -->
           <a-form-item field="settingsStore.app.rankAuto.ban.top" label="上路">
             <a-select
               :disabled="!settingsStore.app.rankAuto.ban.enable"
@@ -227,6 +227,12 @@
         </a-card>
       </a-col>
     </a-row>
+    <a-button class="!absolute bottom-14 right-6" type="primary" status="danger" size="large" @click="submit">
+      <template #icon>
+        <icon-check />
+      </template>
+      提交设置
+    </a-button>
   </div>
 </template>
 
@@ -236,4 +242,8 @@ import { useChampionsStore } from '@/stores/modules/champions';
 
 const championsStore = useChampionsStore();
 const settingsStore = useSettingsStore();
+
+const submit = async () => {
+  await settingsStore.syncLocal();
+};
 </script>

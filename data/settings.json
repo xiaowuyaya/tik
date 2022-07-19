@@ -3,7 +3,7 @@
   "send": {
     "enable": true,
     "onlyRank": false,
-    "matchCount": 5,
+    "matchCount": 1,
     "keys": {
       "order": [
         61001
@@ -15,13 +15,13 @@
         60999
       ]
     },
-    "blackListNotice": false,
+    "blackListNotice": true,
     "title": {
-      "no1": "老大",
-      "no2": "老二",
-      "no3": "老三",
-      "no4": "老四",
-      "no5": "老六"
+      "no1": "老大1",
+      "no2": "老二2",
+      "no3": "老三3",
+      "no4": "老四4",
+      "no5": "老六5"
     }
   },
   "app": {
@@ -30,26 +30,53 @@
     "confirm": false,
     "muteAll": true,
     "normalAuto": {
-      "pick": false,
-      "pickSelect": "",
-      "ban": false,
-      "banSelect": ""
+      "pick": true,
+      "pickSelect": [
+        "103",
+        "166"
+      ],
+      "ban": true,
+      "banSelect": [
+        "84",
+        "12"
+      ]
     },
     "rankAuto": {
       "pick": {
-        "enable": false,
-        "top": [],
-        "jungle": [],
-        "middle": [],
+        "enable": true,
+        "top": [
+          "103",
+          "84"
+        ],
+        "jungle": [
+          "103",
+          "84"
+        ],
+        "middle": [
+          "266",
+          "166"
+        ],
         "bottom": [],
         "utility": []
       },
       "ban": {
-        "enable": false,
-        "top": [],
-        "jungle": [],
-        "middle": [],
-        "bottom": [],
+        "enable": true,
+        "top": [
+          "266",
+          "84"
+        ],
+        "jungle": [
+          "103",
+          "84"
+        ],
+        "middle": [
+          "266",
+          "103"
+        ],
+        "bottom": [
+          "266",
+          "103"
+        ],
         "utility": []
       }
     }

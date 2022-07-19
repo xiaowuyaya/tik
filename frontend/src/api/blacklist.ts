@@ -1,6 +1,6 @@
 import http from "@/utils/request";
 
-interface CreatBlacklist {
+export interface CreatBlacklist {
   environment: string;
   summonerId: string;
   banId?: string;
@@ -8,17 +8,17 @@ interface CreatBlacklist {
   reason: string;
 }
 
-interface UpdateBlacklist {
+export interface UpdateBlacklist {
   id: number;
   banName: string;
   reason: string;
 }
 
-interface DeleteBlacklist {
+export interface DeleteBlacklist {
   ids: number[];
 }
 
-interface pageBlacklist {
+export interface pageBlacklist {
   environment: string;
   summonerId: string;
   filter?: string;
@@ -71,5 +71,16 @@ export function addBlacklist(data: CreatBlacklist){
     url: '/blacklist/page',
     method: 'POST',
     data
+  })
+}
+
+/**
+ * 获取当前账号下所有的黑名单信息
+ * @returns 
+ */
+export function getAllBlacklist() {
+  return http.request({
+    url: '/blacklist/getAllBlacklist',
+    method: 'get'
   })
 }

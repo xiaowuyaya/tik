@@ -163,9 +163,9 @@ module.exports = (appInfo) => {
       muteAll: false,
       normalAuto: {
         pick: false,
-        pickSelect: '',
+        pickSelect: [],
         ban: false,
-        banSelect: '',
+        banSelect: [],
       },
       rankAuto: {
         pick: {

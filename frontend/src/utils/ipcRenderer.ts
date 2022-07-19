@@ -8,15 +8,7 @@ const { ipcRenderer: ipc } = window.require && window.require('electron') || {}
  * @returns {Promise}
  */
 const invoke = (channel, param) => {
-  const resp = ipc.invoke(channel, param)
-  if (resp.code === 500) {
-    ElMessage({
-      type: "error",
-      message: `当前操作发生异常：${resp.err}`,
-      offset: 50
-    })
-  }
-  return resp
+  return ipc.invoke(channel, param)
 }
 
 

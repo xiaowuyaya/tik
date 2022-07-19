@@ -33,7 +33,7 @@ export const useUserStore = defineStore({
         message: "登入成功",
         type: "success",
         duration: 3 * 1000,
-        offset: 50
+        offset: 45
       });
       setToken(token);
     },
@@ -48,7 +48,7 @@ export const useUserStore = defineStore({
         message: `欢迎回来：${this.nickName}`,
         type: "success",
         duration: 3 * 1000,
-        offset: 50
+        offset: 45
       });
     },
     async registerEnvironment() {

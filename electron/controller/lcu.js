@@ -144,7 +144,7 @@ class LcuController extends Controller {
     try {
       const data = await this.service.lcu.getGameDetailByGameId(args.gameId);
       this.app.logger.info(`[controller:lcu] 获取对局${args.gameId}详情成功`);
-      return data;
+      return JSON.parse(JSON.stringify(data));
     } catch (err) {
       this.app.logger.error(`[controller:lcu] 获取对局${args.失败}详情成功`);
     }

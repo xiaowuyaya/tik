@@ -121,7 +121,7 @@ const doRegister = async () => {
       message: "注册成功！",
       type: "success",
       duration: 3 * 1000,
-      offset: 50
+      offset: 45
     });
     toRegister();
   } catch (err) {}

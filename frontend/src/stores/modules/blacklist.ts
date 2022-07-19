@@ -1,27 +1,42 @@
-import { pageBlacklist } from "@/api/blacklist"
+import { addBlacklist, CreatBlacklist, getAllBlacklist } from "@/api/blacklist"
 import { Blacklist } from "@/types/blacklist"
+import ipcRenderer from "@/utils/ipcRenderer"
+import { ElMessage } from "element-plus"
 import { defineStore } from "pinia"
-import { useUserStore } from "./user"
 
-const userStore = useUserStore()
 
 export const useBlacklistStore = defineStore({
   id: 'blacklist',
-  state: (): Blacklist[] => {
-    return []
+  state: () => {
+    return {
+      list: []
+    }
   },
   getters: {},
   actions: {
-    async getAll(filter?: string) { 
-      const r = await pageBlacklist({
-        environment: userStore.environment,
-        summonerId: userStore.summonerId,
-        filter,
-        page: 1,
-        limit: 999
-      })
-      console.log(r);
-      
+    async getAll() {
+      const r = await getAllBlacklist()
+      // 同步数据给本地
+      await ipcRenderer.invoke('controller.data.updateDataByField', { dbName: 'blacklist', field: 'list', data: r.data })
+      ElMessage({
+        message: `获取黑名单数据成功`,
+        type: "success",
+        duration: 3 * 1000,
+        offset: 45
+      });
+      this.list = r.data
+    },
+    async add(dto: CreatBlacklist) {
+      await addBlacklist(dto)
+      const r = await getAllBlacklist()
+      await ipcRenderer.invoke('controller.data.updateDataByField', { dbName: 'blacklist', field: 'list', data: r.data })
+      this.list = r.data
+      ElMessage({
+        message: `添加黑名单信息成功`,
+        type: "success",
+        duration: 3 * 1000,
+        offset: 45
+      });
     }
   }
 })
