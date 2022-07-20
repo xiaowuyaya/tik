@@ -16,6 +16,10 @@ class DataController extends Controller {
   async updateDataByField(args, event) {
     return await this.service.data.updateDataByField(args.dbName, args.field, args.data);
   }
+
+  async getCacheData(args, event){
+    return this.service.data.getCacheData(args.key)
+  }
 }
 
 module.exports = DataController;

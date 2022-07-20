@@ -1,4 +1,4 @@
-import { getMyInfo, login, LoginClientUserDto, MyInfoDto } from "@/api/user";
+import { getMyInfo, login, LoginClientUserDto, MyInfoDto, updateUserInfo } from "@/api/user";
 import { add, CreateEnvironmentDto } from '@/api/environment'
 import { UserInfo } from "@/types/user";
 import { setToken } from "@/utils/auth";
@@ -58,6 +58,13 @@ export const useUserStore = defineStore({
         summonerId: this.summonerId,
       }
       await add(data)
+    },
+    async updateUser() {
+      await updateUserInfo({
+        nickName: this.nickName,
+        email: this.email,
+        phone: this.phone,
+      })
     }
   }
 })

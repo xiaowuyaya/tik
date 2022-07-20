@@ -1,6 +1,7 @@
 const { Storage, Utils } = require('ee-core');
 const { app } = require('electron');
 const _ = require('lodash');
+const c = require('../utils/cache')
 
 /* 项目初始化 */
 module.exports = {
@@ -8,6 +9,7 @@ module.exports = {
     await checkChampionsData(eeApp);
     checkSettings(eeApp);
     checkBlacklist(eeApp);
+    checkPanelData(eeApp)
   },
 };
 
@@ -25,7 +27,7 @@ async function checkChampionsData(eeApp) {
     _.forIn(tempChampionsData, (data, enName) => {
       const championId = data.key;
       const cnName = data.name;
-      const avatarUrl = `http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${championId}.png`;
+      const avatarUrl = `http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${enName}.png`;
       const key = enName.toLocaleLowerCase();
       const res = { championId, avatarUrl, key };
       champions[cnName] = res;
@@ -66,3 +68,20 @@ function checkBlacklist(eeApp) {
     eeApp.logger.error(`[check:blacklist] 发生异常: ${err}`);
   }
 }
+
+function checkPanelData(eeApp){
+  try {
+    const data = {
+      orderList: [],
+      chaosList: []
+    }
+    // const json = require('./test.json')
+    // const data = json
+   
+    c.put('panel-data', data)
+    eeApp.logger.info(`[check:panel-data] 面板数据重置完成`);
+  }catch(err) {
+    eeApp.logger.error(`[check:panel-data] 发生异常: ${err}`);
+  }
+}
+

@@ -25,6 +25,15 @@ export interface MyInfoDto {
   clientVersion: string;
 }
 
+export interface updateClientUserInfoDto {
+  nickName?: string;
+  avatarUrl?: string;
+  email?: string;
+  phone?: string;
+  remark?: string;
+  status?: number;
+}
+
 /**
  * 用户注册
  * @returns 
@@ -58,6 +67,19 @@ export function login(data: LoginClientUserDto) {
 export function getMyInfo(data: MyInfoDto) {
   return http.request({
     url: '/user/getMyInfo',
+    method: 'POST',
+    data
+  })
+}
+
+/**
+ * 更新
+ * @param data 
+ * @returns 
+ */
+export function updateUserInfo(data: updateClientUserInfoDto){
+  return http.request({
+    url: '/user/updateUserInfo',
     method: 'POST',
     data
   })

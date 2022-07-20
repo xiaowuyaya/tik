@@ -1,4 +1,5 @@
 const { Service, Storage } = require('ee-core');
+const c = require('../utils/cache')
 const R = require('../utils/res');
 
 /**
@@ -53,6 +54,16 @@ class DataService extends Service {
     } catch (err) {
       this.app.logger.error(`[service:storage] 获取配置${field}失败:${err}`);
       return R.fail(err);
+    }
+  }
+
+  getCacheData(key) {
+    try{
+      const r = c.get(key)
+      this.app.logger.info(`[service:storage] 获取缓存${key}成功`);
+      return R.success(JSON.parse(JSON.stringify(r)))
+    }catch(err) {
+      this.app.logger.error(`[service:storage] 获取缓存${fikeyeld}失败:${err}`);
     }
   }
 }

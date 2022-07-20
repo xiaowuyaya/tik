@@ -2,6 +2,7 @@ const { Storage } = require('ee-core');
 const { Notification } = require('electron');
 const { getClient, getWs } = require('../utils/league-connect');
 const c = require('../utils/cache');
+const _ = require('lodash');
 
 /**
  * 客户端监听
@@ -15,15 +16,9 @@ exports.registerClient = (eeApp) => {
     return;
   }
 
-  const closeNotice = new Notification({
-    title: '检测到游戏客户端退出',
-    body: '应用程序也将在客户端进程结束后结束进程。',
-  });
-
-  client.on('disconnect', () => {
+  c.on('disconnect', () => {
     // 客户端退出则也退出;
-    logger.info('[monitor] 检测到游戏退出，应用程序也即将关闭。');
-    closeNotice.show();
+    eeApp.logger.info('[monitor] 检测到游戏退出，应用程序也即将关闭。');
     eeApp.appQuit();
   });
 
@@ -50,9 +45,9 @@ exports.registerWebsocket = async (eeApp) => {
   ws.subscribe('/lol-gameflow/v1/gameflow-phase', async (data, event) => {
     // 状态转发到渲染进程
     eeApp.electron.mainWindow.webContents.send('controller.lcu.listenPlayerStatus', data);
-    eeApp.logger.info('[lcuMonitor] STATUS: data');
+    eeApp.logger.info(`[lcuMonitor] STATUS: ${data}`);
 
-    if (_.has(handleStatus, data)) handleStatus[data]();
+    if (_.has(handleStatus, data)) handleStatus[data](eeApp);
   });
   // 玩家actions订阅
   ws.subscribe('/lol-champ-select/v1/session', async (data, event) => {
@@ -84,12 +79,14 @@ exports.registerWebsocket = async (eeApp) => {
           if (action.actorCellId == cellId) {
             banActionId = action.id;
             if (!action.completed) {
-              try {
-                _(appSettings.rankAuto.ban[position]).forEach(async function (banSelect) {
-                  const res = await eeApp.service.lcu.confirmChampionByAction(banActionId, banSelect, appSettings.confirm);
-                  if (res.errorCode != 'RPC_ERROR') throw new Error();
-                });
-              } catch (err) {}
+              for (let i = 0; i < appSettings.rankAuto.ban[position].length; i++) {
+                const select = appSettings.rankAuto.ban[position][i];
+                const res = await eeApp.service.lcu.confirmChampionByAction(banActionId, select, appSettings.confirm);
+                if (res.errorCode != 'RPC_ERROR') {
+                  // eeApp.logger.info(`[monitor] 排位秒禁用成功`);
+                  break;
+                }
+              }
               return;
             }
           }
@@ -105,12 +102,14 @@ exports.registerWebsocket = async (eeApp) => {
             if (action.actorCellId == cellId) {
               pickActionId = action.id;
               if (!action.completed) {
-                try {
-                  _(appSettings.rankAuto.pick[position]).forEach(async function (pickSelect) {
-                    const res = await eeApp.service.lcu.confirmChampionByAction(pickActionId, pickSelect, appSettings.confirm);
-                    if (res.errorCode != 'RPC_ERROR') throw new Error();
-                  });
-                } catch (err) {}
+                for (let i = 0; i < appSettings.rankAuto.pick[position].length; i++) {
+                  const select = appSettings.rankAuto.pick[position][i];
+                  const res = await eeApp.service.lcu.confirmChampionByAction(pickActionId, select, appSettings.confirm);
+                  if (res.errorCode != 'RPC_ERROR') {
+                    // eeApp.logger.info(`[monitor] 排位选用成功`);
+                    break;
+                  }
+                }
                 return;
               }
             }
@@ -132,8 +131,7 @@ const handleStatus = {
 
     const db = Storage.JsonDB.connection('settings').db;
     const appSettings = db.get('app').value();
-    if (appSettings.accept) await eeApp.service.acceptMatchmaking();
-
+    if (appSettings.accept) await eeApp.service.lcu.acceptMatchmaking();
     return;
   },
   ChampSelect: async (eeApp) => {
@@ -141,24 +139,22 @@ const handleStatus = {
     const appSettings = db.get('app').value();
     eeApp.logger.info(`[monitor:ChampSelect] 匹配自动秒选 ${appSettings.normalAuto.pick}, 英雄设置为 ${appSettings.normalAuto.pickSelect}`);
     if (appSettings.normalAuto.pick) {
-      try {
-        _(appSettings.normalAuto.pickSelect).forEach(async function (pickSelect) {
-          const res = await eeApp.service.lcu.confirmChampionById(pickSelect, appSettings.confirm);
-          if (res.errorCode != 'RPC_ERROR') throw new Error();
-        });
-      } catch (err) {
-        eeApp.logger.info(`[monitor:ChampSelect] 自动秒选成功`);
+      for (var i = 0; i < appSettings.normalAuto.pickSelect.length; i++) {
+        const res = await eeApp.service.lcu.confirmChampionById(appSettings.normalAuto.pickSelect[i], appSettings.confirm);
+        if (res.errorCode != 'RPC_ERROR') {
+          eeApp.logger.info(`[monitor:ChampSelect] 自动秒禁用成功`);
+          break;
+        }
       }
     }
     eeApp.logger.info(`[monitor:ChampSelect] 征召自动禁用 ${appSettings.normalAuto.ban}, 英雄设置为 ${appSettings.normalAuto.banSelect}`);
     if (appSettings.normalAuto.ban) {
-      try {
-        _(appSettings.normalAuto.banSelect).forEach(async function (banSelect) {
-          const res = await eeApp.service.lcu.confirmChampionById(banSelect, appSettings.confirm);
-          if (res.errorCode != 'RPC_ERROR') throw new Error();
-        });
-      } catch (err) {
-        eeApp.logger.info(`[monitor:ChampSelect] 自动秒禁用成功`);
+      for (var i = 0; i < appSettings.normalAuto.banSelect.length; i++) {
+        const res = await eeApp.service.lcu.confirmChampionById(appSettings.normalAuto.banSelect[i], appSettings.confirm);
+        if (res.errorCode != 'RPC_ERROR') {
+          eeApp.logger.info(`[monitor:ChampSelect] 自动秒禁用成功`);
+          break;
+        }
       }
     }
   },

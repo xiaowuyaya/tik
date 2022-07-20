@@ -1,6 +1,7 @@
 const { Controller, Storage } = require('ee-core');
 const R = require('../utils/res');
 const { translate } = require('../utils/translate');
+const c = require('../utils/cache');
 
 class LcuController extends Controller {
   constructor(ctx) {
@@ -30,6 +31,7 @@ class LcuController extends Controller {
   async getPlayerStatus(args, event) {
     try {
       const status = await this.service.lcu.getGameStatus();
+      if (args.origin) return status;
       return translate('status', status);
     } catch (err) {
       this.app.logger.error(`[controller:lcu] 获取游戏状态失败:${err}`);
@@ -84,9 +86,7 @@ class LcuController extends Controller {
    */
   async getPanelData(args, event) {
     const status = args.status;
-    const db = Storage.JsonDB.connection('panel-data').db;
-    let data = db.value();
-    let panelData = data;
+    let panelData = c.get('panel-data');
     try {
       // 如果在选人阶段，队友信息为空，则重新获取
       if (status == 'ChampSelect' && panelData.orderList.length < 5) {
@@ -105,7 +105,8 @@ class LcuController extends Controller {
     } catch (err) {
       this.app.logger.error(`[controller:lcu] 获取面板数据失败:${err}`);
     }
-    return panelData;
+    
+    return JSON.parse(JSON.stringify(panelData));
   }
 
   /**

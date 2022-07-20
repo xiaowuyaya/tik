@@ -107,13 +107,17 @@ class LcuService extends Service {
   async getAvatarUrlByChampName(championName) {
     const db = Storage.JsonDB.connection('champions').db;
     const championData = db.get('champions').value();
-    const champion = await api.getChampionSkinListById(championData[championName].championId);
-    return await this.getLcuImgBase64(champion.squarePortraitPath);
+    return championData[championName].avatarUrl;
   }
 
-  async getAvatarUrlByChampId(championId) {
-    const champion = await api.getChampionSkinListById(championId);
-    return await this.getLcuImgBase64(champion.squarePortraitPath);
+  getAvatarUrlByChampId(championId) {
+    const db = Storage.JsonDB.connection('champions').db;
+    const championData = db.get('champions').value();
+    for (const key in championData) {
+      if (championData[key].championId == championId) {
+        return championData[key].avatarUrl;
+      }
+    }
   }
 
   async getFormatInfoByPlayerList() {
@@ -128,7 +132,8 @@ class LcuService extends Service {
       } catch (err) {}
     }
     const res = [];
-    _.forEach(playerList, async (value, index, collection) => {
+    for (let i = 0; i < playerList.length; i++) {
+      const value = playerList[i];
       const championAvatar = await this.getAvatarUrlByChampName(value.championName);
       const data = {
         summonerName: value.summonerName,
@@ -139,7 +144,7 @@ class LcuService extends Service {
         team: value.team,
       };
       res.push(data);
-    });
+    }
     return res;
   }
 
@@ -152,7 +157,8 @@ class LcuService extends Service {
       if (idList.indexOf(value == -1)) idList.push(value);
     });
     let r = [];
-    _.forEach(idList, async (value, index, collection) => {
+    for (let i = 0; i < idList.length; i++) {
+      const value = idList[i];
       const info = await api.getSummonerBySummonerId(value);
       const temp = {
         summonerName: info.displayName,
@@ -163,7 +169,7 @@ class LcuService extends Service {
         team: 'ORDER',
       };
       r.push(temp);
-    });
+    }
     return r;
   }
 
@@ -171,7 +177,7 @@ class LcuService extends Service {
    * 对历史对局数据进行规则化处理，得出分数结果以及格式化对局数据
    * @param {*} historyMatches
    */
-  sourcingRules(historyMatches) {
+  async sourcingRules(historyMatches) {
     historyMatches = historyMatches.games.games;
 
     // 去除非排位赛对局数据
@@ -201,6 +207,7 @@ class LcuService extends Service {
       temp.gameType = match.gameType;
       temp.gameCreationDate = match.gameCreationDate;
       temp.championId = match.participants[0].championId;
+      temp.championAvatar = this.getAvatarUrlByChampId(match.participants[0].championId)
       temp.kills = match.participants[0].stats.kills;
       temp.deaths = match.participants[0].stats.deaths;
       temp.assists = match.participants[0].stats.assists;
@@ -246,7 +253,7 @@ class LcuService extends Service {
       }
       recentChampionsCount.push({
         championId: recentChampions[i],
-        avatarUrl: this.getAvatarUrlByChampId(recentChampions[i]),
+        avatarUrl: await this.getAvatarUrlByChampId(recentChampions[i]),
         count,
       });
       i += count;
@@ -316,7 +323,7 @@ class LcuService extends Service {
         // 获取玩家的对局历史
         const historyList = await api.getHistoryMatchesByPuuid(puuid);
         // 对对局历史进行数据分析
-        const matchesData = this.sourcingRules(historyList);
+        const matchesData = await this.sourcingRules(historyList);
         list[i].matches = matchesData;
       } else {
         // 机器人的相关信息留空
@@ -456,11 +463,11 @@ class LcuService extends Service {
     let formatedList = await this.getFormatInfoBySummonerIdList();
     let playerList = await this.dataAnalysis(formatedList);
     // 更新数据
-    const playListDb = Storage.JsonDB.connection('panel-data').db;
-    playListDb
-      .set('orderList', playerList.orderList ? playerList.orderList : '')
-      .set('chaosList', playerList.chaosList ? playerList.chaosList : '')
-      .write();
+    const panelData = {
+      orderList: playerList.orderList ? playerList.orderList : '',
+      chaosList: playerList.chaosList ? playerList.chaosList : '',
+    };
+    c.put('panel-data', panelData);
 
     // 获取发送配置
     const settingsDB = Storage.JsonDB.connection('settings').db;
@@ -494,11 +501,11 @@ class LcuService extends Service {
     const playerList = await this.dataAnalysis(formatedList);
 
     // 更新数据
-    const playListDb = Storage.JsonDB.connection('panel-data').db;
-    playListDb
-      .set('orderList', playerList.orderList ? playerList.orderList : '')
-      .set('chaosList', playerList.chaosList ? playerList.chaosList : '')
-      .write();
+    const panelData = {
+      orderList: playerList.orderList ? playerList.orderList : '',
+      chaosList: playerList.chaosList ? playerList.chaosList : '',
+    };
+    c.put('panel-data', panelData);
 
     return playerList;
   }
