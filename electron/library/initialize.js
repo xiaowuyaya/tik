@@ -1,21 +1,13 @@
 const { Storage, Utils } = require('ee-core');
 const { app } = require('electron');
 const _ = require('lodash');
-const { authenticate } = require('league-connect');
-const c = require('../utils/cache');
 
 /* 项目初始化 */
 module.exports = {
-  /**
-   * 安装
-   * @param {*} eeApp
-   */
   async install(eeApp) {
     await checkChampionsData(eeApp);
     checkSettings(eeApp);
     checkBlacklist(eeApp);
-    clearnPanelData(eeApp);
-    await checkCredentials(eeApp);
   },
 };
 
@@ -72,43 +64,5 @@ function checkBlacklist(eeApp) {
     eeApp.logger.info(`[check:blacklist] 黑名单校验完成, 是否重置: ${isNone}`);
   } catch (err) {
     eeApp.logger.error(`[check:blacklist] 发生异常: ${err}`);
-  }
-}
-
-async function checkCredentials(eeApp) {
-  let credentials = null;
-  try {
-    let authenticationOptions = [
-      {
-        windowsShell: 'cmd',
-        useDeprecatedWmic: true,
-      },
-      {
-        windowsShell: 'powershell',
-        useDeprecatedWmic: false,
-      },
-    ];
-    try {
-      credentials = await authenticate(authenticationOptions[0]);
-    } catch (error) {
-      // 部分win7以上电脑没有wimc，采用pws方式获取凭证
-      credentials = await authenticate(authenticationOptions[1]);
-    }
-    eeApp.logger.info(`[check:credentials] 获取credentials成功`);
-  } catch (err) {
-    eeApp.logger.info(`[check:credentials] 发送异常: ${err}`);
-  }
-  c.put('credentials', credentials);
-  // 将结果装发给转发到渲染进程
-  eeApp.electron.mainWindow.webContents.send('controller.lcu.enable', credentials);
-}
-
-function clearnPanelData(eeApp) {
-  try {
-    const db = Storage.JsonDB.connection('panel-data').db;
-    db.set('orderList', []).set('chaosList', []).write();
-    eeApp.logger.info(`[clearn:panel] 已重置面板配置文件`);
-  } catch (err) {
-    eeApp.logger.error(`[clearn:panel] 发生异常: ${err}`);
   }
 }

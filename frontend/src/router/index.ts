@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/blacklist',
         name: 'blacklist',
-        meta: { index: 7 , keepAlive: true},
+        meta: { index: 7, keepAlive: true },
         component: () => import('@/views/blacklist/index.vue')
       },
       {
@@ -64,8 +64,14 @@ const routes: Array<RouteRecordRaw> = [
         name: 'auto-game',
         meta: { index: 10, keepAlive: true },
         component: () => import('@/views/auto-game/index.vue')
+      },
+      {
+        path: '/account',
+        name: 'account',
+        meta: { index: 10 },
+        component: () => import('@/views/account/index.vue')
       }
-      
+
     ]
   }
 ]

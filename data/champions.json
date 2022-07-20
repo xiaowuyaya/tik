@@ -806,52 +806,5 @@
       "key": "zyra"
     }
   },
-  "version": "12.13.1",
-  "blacklist": [
-    {
-      "id": 25,
-      "environment": "艾欧尼亚",
-      "summoner_name": "测试12",
-      "banId": "lkqjalqjwlel1",
-      "banName": "qwk123123ojelq",
-      "reason": "new",
-      "createdAt": "2022-07-10T16:38:28.223Z"
-    },
-    {
-      "id": 26,
-      "environment": "艾欧尼亚",
-      "summoner_name": "测试12",
-      "banId": "182739123",
-      "banName": "laujoie",
-      "reason": "120388",
-      "createdAt": "2022-07-10T16:38:11.358Z"
-    },
-    {
-      "id": 27,
-      "environment": "艾欧尼亚",
-      "summoner_name": "测试12",
-      "banId": "10293801280hkl1asda",
-      "banName": "oiualaskjdl",
-      "reason": "1-10239-120",
-      "createdAt": "2022-07-10T16:38:20.417Z"
-    },
-    {
-      "id": 28,
-      "environment": "艾欧尼亚",
-      "summoner_name": "测试12",
-      "banId": "lkqjalqjwlelqwe",
-      "banName": "jlkqweqne,",
-      "reason": "qklwjelkq",
-      "createdAt": "2022-07-10T16:38:28.223Z"
-    },
-    {
-      "id": 29,
-      "environment": "艾欧尼亚",
-      "summoner_name": "测试12",
-      "banId": "asjhdkah",
-      "banName": "ni13",
-      "reason": "new",
-      "createdAt": "2022-07-10T17:07:50.249Z"
-    }
-  ]
+  "version": "12.13.1"
 }

@@ -2,6 +2,7 @@
 const chromeExtension = require('../library/chromeExtension');
 const initialize = require('../library/initialize');
 const security = require('../library/security');
+const credentials = require('../library/credentials');
 
 /**
  * 预加载模块入口
@@ -16,4 +17,7 @@ module.exports = async (app) => {
 
   // 禁止远程调试
   security.install(app);
+
+  // 获取credentials凭证信息
+  credentials.install(app)
 };

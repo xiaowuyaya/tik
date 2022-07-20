@@ -1,9 +1,11 @@
 node_modules
 out/
 logs/
-public/
+public/html/*
+public/dist/*
 run/
 .idea/
 package-lock.json
 data/system.json
 .vscode/launch.json
+data/

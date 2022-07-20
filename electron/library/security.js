@@ -5,9 +5,6 @@
  */
 
 module.exports = {
-  /**
-   * 安装
-   */
   install(eeApp) {
     eeApp.logger.info('[preload] load security module');
     const runWithDebug = process.argv.find(function (e) {

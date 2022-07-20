@@ -7,21 +7,27 @@ const c = require('../utils/cache');
 // const credentials = c.get('credentials')
 
 /* websocket */
-exports.ws = async () => {
-  const credentials = c.get('credentials');
-  return await createWebSocketConnection(credentials);
+exports.getWs = async () => {
+  try {
+    const credentials = c.get('credentials');
+    return await createWebSocketConnection(credentials);
+  } catch (err) {}
 };
 
 /* client listen */
-exports.client = () => {
-  return new LeagueClient(credentials, {
-    pollInterval: 1000, // Check every second
-  });
+exports.getClient = () => {
+  try {
+    const credentials = c.get('credentials');
+    return new LeagueClient(credentials, {
+      pollInterval: 1000, // Check every second
+    });
+  } catch (err) {}
 };
 
 // superagent request
 exports.request = async (method, url) => {
   try {
+    const credentials = c.get('credentials');
     const r = await req(method, url).ca(credentials.certificate);
     return r.body;
   } catch (err) {

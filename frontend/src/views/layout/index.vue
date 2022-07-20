@@ -7,8 +7,8 @@
       <div class="h-full w-[18%] border-r">
         <!-- userinfo -->
         <div class="flex flex-col items-center pt-4 pb-1 mb-1">
-          <img class="w-18 rounded-full cursor-pointer shadow" :src="userStore.avatarUrl" alt="加载异常" />
-          <span class="mt-3 text-base cursor-pointer font-semibold">{{ userStore.nickName }}</span>
+          <img class="w-18 rounded-full cursor-pointer shadow" :src="userStore.avatarUrl" alt="加载异常" @click="changePath('account')" />
+          <span class="mt-3 text-base cursor-pointer font-semibold" @click="changePath('account')">{{ userStore.nickName }}</span>
         </div>
         <!-- menu body -->
         <a-menu
