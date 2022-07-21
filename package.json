@@ -99,6 +99,18 @@
       ]
     }
   },
+  "iohook": {
+    "targets": [
+      "node-93",
+      "electron-89"
+    ],
+    "platforms": [
+      "win32"
+    ],
+    "arches": [
+      "ia32"
+    ]
+  },
   "devDependencies": {
     "debug": "^4.3.3",
     "electron": "^13.6.9",
@@ -107,6 +119,7 @@
     "eslint": "^5.13.0",
     "eslint-config-egg": "^7.1.0",
     "eslint-plugin-prettier": "^3.0.1",
+    "node-abi": "^3.22.0",
     "nodemon": "^2.0.16",
     "prettier": "2.7.1"
   },
@@ -118,6 +131,7 @@
     "getmac": "^5.20.0",
     "league-connect": "6.0.0-rc3",
     "lodash": "^4.17.21",
-    "superagent": "^8.0.0"
+    "superagent": "^8.0.0",
+    "winax": "^3.3.4"
   }
 }

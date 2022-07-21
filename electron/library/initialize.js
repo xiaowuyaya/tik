@@ -43,7 +43,7 @@ async function checkDataDragon(eeApp) {
         id: data.id,
         name: data.name,
         description: data.description,
-        img: `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/spell/${data.img}.png`,
+        img: `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/spell/${data.image.full}`,
         tooltip: data.tooltip,
         cooldownBurn: data.cooldownBurn,
         key: data.key,
