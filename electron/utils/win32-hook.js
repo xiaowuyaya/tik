@@ -46,6 +46,7 @@ exports.sendStringInProgress = (eeApp, string) => {
       eeApp.logger.error('[win32:sendStringInProgress] 未找到游戏窗口');
       return;
     }
+    dm.setKeypadDelay('normal', 100)
     dm.keyPress(13);
     dm.sendString(hwnd1, string);
     dm.keyPress(13);
