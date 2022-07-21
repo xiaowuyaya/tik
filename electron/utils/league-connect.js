@@ -25,7 +25,7 @@ exports.getClient = () => {
 };
 
 // superagent request
-exports.request = async (method, url) => {
+exports.request = async (url, method='GET') => {
   try {
     const credentials = c.get('credentials');
     const r = await req(method, url).ca(credentials.certificate);

@@ -1,21 +1,21 @@
 const { Storage, Utils } = require('ee-core');
 const { app } = require('electron');
 const _ = require('lodash');
-const c = require('../utils/cache')
+const c = require('../utils/cache');
 
 /* 项目初始化 */
 module.exports = {
   async install(eeApp) {
-    await checkChampionsData(eeApp);
+    await checkDataDragon(eeApp);
     checkSettings(eeApp);
     checkBlacklist(eeApp);
-    checkPanelData(eeApp)
+    checkPanelData(eeApp);
   },
 };
 
-async function checkChampionsData(eeApp) {
+async function checkDataDragon(eeApp) {
   try {
-    const db = Storage.JsonDB.connection('champions').db;
+    const db = Storage.JsonDB.connection('ddragon').db;
     const versions = await eeApp.curl('https://ddragon.leagueoflegends.com/api/versions.json', { method: 'GET', dataType: 'json' });
     const latestVersion = versions.data[0];
     const championsDataReq = await eeApp.curl(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/zh_CN/champion.json`, {
@@ -25,18 +25,37 @@ async function checkChampionsData(eeApp) {
     const tempChampionsData = championsDataReq.data.data;
     let champions = {};
     _.forIn(tempChampionsData, (data, enName) => {
-      const championId = data.key;
       const cnName = data.name;
-      const avatarUrl = `http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${enName}.png`;
-      const key = enName.toLocaleLowerCase();
-      const res = { championId, avatarUrl, key };
-      champions[cnName] = res;
+      champions[cnName] = {
+        championId: data.key,
+        avatarUrl: `http://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/champion/${enName}.png`,
+        key: enName.toLocaleLowerCase(),
+      };
     });
+    const summonerSpellsDataReq = await eeApp.curl(`https://ddragon.leagueoflegends.com/cdn/${latestVersion}/data/zh_CN/summoner.json`, {
+      method: 'GET',
+      dataType: 'json',
+    });
+    const summonerSpellsData = summonerSpellsDataReq.data.data;
+    let summonerSpells = {};
+    _.forIn(summonerSpellsData, (data, speelName) => {
+      summonerSpells[speelName] = {
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        img: `https://ddragon.leagueoflegends.com/cdn/${latestVersion}/img/spell/${data.img}.png`,
+        tooltip: data.tooltip,
+        cooldownBurn: data.cooldownBurn,
+        key: data.key,
+      };
+    });
+
     db.set('champions', champions).write();
+    db.set('summonerSpells', summonerSpells).write();
     db.set('version', latestVersion).write();
-    eeApp.logger.info(`[check:champions] 英雄数据更新成功，当前数据版本${latestVersion}`);
+    eeApp.logger.info(`[check:ddragon] 数据龙更新成功，当前数据版本${latestVersion}`);
   } catch (err) {
-    eeApp.logger.error(`[check:champions] 发生异常: ${err}`);
+    eeApp.logger.error(`[check:ddragon] 发生异常: ${err}`);
   }
 }
 
@@ -69,19 +88,18 @@ function checkBlacklist(eeApp) {
   }
 }
 
-function checkPanelData(eeApp){
+function checkPanelData(eeApp) {
   try {
-    const data = {
-      orderList: [],
-      chaosList: []
-    }
-    // const json = require('./test.json')
-    // const data = json
-   
-    c.put('panel-data', data)
+    // const data = {
+    //   orderList: [],
+    //   chaosList: []
+    // }
+    const json = require('./test.json');
+    const data = json;
+
+    c.put('panel-data', data);
     eeApp.logger.info(`[check:panel-data] 面板数据重置完成`);
-  }catch(err) {
+  } catch (err) {
     eeApp.logger.error(`[check:panel-data] 发生异常: ${err}`);
   }
 }
-

@@ -21,6 +21,7 @@ onBeforeMount(async () => {
   }
   // 判断是否存在数据
   const panelData = await ipcRenderer.invoke('controller.data.getCacheData', { key: 'panel-data' });
+  
   if (panelData.data.orderList.length != 0) {
     currentTabComponent.value = PanelData;
   }

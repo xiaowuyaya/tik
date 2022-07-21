@@ -225,7 +225,7 @@ exports.spectatorLaunchByName = async (summonerName, gameQueueType) => {
  * 获取玩家列表（当游戏状态处于inProgress）
  */
 exports.getPlayerListInGame = async () => {
-  return await request('GET', `https://127.0.0.1:2999/liveclientdata/playerlist`);
+  return await request(`https://127.0.0.1:2999/liveclientdata/playerlist`);
 };
 
 /**

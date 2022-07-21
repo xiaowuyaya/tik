@@ -10,7 +10,7 @@ export const useChampionsStore = defineStore({
   },
   actions: {
     async load() {
-      this.champions = await ipcRenderer.invoke('controller.data.getDataByField', { dbName: 'champions', field: 'champions' })
+      this.champions = await ipcRenderer.invoke('controller.data.getDataByField', { dbName: 'ddragon', field: 'champions' })
     },
   }
 })

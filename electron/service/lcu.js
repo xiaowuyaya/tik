@@ -10,7 +10,7 @@ class LcuService extends Service {
   }
 
   async getChampionInfo() {
-    const db = Storage.JsonDb.connection('champions').db;
+    const db = Storage.JsonDb.connection('ddragon').db;
     return db.value();
   }
 
@@ -105,13 +105,13 @@ class LcuService extends Service {
   }
 
   async getAvatarUrlByChampName(championName) {
-    const db = Storage.JsonDB.connection('champions').db;
+    const db = Storage.JsonDB.connection('ddragon').db;
     const championData = db.get('champions').value();
     return championData[championName].avatarUrl;
   }
 
   getAvatarUrlByChampId(championId) {
-    const db = Storage.JsonDB.connection('champions').db;
+    const db = Storage.JsonDB.connection('ddragon').db;
     const championData = db.get('champions').value();
     for (const key in championData) {
       if (championData[key].championId == championId) {

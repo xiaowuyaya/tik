@@ -152,7 +152,7 @@ class LcuController extends Controller {
   }
 
   async getLcuVersion(args, event) {
-    const championsDB = Storage.JsonDB.connection('champions').db;
+    const championsDB = Storage.JsonDB.connection('ddragon').db;
     return championsDB.get('version').value();
   }
 

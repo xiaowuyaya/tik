@@ -1,6 +1,6 @@
 <template>
-  <div class="p-2" v-if="playerList.orderList">
-    <a-card class="mb-1" :hoverable="true" :header-style="{ border: 'none' }">
+  <div class="h-full p-2" v-if="playerList.orderList">
+    <a-card class="mb-1" :hoverable="true" :header-style="{ border: 'none' }" :body-style="{ padding: '10px' }">
       <a-form-item class="!mb-0" label="显示近期详细战绩">
         <a-switch v-model="showDetailData" type="line" />
       </a-form-item>
@@ -13,7 +13,7 @@
             <a-row align="center" justify-content="space-between">
               <!-- 头像 -->
               <a-col :span="2">
-                <a-avatar class="rounded" :size="41" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
+                <a-avatar class="rounded" :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
                   <img :src="item.championAvatar" />
                 </a-avatar>
               </a-col>
@@ -61,7 +61,7 @@
             <a-row align="center" justify-content="space-between">
               <!-- 头像 -->
               <a-col :span="2">
-                <a-avatar class="rounded" :size="41" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
+                <a-avatar class="rounded" :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
                   <img :src="item.championAvatar" />
                 </a-avatar>
               </a-col>
@@ -104,28 +104,92 @@
       </a-card>
     </a-space>
     <!-- 详细对局 -->
+    <a-space v-show="showDetailData" direction="vertical" fill>
+      <a-card class="" :hoverable="true" :header-style="{ border: 'none' }">
+        <a-space direction="vertical" fill>
+          <div class="text-gray-900" v-for="(item, index) in playerList.orderList" :key="index">
+            <a-row align="center" justify-content="space-between">
+              <a-col flex="48px">
+                <div class="flex flex-col items-center justify-center">
+                  <a-avatar :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
+                    <img :src="item.championAvatar" />
+                  </a-avatar>
+                </div>
+              </a-col>
+              <a-col flex="120px">
+                <div class="flex flex-col items-center justify-center">
+                  <span class="">{{ item.rankInfo.rankedSolo }}</span>
+                  <span class="font-black mt-1">{{ item.summonerName }}</span>
+                </div>
+              </a-col>
+              <a-col flex="auto">
+                <div class="flex justify-between">
+                  <div class="flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
+                    <a-avatar :size="34">
+                      <img class="" :src="itm.championAvatar" />
+                    </a-avatar>
 
-    <a-card :hoverable="true" :header-style="{ border: 'none' }">
-      <a-space direction="vertical" fill>
-        <block class="text-gray-900" v-for="(item, index) in playerList.orderList" :key="index">
+                    <span class="text-center text-xs" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
+                      {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
+                    </span>
+                  </div>
+                </div>
+              </a-col>
+            </a-row>
+          </div>
+        </a-space>
+      </a-card>
+    </a-space>
+    <!-- <div v-show="showDetailData" class="flex">
+      <a-card class="w-[50%]" :hoverable="true" :header-style="{ border: 'none' }" :body-style="{ padding: '4px 15px' }">
+        <div class="text-gray-900 border-b py-1 last: border-none" v-for="(item, index) in playerList.orderList" :key="index">
           <a-row align="center" justify-content="space-between">
-            <a-col :span="4">
-              <div class="flex flex-col items-center justify-center">
+            <a-col :span="6">
+              <div class="flex flex-col items-center justify-between">
                 <a-avatar class="rounded" :size="36" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
                   <img :src="item.championAvatar" />
                 </a-avatar>
-                <span class="font-black">{{ item.summonerName }}</span>
+                <span class="font-black mt-1">{{ item.summonerName }}</span>
               </div>
             </a-col>
-            <a-col :span="20">
-              <div>
-                <div class=""></div>
+            <a-col :span="18">
+              <div class="flex flex-wrap justify-between">
+                <div class="w-[20%] flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
+                  <img class="w-[28px]" :src="itm.championAvatar" />
+                  <span class="text-center font-sm" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
+                    {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
+                  </span>
+                </div>
               </div>
             </a-col>
           </a-row>
-        </block>
-      </a-space>
-    </a-card>
+        </div>
+      </a-card>
+      <a-card class="w-[50%]" :hoverable="true" :header-style="{ border: 'none' }" :body-style="{ padding: '4px 15px' }">
+        <div class="text-gray-900 border-b py-1 last: border-none" v-for="(item, index) in playerList.chaosList" :key="index">
+          <a-row align="center" justify-content="space-between">
+            <a-col :span="6">
+              <div class="flex flex-col items-center justify-between">
+                <a-avatar class="rounded" :size="36" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
+                  <img :src="item.championAvatar" />
+                </a-avatar>
+                <span class="font-black mt-1">{{ item.summonerName }}</span>
+              </div>
+            </a-col>
+            <a-col :span="18">
+              <div class="flex flex-wrap justify-between">
+                <div class="w-[20%] flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
+                  <img class="w-[28px]" :src="itm.championAvatar" />
+                  <span class="text-center font-sm" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
+                    {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
+                  </span>
+                </div>
+              </div>
+            </a-col>
+          </a-row>
+        </div>
+      </a-card>
+    </div> -->
 
     <!-- 拉黑对话框 -->
     <a-modal v-model:visible="blacklistModalState.show" :title="blacklistModalState.title" @ok="submitBlacklist">

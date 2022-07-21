@@ -65,7 +65,7 @@
       "installerHeaderIcon": "./build/icons/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "tik LoL对局助手"
+      "shortcutName": "tik 英雄联盟对局助手"
     },
     "publish": [
       {
