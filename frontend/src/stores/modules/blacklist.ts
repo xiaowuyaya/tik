@@ -1,5 +1,4 @@
 import { addBlacklist, CreatBlacklist, getAllBlacklist } from "@/api/blacklist"
-import { Blacklist } from "@/types/blacklist"
 import ipcRenderer from "@/utils/ipcRenderer"
 import { ElMessage } from "element-plus"
 import { defineStore } from "pinia"

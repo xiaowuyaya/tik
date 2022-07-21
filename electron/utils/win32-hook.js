@@ -10,12 +10,8 @@ const { dialog, shell } = require('electron');
 function registerDm() {
   const filePath = path.join(Utils.getExtraResourcesDir(), 'dll', 'dm.dll');
   // 判断文件是否存在
-  let isExist = false;
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (!err) isExist = true;
-  });
-
-  if (isExist) {
+  const exists = fsExistsSync(filePath);
+  if (exists) {
     try {
       return new winax.Object('dm.dmsoft');
     } catch (err) {
@@ -57,5 +53,13 @@ exports.sendStringInProgress = (eeApp, string) => {
   } catch (err) {
     eeApp.logger.error(`[win32:sendStringInProgress] 发生异常: ${err}`);
   }
-}
+};
 
+function fsExistsSync(path) {
+  try {
+    fs.accessSync(path, fs.F_OK);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}

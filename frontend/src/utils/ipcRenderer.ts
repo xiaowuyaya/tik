@@ -1,4 +1,3 @@
-import { ElMessage } from "element-plus"
 const { ipcRenderer: ipc } = window.require && window.require('electron') || {}
 
 /**

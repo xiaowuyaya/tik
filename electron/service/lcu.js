@@ -207,7 +207,10 @@ class LcuService extends Service {
       temp.gameType = match.gameType;
       temp.gameCreationDate = match.gameCreationDate;
       temp.championId = match.participants[0].championId;
+      temp.spell1 = this.getSpellImgByKey(match.participants[0].spell1Id) ;
+      temp.spell2 = this.getSpellImgByKey(match.participants[0].spell2Id) ;
       temp.championAvatar = this.getAvatarUrlByChampId(match.participants[0].championId)
+      temp.champLevel = match.participants[0].stats.champLevel;
       temp.kills = match.participants[0].stats.kills;
       temp.deaths = match.participants[0].stats.deaths;
       temp.assists = match.participants[0].stats.assists;
@@ -545,6 +548,16 @@ class LcuService extends Service {
 
   async setBackgroundSkinId(param) {
     return await api.setBackgroundSkinId(param);
+  }
+
+  getSpellImgByKey(keyId){
+    const db = Storage.JsonDB.connection('ddragon').db;
+    const summonerSpellsData = db.get('summonerSpells').value();
+    for (const key in summonerSpellsData) {
+      if (summonerSpellsData[key].key == keyId) {
+        return summonerSpellsData[key].img;
+      }
+    }
   }
 }
 

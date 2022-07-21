@@ -92,12 +92,13 @@ function checkBlacklist(eeApp) {
 
 function checkPanelData(eeApp) {
   try {
-    // const data = {
-    //   orderList: [],
-    //   chaosList: []
-    // }
-    const json = require('./test.json');
-    const data = json;
+    const data = {
+      orderList: [],
+      chaosList: []
+    }
+    // 测试用数据 ./panelData.test.json
+    // const json = require('./panelData.test.json');
+    // const data = json;
 
     c.put('panel-data', data);
     eeApp.logger.info(`[check:panel-data] 面板数据重置完成`);

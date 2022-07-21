@@ -1,9 +1,18 @@
 <template>
   <div class="h-full p-2" v-if="playerList.orderList">
     <a-card class="mb-1" :hoverable="true" :header-style="{ border: 'none' }" :body-style="{ padding: '10px' }">
-      <a-form-item class="!mb-0" label="显示近期详细战绩">
-        <a-switch v-model="showDetailData" type="line" />
-      </a-form-item>
+      <a-row :gutter="24">
+        <a-col :span="12">
+          <a-form-item class="!mb-0" label="面板数据不全">
+            <a-switch v-model="showDetailData" type="line" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item class="!mb-0" label="面板数据不全">
+            <a-button type="primary" :loading="btnLoading" @click="getPanelData">重新加载</a-button>
+          </a-form-item>
+        </a-col>
+      </a-row>
     </a-card>
     <a-space v-show="!showDetailData" direction="vertical" fill>
       <a-card :hoverable="true" :header-style="{ border: 'none' }">
@@ -38,7 +47,12 @@
               <a-col :span="3">
                 <div class="flex justify-center items-center">
                   <block v-for="(recent, index) in item.matches.recentChampionsCount" :key="index">
-                    <img class="w-[34px] mx-[2px] justify-center" :src="recent.avatarUrl" alt="" />
+                    <a-popover>
+                      <img class="w-[34px] mx-[2px] justify-center" :src="recent.avatarUrl" alt="" />
+                      <template #content>
+                        <span>使用场次：{{recent.count}}场</span>
+                      </template>
+                    </a-popover>
                   </block>
                 </div>
               </a-col>
@@ -86,7 +100,12 @@
               <a-col :span="3">
                 <div class="flex justify-center items-center">
                   <block v-for="(recent, index) in item.matches.recentChampionsCount" :key="index">
-                    <img class="w-[34px] mx-[2px] justify-center" :src="recent.avatarUrl" alt="" />
+                    <a-popover>
+                      <img class="w-[34px] mx-[2px] justify-center" :src="recent.avatarUrl" alt="" />
+                      <template #content>
+                        <span>使用场次：{{recent.count}}场</span>
+                      </template>
+                    </a-popover>
                   </block>
                 </div>
               </a-col>
@@ -104,92 +123,101 @@
       </a-card>
     </a-space>
     <!-- 详细对局 -->
-    <a-space v-show="showDetailData" direction="vertical" fill>
-      <a-card class="" :hoverable="true" :header-style="{ border: 'none' }">
-        <a-space direction="vertical" fill>
-          <div class="text-gray-900" v-for="(item, index) in playerList.orderList" :key="index">
-            <a-row align="center" justify-content="space-between">
-              <a-col flex="48px">
-                <div class="flex flex-col items-center justify-center">
-                  <a-avatar :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
-                    <img :src="item.championAvatar" />
-                  </a-avatar>
-                </div>
-              </a-col>
-              <a-col flex="120px">
-                <div class="flex flex-col items-center justify-center">
-                  <span class="">{{ item.rankInfo.rankedSolo }}</span>
-                  <span class="font-black mt-1">{{ item.summonerName }}</span>
-                </div>
-              </a-col>
-              <a-col flex="auto">
-                <div class="flex justify-between">
-                  <div class="flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
-                    <a-avatar :size="34">
-                      <img class="" :src="itm.championAvatar" />
+    <el-scrollbar height="558px">
+      <a-space v-show="showDetailData" direction="vertical" fill>
+        <a-card class="" :hoverable="true" :header-style="{ border: 'none' }">
+          <a-space direction="vertical" fill>
+            <div
+              class="text-gray-900"
+              :class="[parseFloat(item.matches.winRate) > 50 ? 'bg-gradient-to-r from-green-100 ...' : 'bg-gradient-to-r from-red-100 ...']"
+              v-for="(item, index) in playerList.orderList"
+              :key="index"
+            >
+              <a-row align="center" justify-content="space-between">
+                <a-col flex="48px">
+                  <div class="flex flex-col items-center justify-center">
+                    <a-avatar :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
+                      <img :src="item.championAvatar" />
                     </a-avatar>
-
-                    <span class="text-center text-xs" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
-                      {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
-                    </span>
                   </div>
-                </div>
-              </a-col>
-            </a-row>
-          </div>
-        </a-space>
-      </a-card>
-    </a-space>
-    <!-- <div v-show="showDetailData" class="flex">
-      <a-card class="w-[50%]" :hoverable="true" :header-style="{ border: 'none' }" :body-style="{ padding: '4px 15px' }">
-        <div class="text-gray-900 border-b py-1 last: border-none" v-for="(item, index) in playerList.orderList" :key="index">
-          <a-row align="center" justify-content="space-between">
-            <a-col :span="6">
-              <div class="flex flex-col items-center justify-between">
-                <a-avatar class="rounded" :size="36" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
-                  <img :src="item.championAvatar" />
-                </a-avatar>
-                <span class="font-black mt-1">{{ item.summonerName }}</span>
-              </div>
-            </a-col>
-            <a-col :span="18">
-              <div class="flex flex-wrap justify-between">
-                <div class="w-[20%] flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
-                  <img class="w-[28px]" :src="itm.championAvatar" />
-                  <span class="text-center font-sm" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
-                    {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
-                  </span>
-                </div>
-              </div>
-            </a-col>
-          </a-row>
-        </div>
-      </a-card>
-      <a-card class="w-[50%]" :hoverable="true" :header-style="{ border: 'none' }" :body-style="{ padding: '4px 15px' }">
-        <div class="text-gray-900 border-b py-1 last: border-none" v-for="(item, index) in playerList.chaosList" :key="index">
-          <a-row align="center" justify-content="space-between">
-            <a-col :span="6">
-              <div class="flex flex-col items-center justify-between">
-                <a-avatar class="rounded" :size="36" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
-                  <img :src="item.championAvatar" />
-                </a-avatar>
-                <span class="font-black mt-1">{{ item.summonerName }}</span>
-              </div>
-            </a-col>
-            <a-col :span="18">
-              <div class="flex flex-wrap justify-between">
-                <div class="w-[20%] flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
-                  <img class="w-[28px]" :src="itm.championAvatar" />
-                  <span class="text-center font-sm" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
-                    {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
-                  </span>
-                </div>
-              </div>
-            </a-col>
-          </a-row>
-        </div>
-      </a-card>
-    </div> -->
+                </a-col>
+                <a-col flex="120px">
+                  <div class="flex flex-col items-center justify-center">
+                    <span class="">{{ item.rankInfo.rankedSolo }}</span>
+                    <span class="font-black mt-1">{{ item.summonerName }}</span>
+                  </div>
+                </a-col>
+                <a-col flex="auto">
+                  <div class="flex justify-between">
+                    <div class="flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
+                      <div class="flex">
+                        <a-avatar :size="34">
+                          <img class="" :src="itm.championAvatar" />
+                        </a-avatar>
+                        <div class="flex flex-col ml-1">
+                          <img class="w-[18px]" :src="itm.spell1" />
+                          <img class="w-[18px]" :src="itm.spell2" />
+                        </div>
+                      </div>
+
+                      <span class="text-center text-sm font-black" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
+                        {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
+                      </span>
+                    </div>
+                  </div>
+                </a-col>
+              </a-row>
+            </div>
+          </a-space>
+        </a-card>
+        <!-- 敌军 -->
+        <a-card class="" :hoverable="true" :header-style="{ border: 'none' }">
+          <a-space direction="vertical" fill>
+            <div
+              class="text-gray-900"
+              :class="[parseFloat(item.matches.winRate) > 50 ? 'bg-gradient-to-r from-green-100 ...' : 'bg-gradient-to-r from-red-100 ...']"
+              v-for="(item, index) in playerList.chaosList"
+              :key="index"
+            >
+              <a-row align="center" justify-content="space-between">
+                <a-col flex="48px">
+                  <div class="flex flex-col items-center justify-center">
+                    <a-avatar :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
+                      <img :src="item.championAvatar" />
+                    </a-avatar>
+                  </div>
+                </a-col>
+                <a-col flex="120px">
+                  <div class="flex flex-col items-center justify-center">
+                    <span class="">{{ item.rankInfo.rankedSolo }}</span>
+                    <span class="font-black mt-1">{{ item.summonerName }}</span>
+                  </div>
+                </a-col>
+                <a-col flex="auto">
+                  <div class="flex justify-between">
+                    <div class="flex flex-col justify-center items-center py-1" v-for="(itm, idx) in item.matches.data" :key="idx">
+                      <div class="flex">
+                        <a-avatar :size="34">
+                          <img class="" :src="itm.championAvatar" />
+                        </a-avatar>
+                        <div class="flex flex-col ml-1">
+                          <img class="w-[18px]" :src="itm.spell1" />
+                          <img class="w-[18px]" :src="itm.spell2" />
+                        </div>
+                      </div>
+
+                      <span class="text-center text-sm font-black" :class="[itm.win ? 'text-green-500' : 'text-red-500']">
+                        {{ itm.kills }}/{{ itm.deaths }}/{{ itm.assists }}
+                      </span>
+                    </div>
+                  </div>
+                </a-col>
+              </a-row>
+            </div>
+          </a-space>
+        </a-card>
+      </a-space>
+    </el-scrollbar>
 
     <!-- 拉黑对话框 -->
     <a-modal v-model:visible="blacklistModalState.show" :title="blacklistModalState.title" @ok="submitBlacklist">
@@ -213,6 +241,7 @@ const userStore = useUserStore();
 const blacklistStore = useBlacklistStore();
 const router = useRouter();
 
+const btnLoading = ref(false);
 // 面板数据
 const playerList = ref();
 // 玩家状态
@@ -231,6 +260,11 @@ const blacklistModalState = reactive({
 });
 
 onBeforeMount(async () => {
+  await getPanelData();
+});
+
+const getPanelData = async () => {
+  btnLoading.value = true;
   // 获取当前玩家游戏状态
   gameStatus.value = await ipcRenderer.invoke('controller.lcu.getPlayerStatus', { origin: true });
   getPlayerList(gameStatus.value);
@@ -238,10 +272,10 @@ onBeforeMount(async () => {
   // 如果没有加载到数据，从缓存中获取
   if (!playerList.value) {
     const panelData = await ipcRenderer.invoke('controller.data.getCacheData', { key: 'panel-data' });
-
     playerList.value = panelData.data;
   }
-});
+  btnLoading.value = false;
+};
 
 // 持续监听玩家游戏状态变化,当状态满足条件时重新夹在数据
 ipcRenderer.ipc.removeAllListeners('controller.lcu.listenPlayerStatus');

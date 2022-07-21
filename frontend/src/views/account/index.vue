@@ -81,6 +81,8 @@ const uploadReq = reactive({
 
 const file = ref({
   url: baseUrl + userStore.avatarUrl,
+  status: '',
+  percent: 0
 });
 
 const handleAvatarSuccess = async () => {

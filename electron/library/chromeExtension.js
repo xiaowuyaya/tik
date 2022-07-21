@@ -14,7 +14,6 @@ module.exports = {
    */
   async install() {
     if (!app.isPackaged) {
-      console.log('[preload] load chrome extension module');
       const extensionIds = this.getAllIds();
       for (let i = 0; i < extensionIds.length; i++) {
         await this.load(extensionIds[i]);
@@ -41,7 +40,6 @@ module.exports = {
       variablePath = '..'; // 打包后路径
     }
     extensionDirPath = path.join(app.getAppPath(), variablePath, 'extraResources', 'chromeExtension');
-    console.log(extensionDirPath);
     return extensionDirPath;
   },
 
@@ -55,12 +53,10 @@ module.exports = {
 
     try {
       const extensionPath = path.join(this.getDirectory(), extensionId);
-      console.log('[chromeExtension] [load] extensionPath:', extensionPath);
       await session.defaultSession.loadExtension(extensionPath, {
         allowFileAccess: true,
       });
     } catch (e) {
-      console.log('[chromeExtension] [load] load extension error extensionId:%s, errorInfo:%s', extensionId, e.toString());
       return false;
     }
 

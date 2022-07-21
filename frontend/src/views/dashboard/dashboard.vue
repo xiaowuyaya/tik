@@ -90,6 +90,7 @@
 <script lang="ts" setup>
 import { ref, onBeforeMount } from 'vue';
 import ipcRenderer from '@/utils/ipcRenderer';
+import { translate } from '@/utils/translate';
 import dayjs from 'dayjs';
 import { useUserStore } from '@/stores/modules/user';
 import { useRouter } from 'vue-router';
@@ -131,6 +132,18 @@ const summonerInfo = ref<SummonerInfo>({
 const gameStatus = ref('');
 // 历史对局列表
 const historyList = ref<any>([]);
+
+// 持续监听玩家游戏状态变化,当状态满足条件时重新夹在数据
+ipcRenderer.ipc.removeAllListeners('controller.lcu.listenPlayerStatus');
+ipcRenderer.ipc.on('controller.lcu.listenPlayerStatus', async (_event, data) => {
+  gameStatus.value = translate('status', data) ;
+  // 当进入游戏时跳转到面板
+  if (data === 'InProgress' || data === 'ChampSelect') {
+    router.push({
+      path: '/panel',
+    });
+  }
+});
 
 onBeforeMount(async () => {
   // 获取客户端玩家信息

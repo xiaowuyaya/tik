@@ -1,7 +1,9 @@
 const { Storage } = require('ee-core');
+const { Notification } = require('electron');
 const ioHook = require('iohook');
 const { sendStringInProgress } = require('../utils/win32-hook');
 const c = require('../utils/cache');
+const { translate } = require('../utils/translate');
 
 exports.registerShortcutKey = async (eeApp) => {
   eeApp.logger.info(`[shortcutKey] 正在注册快捷键监听`);
@@ -14,14 +16,14 @@ exports.registerShortcutKey = async (eeApp) => {
     return;
   }
 
-  await setup()
+  await setup(eeApp, sendSettings);
 };
 
 async function setup(eeApp, sendSettings) {
-  await orderPanelInfo(eeApp, sendSettings)
-  await chaosPanelInfo(eeApp, sendSettings)
-  await muteAll(eeApp, sendSettings)
-  ioHook.start()
+  await orderPanelInfo(eeApp, sendSettings);
+  await chaosPanelInfo(eeApp, sendSettings);
+  await muteAll(eeApp, sendSettings);
+  ioHook.start();
 }
 
 /**
@@ -35,38 +37,39 @@ async function orderPanelInfo(eeApp, sendSettings) {
       const gameStatus = await eeApp.service.lcu.getGameStatus();
       eeApp.logger.info(`[shortcutKey:orderPanelInfo] 当前状态为:${gameStatus}`);
 
-      if (gameStatus != 'ChampSelect' || gameStatus != 'InProgress') {
-        eeApp.logger.info(`[shortcutKey:orderPanelInfo] 当前游戏状态: ${gameStatus}不支持发送友军面板信息`);
-        return;
-      }
+      if (gameStatus == 'ChampSelect' || gameStatus == 'InProgress') {
+        const data = c.get('panel-data');
+        for (var i = 0; i < data.orderList.length; i++) {
+          let player = data.orderList[i];
 
-      const data = c.get('panel-data');
-      for (var i = 0; i < data.orderList.length; i++) {
-        let player = data.orderList[i];
+          // 拼接历史对局KDA
+          let matchHistoryStr = '';
+          // 判断历史对局是否存在
+          if (player.matches.data) {
+            for (var j = 0; j < sendSettings.matchCount; j++) {
+              let historyMatche = player.matches.data[j];
+              const temp = `${historyMatche.kills}/${historyMatche.deaths}/${historyMatche.assists} `;
+              matchHistoryStr += temp;
+            }
+          }
 
-        // 拼接历史对局KDA
-        let matchHistoryStr = '';
-        // 判断历史对局是否存在
-        if (player.matches.data) {
-          for (var j = 0; j < sendConfig.matchCount; j++) {
-            let historyMatche = player.matches.data[j];
-            const temp = `${historyMatche.kills}/${historyMatche.deaths}/${historyMatche.assists} `;
-            kdaString += temp;
+          const msg = `${player.type}:${player.summonerName},kda:${player.matches.kda || '0.0'},胜率:${
+            player.matches.winRate || '00.0%'
+          },最近对局:${matchHistoryStr}`;
+
+          if (gameStatus === 'ChampSelect') {
+            // 通过api发送
+            eeApp.service.lcu.sendMsgInChampSelect('all', msg);
+          }
+          if (gameStatus === 'InProgress') {
+            // 通过hook模拟发送
+            sendStringInProgress(eeApp, msg);
           }
         }
-
-        const msg = `${player.type}:${player.summonerName},kda:${player.matches.kda || '0.0'},胜率:${
-          player.matches.winRate || '00.0%'
-        },最近对局:${matchHistoryStr}`;
-
-        if (gameStatus === 'ChampSelect') {
-          // 通过api发送
-          eeApp.service.lcu.sendMsgInChampSelect('all', msg);
-        }
-        if (gameStatus === 'InProgress') {
-          // 通过hook模拟发送
-          sendStringInProgress(eeApp, msg);
-        }
+      } else {
+        eeApp.logger.info(`[shortcutKey:orderPanelInfo] 当前游戏状态: ${gameStatus}不支持发送友军面板信息`);
+        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发送面板信息` }).show();
+        return;
       }
     } catch (err) {
       eeApp.logger.error(`[shortcutKey:orderPanelInfo] 发生异常: ${err}`);
@@ -87,21 +90,22 @@ async function chaosPanelInfo(eeApp, sendSettings) {
 
       if (gameStatus != 'InProgress') {
         eeApp.logger.info(`[shortcutKey:chaosPanelInfo] 当前游戏状态: ${gameStatus}不支持发送敌军面板信息`);
+        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发送面板信息` }).show();
         return;
       }
 
       const data = c.get('panel-data');
-      for (var i = 0; i < data.orderList.length; i++) {
-        let player = data.orderList[i];
+      for (var i = 0; i < data.chaosList.length; i++) {
+        let player = data.chaosList[i];
 
         // 拼接历史对局KDA
         let matchHistoryStr = '';
         // 判断历史对局是否存在
         if (player.matches.data) {
-          for (var j = 0; j < sendConfig.matchCount; j++) {
+          for (var j = 0; j < sendSettings.matchCount; j++) {
             let historyMatche = player.matches.data[j];
             const temp = `${historyMatche.kills}/${historyMatche.deaths}/${historyMatche.assists} `;
-            kdaString += temp;
+            matchHistoryStr += temp;
           }
         }
 
@@ -130,6 +134,7 @@ async function muteAll(eeApp, sendSettings) {
       eeApp.logger.info(`[shortcutKey:muteAll] 当前状态为:${gameStatus}`);
 
       if (gameStatus != 'InProgress') {
+        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发禁言操作` }).show();
         eeApp.logger.info(`[shortcutKey:muteAll] 当前游戏状态: ${gameStatus}不支持发禁言操作`);
         return;
       }
