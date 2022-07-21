@@ -102,7 +102,7 @@ exports.getSummonerBySummonerId = async (summonerId) => {
 /**
  * 在选人界面聊天框中发送消息(all, self)
  */
-exports.getSummonerBySummonerId = async (type, msg) => {
+exports.sendMsgInChampSelect = async (type, msg) => {
   const chatId = await this.getConversationsId();
   const summoner = await this.getSummonerData();
   let req;

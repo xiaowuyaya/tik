@@ -19,7 +19,8 @@
     "compress": "ee-core compress",
     "restore": "ee-core restore",
     "rebuild": "electron-rebuild",
-    "re-sqlite": "electron-rebuild -f -w better-sqlite3"
+    "re-sqlite": "electron-rebuild -f -w better-sqlite3",
+    "cp-iohook": "xcopy .\\build\\lib\\iohook\\ .\\node_modules\\iohook\\builds\\ /E/H/C/I"
   },
   "nodemonConfig": {
     "watch": [

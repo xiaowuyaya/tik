@@ -43,19 +43,19 @@ const dm = registerDm();
 /**
  * 在游戏进程中发送消息
  */
-function sendStringInProgress(eeApp, string) {
-  const hwnd1 = dm.findWindow('', 'League of Legends (TM) Client');
-  if (!hwnd1) {
-    eeApp.logger.error('[win32:sendStringInProgress] 未找到游戏窗口');
-    return;
+exports.sendStringInProgress = (eeApp, string) => {
+  try {
+    const hwnd1 = dm.findWindow('', 'League of Legends (TM) Client');
+    if (!hwnd1) {
+      eeApp.logger.error('[win32:sendStringInProgress] 未找到游戏窗口');
+      return;
+    }
+    dm.keyPress(13);
+    dm.sendString(hwnd1, string);
+    dm.keyPress(13);
+    eeApp.logger.info(`[win32:sendStringInProgress] 向${hwnd1}输出内容成功: ${string}`);
+  } catch (err) {
+    eeApp.logger.error(`[win32:sendStringInProgress] 发生异常: ${err}`);
   }
-  eeApp.logger.info(`[win32:sendStringInProgress] 已找到游戏窗口句柄:${hwnd1}`);
-  dm.keyPress(13);
-  dm.sendString(hwnd1, string);
-  dm.keyPress(13);
-  eeApp.logger.info(`[win32:sendStringInProgress] 向${hwnd1}输出内容成功: ${string}`);
 }
 
-module.exports = {
-  sendStringInProgress,
-};

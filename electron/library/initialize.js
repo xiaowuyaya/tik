@@ -2,6 +2,7 @@ const { Storage, Utils } = require('ee-core');
 const { app } = require('electron');
 const _ = require('lodash');
 const c = require('../utils/cache');
+const { registerShortcutKey } = require('../core/shortcutKey')
 
 /* 项目初始化 */
 module.exports = {
@@ -10,6 +11,7 @@ module.exports = {
     checkSettings(eeApp);
     checkBlacklist(eeApp);
     checkPanelData(eeApp);
+    await registerShortcutKey(eeApp)
   },
 };
 
