@@ -129,7 +129,7 @@ import { useSettingsStore } from '@/stores/modules/settings';
 import { reactive, ref } from 'vue';
 import { statusOptions, rankOptions } from '@/utils/options';
 import ipcRenderer from '@/utils/ipcRenderer';
-import { Message } from '@/utils/useMessage';
+import { useMessage } from '@/utils/message-notice';
 import _ from 'lodash';
 import { useChampionsStore } from '@/stores/modules/champions';
 
@@ -163,17 +163,17 @@ const handleChange = async (type: string, event: any) => {
   } else if (type === 'status') {
     r = await ipcRenderer.invoke('controller.lcu.changeStatus', { status: event });
   }
-  Message(r);
+  useMessage(r);
 };
 
 const handleSpectator = async (summonerName: string) => {
   const r = await ipcRenderer.invoke('controller.lcu.spectatorLaunch', { summonerName });
-  Message(r);
+  useMessage(r);
 };
 
 const handleCreatePracticeToolMode = async () => {
   const r = await ipcRenderer.invoke('controller.lcu.createLobby', { mode: '5v5PracticeToolMode' });
-  Message(r);
+  useMessage(r);
 };
 
 const handleSummonerBackground = async (type) => {
@@ -201,6 +201,6 @@ const handleChangeSummonerBg = async () => {
     key: 'backgroundSkinId',
     value: summonerBackground.curSkins,
   });
-  Message(r);
+  useMessage(r);
 };
 </script>

@@ -1,5 +1,6 @@
 const { Controller } = require('ee-core');
 const R = require('../utils/res');
+const { shell } = require('electron')
 
 class CommonController extends Controller {
   constructor(ctx) {
@@ -10,13 +11,29 @@ class CommonController extends Controller {
    * 获取应用基本信息
    */
   getAppBase(args, event) {
-    const { getAppVersion, getMacAddr, getLogDir, getConfigDir } = this.service.common;
+    const { getAppVersion, getMacAddr, getLogDir, getConfigDir, getScreenSize } = this.service.common;
     const data = {
       appVersion: getAppVersion(),
       macAddr: getMacAddr(),
       logDir: getLogDir(),
+      configDir: getConfigDir(),
+      screen: getScreenSize(),
     };
     return R.success(data);
+  }
+
+  /**
+   * 在浏览器中打开链接
+   */
+  openUrlInBrower(args, event) {
+    shell.openExternal(args.url);
+  }
+
+  /**
+   * 打开目录
+   */
+  openDirPath(args, event) {
+    shell.openPath(args.path);
   }
 
   /**

@@ -1,4 +1,5 @@
 const electronApp = require('electron').app;
+const { screen } = require('electron');
 const getMac = require('getmac').default;
 const { Service, Utils } = require('ee-core');
 
@@ -32,6 +33,23 @@ class CommonService extends Service {
   }
 
   /**
+   * 获取用户数据路径
+   */
+  getConfigDir() {
+    return Utils.getAppUserDataDir()
+  }
+
+  /**
+   * 获取屏幕大小
+   */
+  getScreenSize() {
+    return {
+      width: screen.getPrimaryDisplay().workAreaSize.width,
+      height: screen.getPrimaryDisplay().workAreaSize.height,
+    };
+  }
+
+  /**
    * 主窗口最小化
    */
   mainWMinisize() {
@@ -43,11 +61,10 @@ class CommonService extends Service {
    * @param {*} type  0：退出程序， 1：关闭窗口
    */
   handleQuit(type) {
-    if (type === 0) {
+    if (type == 0) {
       this.app.appQuit();
       return;
     }
-
     this.app.electron.mainWindow.close();
   }
 }

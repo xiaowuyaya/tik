@@ -25,7 +25,8 @@
     }
   },
   "app": {
-    "quit": "",
+    "quit": "1",
+    "rememberQuit": true,
     "accept": true,
     "confirm": false,
     "muteAll": false,

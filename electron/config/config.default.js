@@ -158,6 +158,7 @@ module.exports = (appInfo) => {
     },
     app: {
       quit: '',
+      rememberQuit: false,
       accept: true,
       confirm: false,
       muteAll: false,

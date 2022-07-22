@@ -68,7 +68,7 @@ async function orderPanelInfo(eeApp, sendSettings) {
         }
       } else {
         eeApp.logger.info(`[shortcutKey:orderPanelInfo] 当前游戏状态: ${gameStatus}不支持发送友军面板信息`);
-        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发送面板信息` }).show();
+        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发送面板信息`, silent: true }).show();
         return;
       }
     } catch (err) {
@@ -90,7 +90,7 @@ async function chaosPanelInfo(eeApp, sendSettings) {
 
       if (gameStatus != 'InProgress') {
         eeApp.logger.info(`[shortcutKey:chaosPanelInfo] 当前游戏状态: ${gameStatus}不支持发送敌军面板信息`);
-        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发送面板信息` }).show();
+        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发送面板信息`, silent: true }).show();
         return;
       }
 
@@ -134,7 +134,7 @@ async function muteAll(eeApp, sendSettings) {
       eeApp.logger.info(`[shortcutKey:muteAll] 当前状态为:${gameStatus}`);
 
       if (gameStatus != 'InProgress') {
-        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发禁言操作` }).show();
+        new Notification({ title: '快捷发送失败', body: `当前玩家状态为${translate('status', gameStatus)},不支持发禁言操作`, silent: true }).show();
         eeApp.logger.info(`[shortcutKey:muteAll] 当前游戏状态: ${gameStatus}不支持发禁言操作`);
         return;
       }

@@ -26,6 +26,7 @@ export interface SendSettings {
 
 export interface AppSettings {
   quit: string
+  rememberQuit: boolean
   accept: boolean
   confirm: boolean
   muteAll: boolean

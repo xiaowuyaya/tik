@@ -11,6 +11,7 @@ export const useAppInfoStore = defineStore({
       appVersion: '',
       macAddr: '',
       logDir: '',
+      configDir: '',
       lcuEnable: false
     }
   },
@@ -21,6 +22,7 @@ export const useAppInfoStore = defineStore({
       this.appVersion = data.appVersion
       this.macAddr = data.macAddr
       this.logDir = data.logDir
+      this.configDir = data.configDir
     }
   }
 })

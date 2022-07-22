@@ -1,5 +1,6 @@
 import { ElMessage } from "element-plus"
 import useClipboard from "vue-clipboard3"
+import ipcRenderer from "./ipcRenderer"
 
 /**
  * 复制内容到剪贴板
@@ -25,4 +26,20 @@ export const copyToClipboard = async (str) => {
       grouping: true,
     })
   }
+}
+
+/**
+ * 在浏览器中打开连接
+ * @param {string} url 链接
+ */
+export const openUrl = async (url) => {
+  await ipcRenderer.invoke('controller.common.openUrlInBrower', { url })
+}
+
+/**
+ * 打开目录地址
+ * @param {string} path 地址
+ */
+export const openPath = async (path) => {
+  await ipcRenderer.invoke('controller.common.openDirPath', { path })
 }

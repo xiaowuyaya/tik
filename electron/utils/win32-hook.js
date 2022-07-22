@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const { Utils } = require('ee-core');
 const { dialog, shell } = require('electron');
+const dayjs = require('dayjs');
 
 /* 基于大漠插件实现win32窗口相关hook */
 
@@ -46,13 +47,36 @@ exports.sendStringInProgress = (eeApp, string) => {
       eeApp.logger.error('[win32:sendStringInProgress] 未找到游戏窗口');
       return;
     }
-    dm.setKeypadDelay('normal', 100)
+    dm.setKeypadDelay('normal', 100);
     dm.keyPress(13);
     dm.sendString(hwnd1, string);
     dm.keyPress(13);
     eeApp.logger.info(`[win32:sendStringInProgress] 向${hwnd1}输出内容成功: ${string}`);
   } catch (err) {
     eeApp.logger.error(`[win32:sendStringInProgress] 发生异常: ${err}`);
+  }
+};
+
+/**
+ * 游戏截图
+ * @param {*} eeApp
+ * @param {*} type
+ * @returns
+ */
+exports.gameScreenshot = (eeApp, type) => {
+  try {
+    const date = dayjs().format('YYYY-MM-DD');
+    const time = dayjs().format('YYYYMMDDHHmmss');
+    const savaDir = path.join(Utils.getAppUserDataDir(), 'game_screenshot', date);
+    createDir(path.join(Utils.getAppUserDataDir(), 'game_screenshot'));
+    createDir(savaDir);
+    eeApp.logger.info(`[win32:gameScreenshot] 开始截图，存放路径: ${savaDir}`);
+    const file = path.join(savaDir, `${time}_${type}.png`);
+    const { width, height } = eeApp.service.common.getScreenSize();
+    dm.capturePng(0, 0, width, height, file);
+    return file;
+  } catch (err) {
+    eeApp.logger.error(`[win32:gameScreenshot] 发生异常: ${err}`);
   }
 };
 
@@ -63,4 +87,10 @@ function fsExistsSync(path) {
     return false;
   }
   return true;
+}
+
+function createDir(baseUrl) {
+  if (!fs.existsSync(baseUrl)) {
+    fs.mkdirSync(baseUrl);
+  }
 }

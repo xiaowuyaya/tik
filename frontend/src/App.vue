@@ -31,7 +31,7 @@ ipcRenderer.ipc.on('controller.lcu.enable', (_event, data) => {
 </script>
 
 <template>
-  <router-view class="font-pingfang shadow-md select-none rounded-md" />
+  <router-view id="main" class="font-pingfang shadow-md select-none rounded-md" />
 </template>
 
 <style lang="less">
@@ -42,6 +42,7 @@ ipcRenderer.ipc.on('controller.lcu.enable', (_event, data) => {
   width: 100%;
   height: 100%;
 }
+
 html,
 body {
   padding: 0 !important;
@@ -50,6 +51,9 @@ body {
   .size;
   #app {
     .size;
+    #main {
+      overflow: hidden;
+    }
   }
   /* 圆框需要 不然圆角会有背景色*/
   background-color: rgba(0, 0, 0, 0);
