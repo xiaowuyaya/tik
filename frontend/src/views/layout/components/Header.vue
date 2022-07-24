@@ -24,16 +24,13 @@
     </div>
     <!-- 退出确认框 -->
     <a-modal v-model:visible="showQuitModal" width="40%" title="关闭窗口方式" draggable okText="确定并记住选择" @ok="handleQuit">
-      <a-form>
-        <a-radio-group v-model="settingsStore.app.quit" direction="vertical">
-          <a-radio value="1">关闭窗口至系统托盘</a-radio>
-          <a-radio value="0">退出应用程序</a-radio>
-        </a-radio-group>
-      </a-form>
+      <a-radio-group v-model="settingsStore.app.quit" direction="vertical">
+        <a-radio value="1">关闭窗口至系统托盘</a-radio>
+        <a-radio value="0">退出应用程序</a-radio>
+      </a-radio-group>
     </a-modal>
     <!-- 应用设置抽屉 -->
     <a-drawer
-      class="text-base"
       v-model:visible="showSettingsDrawer"
       title="应用设置"
       width="35%"
@@ -43,7 +40,7 @@
     >
       <div class="font-black text-base text-gray-700 border-b py-2 mt-2 mx-4">通用</div>
 
-      <a-row class="py-1.4" :gutter="12" align="center" justify="center">
+      <a-row class="py-1.2" :gutter="12" align="center" justify="center">
         <a-col :span="6" class="font-medium">关闭按钮</a-col>
         <a-col :span="16">
           <a-radio-group v-model="settingsStore.app.quit" type="button" @change="settingsStore.syncLocal">
@@ -52,7 +49,7 @@
           </a-radio-group>
         </a-col>
       </a-row>
-      <a-row class="py-1.4" :gutter="12" align="center" justify="center">
+      <a-row class="py-1.2" :gutter="12" align="center" justify="center">
         <a-col :span="6" class="">当前版本</a-col>
         <a-col :span="8">
           <span>{{ appInfoStore.appVersion }}</span>
@@ -61,7 +58,7 @@
           <a-button type="text">检查更新</a-button>
         </a-col>
       </a-row>
-      <a-row class="py-1.4" :gutter="12" align="center" justify="center">
+      <a-row class="py-1.2" :gutter="12" align="center" justify="center">
         <a-col :span="6" class="">设备编码</a-col>
         <a-col :span="8">
           <span>{{ appInfoStore.macAddr }}</span>
@@ -70,7 +67,7 @@
           <a-button type="text" @click="copyToClipboard(appInfoStore.macAddr)">点击复制</a-button>
         </a-col>
       </a-row>
-      <a-row class="py-1.4" :gutter="12" align="center" justify="center">
+      <a-row class="py-1.2" :gutter="12" align="center" justify="center">
         <a-col :span="6" class="">交流反馈</a-col>
         <a-col :span="8">
           <span>914241626</span>
@@ -82,7 +79,7 @@
 
       <div class="font-black text-base text-gray-700 border-b py-2 mt-2 mx-4">调试</div>
 
-      <a-row class="py-1.4" :gutter="12" align="center" justify="center">
+      <a-row class="py-1.2" :gutter="12" align="center" justify="center">
         <a-col :span="6" class="">日志路径</a-col>
         <a-col :span="8">
           <div class="truncate w-full">{{ appInfoStore.logDir }}</div>
@@ -91,7 +88,7 @@
           <a-button type="text" @click="openPath(appInfoStore.logDir)">打开路径</a-button>
         </a-col>
       </a-row>
-      <a-row class="py-1.4" :gutter="12" align="center" justify="center">
+      <a-row class="py-1.2" :gutter="12" align="center" justify="center">
         <a-col :span="6" class="">配置路径</a-col>
         <a-col :span="8">
           <div class="truncate w-full">{{ appInfoStore.configDir }}</div>

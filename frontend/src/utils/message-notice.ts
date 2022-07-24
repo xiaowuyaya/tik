@@ -1,4 +1,4 @@
-import { ElMessage } from "element-plus";
+import { Message } from '@arco-design/web-vue';
 
 /**
  * 消息通知
@@ -9,24 +9,16 @@ import { ElMessage } from "element-plus";
  */
 export const useMessage = (resp, successMsg?: string, successFunc = function () { }, failFunc = function () { }) => {
   if (resp.code === 200) {
-    ElMessage({
-      type: "success",
-      message: successMsg || resp.msg,
+    Message.success({
+      content: successMsg || resp.msg,
       duration: 1500,
-      offset: 45,
-      center: true,
-      grouping: true,
     })
     successFunc()
   }
   if (resp.code === 500) {
-    ElMessage({
-      type: "error",
-      message: `${resp.msg}`,
+    Message.error({
+      content: `${resp.msg}`,
       duration: 3000,
-      offset: 45,
-      center: true,
-      grouping: true,
     })
     failFunc()
   }

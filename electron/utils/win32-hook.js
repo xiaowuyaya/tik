@@ -74,6 +74,7 @@ exports.gameScreenshot = (eeApp, type) => {
     const file = path.join(savaDir, `${time}_${type}.png`);
     const { width, height } = eeApp.service.common.getScreenSize();
     dm.capturePng(0, 0, width, height, file);
+    this.sendStringInProgress(eeApp, `${type}, 荣誉截图已保存!`)
     return file;
   } catch (err) {
     eeApp.logger.error(`[win32:gameScreenshot] 发生异常: ${err}`);

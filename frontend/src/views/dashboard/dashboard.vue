@@ -44,20 +44,36 @@
           <span class="font-black">{{ gameStatus }}</span>
         </div>
       </a-card>
-      <a-card class="mt-4" title="荣誉截图" :hoverable="true" :header-style="{ border: 'none' }">
-        <template #extra>
-          <a-link>更多</a-link>
-        </template>
-        <div>敬请期待</div>
+      <a-card class="mt-4" title="订阅" :hoverable="true" :header-style="{ border: 'none' }">
+        <div class="flex items-center justify-between">
+          <div>
+            状态：
+            <span :class="[userStore.wxOpenId ? 'text-green-500' : 'text-red-500']">{{ userStore.wxOpenId ? '已订阅' : '未订阅' }}</span>
+          </div>
+          <div v-if="userStore.wxOpenId == null">订阅微信小程序以获取更多功能</div>
+        </div>
       </a-card>
       <a-card class="mt-4" title="英雄时刻" :hoverable="true" :header-style="{ border: 'none' }">
         <template #extra>
-          <a-link>更多</a-link>
+          <a-link @click="handleRouter('hero-time')">更多</a-link>
         </template>
-        <div>敬请期待</div>
-      </a-card>
-      <a-card class="mt-4" title="官方公告" :hoverable="true" :header-style="{ border: 'none' }">
-        <div>TODO</div>
+        <div>
+          <a-carousel
+            :autoPlay="true"
+            :animation="false"
+            animation-name="fade"
+            indicator-type="line"
+            indicator-position="bottom"
+            :style="{
+              width: '100%',
+              height: '243px',
+            }"
+          >
+            <a-carousel-item v-for="image in heroTimeImgs">
+              <a-image :src="image" width="100%" />
+            </a-carousel-item>
+          </a-carousel>
+        </div>
       </a-card>
     </div>
     <!-- 右侧显示最近战绩-->
@@ -133,10 +149,12 @@ const gameStatus = ref('');
 // 历史对局列表
 const historyList = ref<any>([]);
 
+const heroTimeImgs = ref([]);
+
 // 持续监听玩家游戏状态变化,当状态满足条件时重新夹在数据
 ipcRenderer.ipc.removeAllListeners('controller.lcu.listenPlayerStatus');
 ipcRenderer.ipc.on('controller.lcu.listenPlayerStatus', async (_event, data) => {
-  gameStatus.value = translate('status', data) ;
+  gameStatus.value = translate('status', data);
   // 当进入游戏时跳转到面板
   if (data === 'InProgress' || data === 'ChampSelect') {
     router.push({
@@ -164,6 +182,10 @@ onBeforeMount(async () => {
   userStore.summonerName = summonerInfo.value.displayName;
 
   await userStore.registerEnvironment();
+
+  // 获取英雄时刻图集
+  const heroImgsRes = await ipcRenderer.invoke('controller.common.getAllHeroScreenshot', '');
+  heroTimeImgs.value = heroImgsRes.data;
 });
 
 const getTigerImg = (tiger) => {

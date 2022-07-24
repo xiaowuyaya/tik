@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { ElMessage } from 'element-plus'
-import { getToken } from './auth'
+import { Message, Modal } from '@arco-design/web-vue';
+import { getToken, removeToken } from './auth'
 
 // 接口类型和方法
 interface BaseType {
@@ -57,7 +57,7 @@ class AxiosHttpRequest implements BaseType {
   // 拦截设置
   interceptors(instance: AxiosInstance, url: string | number | undefined) {
     console.log(url);
-    
+
     // 请求拦截
     instance.interceptors.request.use((config: AxiosRequestType) => {
       // 取消重复请求
@@ -107,13 +107,24 @@ class AxiosHttpRequest implements BaseType {
       if (code === 200) {
         return Promise.resolve(res.data)
       } else {
-        ElMessage({
-          message: msg,
-          type: 'error',
-          offset: 45
+        Message.error({
+          content: msg,
+          duration: 2000
         })
-        if (code === 11001) {
-          // TODO: 跳转重新登入
+        if (code == 11001 || code == 11002) {
+          Modal.error({
+            title: '登入状态异常',
+            content:
+              '当前登入状态异常，请重新登入。',
+            okText: '重新登入',
+            maskClosable: false,
+            escToClose: false,
+            simple: true,
+            async onOk() {
+              removeToken()
+              window.location.reload();
+            },
+          });
         }
         return Promise.reject(res.data)
       }
@@ -126,11 +137,9 @@ class AxiosHttpRequest implements BaseType {
       } else if (message.includes('Request failed with status code')) {
         message = '系统接口' + message.substr(message.length - 3) + '异常'
       }
-      ElMessage({
-        message: message,
-        type: 'warning',
-        offset: 45,
-        duration: 5 * 1000,
+      Message.warning({
+        content: message,
+        duration: 3000
       })
       return Promise.reject(err)
     })

@@ -106,7 +106,7 @@ exports.mode = {
   },
   // 地图id转描述
   queue: {
-    0: null,
+    0: '训练模式',
     2: '匹配模式',
     4: '单双排',
     6: '5v5 Ranked Premade games',

@@ -7,4 +7,5 @@ export interface UserInfo {
   environment: string;
   summonerId: string;
   summonerName: string;
+  wxOpenId: string
 }

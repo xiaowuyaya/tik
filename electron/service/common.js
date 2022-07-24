@@ -2,6 +2,8 @@ const electronApp = require('electron').app;
 const { screen } = require('electron');
 const getMac = require('getmac').default;
 const { Service, Utils } = require('ee-core');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * 通用业务模块
@@ -36,7 +38,7 @@ class CommonService extends Service {
    * 获取用户数据路径
    */
   getConfigDir() {
-    return Utils.getAppUserDataDir()
+    return Utils.getAppUserDataDir();
   }
 
   /**
@@ -66,6 +68,22 @@ class CommonService extends Service {
       return;
     }
     this.app.electron.mainWindow.close();
+  }
+
+  /**
+   * 获取英雄时刻图片列表
+   */
+  getAllHeroScreenshot() {
+    const BASE_URI = path.join(Utils.getAppUserDataDir(), 'game_screenshot');
+    const dateDir = fs.readdirSync(BASE_URI);
+    let res = []
+    for (var i = 0; i < dateDir.length; i++) {
+      const imgs = fs.readdirSync(path.join(BASE_URI, dateDir[i]));
+      for (var j = 0; j < imgs.length; j++) {
+        res.push(path.join(BASE_URI, dateDir[i], imgs[j]))
+      }
+    }
+    return res
   }
 }
 

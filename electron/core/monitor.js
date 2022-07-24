@@ -1,8 +1,9 @@
-const { Storage } = require('ee-core');
+const { Storage, Utils } = require('ee-core');
 const { Notification } = require('electron');
 const { getClient, getWs } = require('../utils/league-connect');
 const c = require('../utils/cache');
 const _ = require('lodash');
+const GameEventListen = require('./GameEventListen');
 
 /**
  * 客户端监听
@@ -47,7 +48,8 @@ exports.registerWebsocket = async (eeApp) => {
     eeApp.electron.mainWindow.webContents.send('controller.lcu.listenPlayerStatus', data);
     eeApp.logger.info(`[lcuMonitor] STATUS: ${data}`);
 
-    if (_.has(handleStatus, data)) handleStatus[data](eeApp);
+    const gameEventListen = new GameEventListen(eeApp);
+    handleStatus(data, eeApp, gameEventListen, SUMMONER.displayName);
   });
   // 玩家actions订阅
   ws.subscribe('/lol-champ-select/v1/session', async (data, event) => {
@@ -121,11 +123,11 @@ exports.registerWebsocket = async (eeApp) => {
 };
 
 // 处理玩家状态事件
-const handleStatus = {
-  Matchmaking: async (eeApp) => {
+const handleStatus = async (status, eeApp, gameEventListen, summonerName) => {
+  if (status == 'Matchmaking') {
     return;
-  },
-  ReadyCheck: async (eeApp) => {
+  }
+  if (status == 'ReadyCheck') {
     c.del('panel-data');
     eeApp.logger.info('[monitor:ReadyCheck] 面板数据已清空');
 
@@ -133,8 +135,8 @@ const handleStatus = {
     const appSettings = db.get('app').value();
     if (appSettings.accept) await eeApp.service.lcu.acceptMatchmaking();
     return;
-  },
-  ChampSelect: async (eeApp) => {
+  }
+  if (status == 'ChampSelect') {
     const db = Storage.JsonDB.connection('settings').db;
     const appSettings = db.get('app').value();
     eeApp.logger.info(`[monitor:ChampSelect] 匹配自动秒选 ${appSettings.normalAuto.pick}, 英雄设置为 ${appSettings.normalAuto.pickSelect}`);
@@ -157,6 +159,14 @@ const handleStatus = {
         }
       }
     }
-  },
-  InProgress: async () => {},
+    return;
+  }
+  if (status == 'InProgress') {
+    const enableHeroScreenshot = Utils.getEeConfig().settings.app.heroScreenshot;
+    if (enableHeroScreenshot) await gameEventListen.eventListenStart(summonerName);
+  }
+  if (status == 'PreEndOfGame') {
+    const enableHeroScreenshot = Utils.getEeConfig().settings.app.heroScreenshot;
+    if (enableHeroScreenshot) gameEventListen.stop();
+  }
 };

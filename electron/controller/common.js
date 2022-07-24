@@ -51,6 +51,11 @@ class CommonController extends Controller {
     }
     return R.success();
   }
+
+  getAllHeroScreenshot(args, event) {
+    const r = this.service.common.getAllHeroScreenshot()
+    return R.success(r)
+  }
 }
 
 module.exports = CommonController;

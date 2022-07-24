@@ -25,7 +25,7 @@
     }
   },
   "app": {
-    "quit": "1",
+    "quit": "0",
     "rememberQuit": true,
     "accept": true,
     "confirm": false,
@@ -53,6 +53,7 @@
         "bottom": [],
         "utility": []
       }
-    }
+    },
+    "heroScreenshot": false
   }
 }

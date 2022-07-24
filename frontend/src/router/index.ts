@@ -70,8 +70,13 @@ const routes: Array<RouteRecordRaw> = [
         name: 'account',
         meta: { index: 10 },
         component: () => import('@/views/account/index.vue')
+      },
+      {
+        path: '/hero-time',
+        name: 'hero-time',
+        meta: { index: 11 },
+        component: () => import('@/views/hero-time/index.vue')
       }
-
     ]
   }
 ]

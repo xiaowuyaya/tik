@@ -30,6 +30,7 @@ export interface AppSettings {
   accept: boolean
   confirm: boolean
   muteAll: boolean
+  heroScreenshot: boolean
   normalAuto: {
     pick: boolean
     ban: boolean

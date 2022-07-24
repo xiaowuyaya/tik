@@ -67,7 +67,7 @@ import { useUserStore } from '@/stores/modules/user';
 import { environmentOption } from '@/utils/options';
 import { IconSearch } from '@arco-design/web-vue/es/icon';
 import { onBeforeMount, reactive, ref, h } from 'vue';
-import { ElMessage } from 'element-plus';
+import { Message } from '@arco-design/web-vue';
 
 const blacklistStore = useBlacklistStore();
 const userStore = useUserStore();
@@ -132,12 +132,10 @@ const submit = async () => {
   if (useForm.summonerName == '') errMsg += '账号 ';
   if (useForm.banName == '') errMsg += '拉黑玩家 ';
   if (errMsg != '') {
-    ElMessage({
-      message: `${errMsg}不可为空`,
-      type: 'error',
+    Message.error({
+      content: `${errMsg}不可为空`,
       duration: 3 * 1000,
-      offset: 45,
-    });
+    })
     return;
   }
   await blacklistStore.add(useForm);

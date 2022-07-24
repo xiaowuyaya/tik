@@ -2,7 +2,7 @@ import { getMyInfo, login, LoginClientUserDto, MyInfoDto, updateUserInfo } from 
 import { add, CreateEnvironmentDto } from '@/api/environment'
 import { UserInfo } from "@/types/user";
 import { setToken } from "@/utils/auth";
-import { ElMessage } from "element-plus";
+import { Message } from '@arco-design/web-vue';
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore({
@@ -16,7 +16,8 @@ export const useUserStore = defineStore({
       phone: "",
       environment: "",
       summonerId: "",
-      summonerName: ""
+      summonerName: "",
+      wxOpenId: ""
     }
   },
   getters: {},
@@ -29,12 +30,10 @@ export const useUserStore = defineStore({
       this.avatarUrl = userinfo.avatarUrl
       this.email = userinfo.email
       this.phone = userinfo.phone
-      ElMessage({
-        message: "登入成功",
-        type: "success",
+      Message.success({
+        content: '登入成功，正在加载中',
         duration: 3 * 1000,
-        offset: 45
-      });
+      })
       setToken(token);
     },
     async myInfo(data: MyInfoDto) {
@@ -44,12 +43,11 @@ export const useUserStore = defineStore({
       this.avatarUrl = res.data.avatarUrl
       this.email = res.data.email
       this.phone = res.data.phone
-      ElMessage({
-        message: `欢迎回来：${this.nickName}`,
-        type: "success",
+      this.wxOpenId = res.data.wxOpenId
+      Message.success({
+        content: `欢迎回来：${this.nickName}`,
         duration: 3 * 1000,
-        offset: 45
-      });
+      })
     },
     async registerEnvironment() {
       const data: CreateEnvironmentDto = {

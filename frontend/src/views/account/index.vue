@@ -66,7 +66,7 @@
 import { useAppInfoStore } from '@/stores/modules/appInfo';
 import { useUserStore } from '@/stores/modules/user';
 import { getToken } from '@/utils/auth';
-import { ElMessage } from 'element-plus';
+import { Message } from '@arco-design/web-vue';
 import { reactive, ref } from 'vue';
 
 const userStore = useUserStore();
@@ -86,23 +86,19 @@ const file = ref({
 });
 
 const handleAvatarSuccess = async () => {
-  ElMessage({
-    message: `头像更新成功`,
-    type: 'success',
-    duration: 3 * 1000,
-    offset: 45,
-  });
+  Message.success({
+    content: '头像信息更新成功',
+    duration: 1500
+  })
   await userStore.myInfo({ mac: appInfoStore.macAddr, clientVersion: appInfoStore.appVersion });
   file.value.url = baseUrl + userStore.avatarUrl;
 };
 
 const handleAvatarError = (error) => {
-  ElMessage({
-    message: `头像更新失败:${error}`,
-    type: 'error',
-    duration: 3 * 1000,
-    offset: 45,
-  });
+  Message.error({
+    content: `头像更新失败:${error}`,
+    duration: 3000
+  })
 };
 
 const submit = async () => {

@@ -58,6 +58,10 @@
             <icon-settings />
             相关设置
           </a-menu-item>
+          <a-menu-item key="hero-time">
+            <icon-file-image />
+            英雄时刻
+          </a-menu-item>
         </a-menu>
       </div>
       <router-view class="h-full w-full bg-custom-layout" v-slot="{ Component }">

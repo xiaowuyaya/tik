@@ -53,6 +53,7 @@ module.exports = (appInfo) => {
     webPreferences: {
       contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
       nodeIntegration: true,
+      webSecurity: false,
       allowRunningInsecureContent: true,
     },
   };
@@ -162,6 +163,7 @@ module.exports = (appInfo) => {
       accept: true,
       confirm: false,
       muteAll: false,
+      heroScreenshot: true,
       normalAuto: {
         pick: false,
         pickSelect: [],

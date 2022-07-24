@@ -75,8 +75,9 @@
 
 <script setup lang="ts">
 import { register } from "@/api/user";
-import { ElMessage, FormInstance, FormRules } from "element-plus";
+import { FormInstance, FormRules } from "element-plus";
 import { reactive, ref } from "vue";
+import { Message } from '@arco-design/web-vue';
 
 const formRef = ref<FormInstance>();
 
@@ -117,12 +118,10 @@ const rules = reactive<FormRules>({
 const doRegister = async () => {
   try {
     await register(registerForm);
-    ElMessage({
-      message: "注册成功！",
-      type: "success",
+    Message.success({
+      content: '注册成功，快快登入吧！',
       duration: 3 * 1000,
-      offset: 45
-    });
+    })
     toRegister();
   } catch (err) {}
 };

@@ -1,6 +1,6 @@
-import { ElMessage } from "element-plus"
 import useClipboard from "vue-clipboard3"
 import ipcRenderer from "./ipcRenderer"
+import { Message } from '@arco-design/web-vue';
 
 /**
  * 复制内容到剪贴板
@@ -10,20 +10,15 @@ export const copyToClipboard = async (str) => {
   try {
     const { toClipboard } = useClipboard()
     await toClipboard(str)
-    ElMessage({
-      type: "success",
-      message: `复制成功：${str}`,
+    Message.success({
+      content: `复制成功：${str}`,
       duration: 1500,
-      offset: 45,
-      grouping: true,
     })
+
   } catch (err) {
-    ElMessage({
-      type: "error",
-      message: `复制过程中发生异常：${err}`,
-      duration: 1500,
-      offset: 45,
-      grouping: true,
+    Message.error({
+      content: `复制过程中发生异常：${err}`,
+      duration: 3000,
     })
   }
 }
