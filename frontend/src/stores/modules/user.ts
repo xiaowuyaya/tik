@@ -4,6 +4,7 @@ import { UserInfo } from "@/types/user";
 import { setToken } from "@/utils/auth";
 import { Message } from '@arco-design/web-vue';
 import { defineStore } from "pinia";
+import ipcRenderer from "@/utils/ipcRenderer";
 
 export const useUserStore = defineStore({
   id: 'user',
@@ -30,11 +31,13 @@ export const useUserStore = defineStore({
       this.avatarUrl = userinfo.avatarUrl
       this.email = userinfo.email
       this.phone = userinfo.phone
+      this.wxOpenId = userinfo.wxOpenId
       Message.success({
         content: '登入成功，正在加载中',
         duration: 3 * 1000,
       })
       setToken(token);
+      await ipcRenderer.invoke('controller.common.setWxOpenId', { openid: this.wxOpenId });
     },
     async myInfo(data: MyInfoDto) {
       const res = await getMyInfo(data);
@@ -48,6 +51,7 @@ export const useUserStore = defineStore({
         content: `欢迎回来：${this.nickName}`,
         duration: 3 * 1000,
       })
+      await ipcRenderer.invoke('controller.common.setWxOpenId', { openid: this.wxOpenId });
     },
     async registerEnvironment() {
       const data: CreateEnvironmentDto = {

@@ -42,13 +42,12 @@ exports.registerWebsocket = async (eeApp) => {
   eeApp.logger.info(`当前登入账号为:${SUMMONER.displayName}, 所在大区:${SUMMONER.environment}`);
   // 获取玩家id
   const { summonerId } = SUMMONER;
+  const gameEventListen = new GameEventListen(eeApp);
   // 玩家状态订阅
   ws.subscribe('/lol-gameflow/v1/gameflow-phase', async (data, event) => {
     // 状态转发到渲染进程
     eeApp.electron.mainWindow.webContents.send('controller.lcu.listenPlayerStatus', data);
     eeApp.logger.info(`[lcuMonitor] STATUS: ${data}`);
-
-    const gameEventListen = new GameEventListen(eeApp);
     handleStatus(data, eeApp, gameEventListen, SUMMONER.displayName);
   });
   // 玩家actions订阅
@@ -162,10 +161,15 @@ const handleStatus = async (status, eeApp, gameEventListen, summonerName) => {
     return;
   }
   if (status == 'InProgress') {
+    // 英雄时刻
     const enableHeroScreenshot = Utils.getEeConfig().settings.app.heroScreenshot;
     if (enableHeroScreenshot) await gameEventListen.eventListenStart(summonerName);
+
+    // socket
+    await gameEventListen.spellListenStart()
   }
   if (status == 'PreEndOfGame') {
+    // 英雄时刻
     const enableHeroScreenshot = Utils.getEeConfig().settings.app.heroScreenshot;
     if (enableHeroScreenshot) gameEventListen.stop();
   }

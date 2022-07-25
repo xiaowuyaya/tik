@@ -1,6 +1,7 @@
 const { Controller } = require('ee-core');
 const R = require('../utils/res');
-const { shell } = require('electron')
+const { shell } = require('electron');
+const c = require('../utils/cache');
 
 class CommonController extends Controller {
   constructor(ctx) {
@@ -53,8 +54,12 @@ class CommonController extends Controller {
   }
 
   getAllHeroScreenshot(args, event) {
-    const r = this.service.common.getAllHeroScreenshot()
-    return R.success(r)
+    const r = this.service.common.getAllHeroScreenshot();
+    return R.success(r);
+  }
+
+  setWxOpenId(args, event) {
+    c.put('openid', args.openid);
   }
 }
 
