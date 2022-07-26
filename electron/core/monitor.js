@@ -164,8 +164,7 @@ const handleStatus = async (status, eeApp, gameEventListen, summonerName) => {
     // 英雄时刻
     const enableHeroScreenshot = Utils.getEeConfig().settings.app.heroScreenshot;
     if (enableHeroScreenshot) await gameEventListen.eventListenStart(summonerName);
-
-    // socket
+    // 召唤师技能监控
     await gameEventListen.spellListenStart()
   }
   if (status == 'PreEndOfGame') {

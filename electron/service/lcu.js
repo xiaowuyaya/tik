@@ -559,6 +559,16 @@ class LcuService extends Service {
       }
     }
   }
+
+  getSpellInfoByName(name){
+    const db = Storage.JsonDB.connection('ddragon').db;
+    const summonerSpellsData = db.get('summonerSpells').value();
+    for (const key in summonerSpellsData) {
+      if (summonerSpellsData[key].name == name) {
+        return summonerSpellsData[key]
+      }
+    }
+  }
 }
 
 module.exports = LcuService;
