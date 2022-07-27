@@ -1,7 +1,6 @@
-const Appliaction = require('ee-core').Appliaction;
+const { Appliaction, Storage } = require('ee-core');
 
 class Main extends Appliaction {
-
   constructor() {
     super();
     // this === eeApp;
@@ -10,33 +9,33 @@ class Main extends Appliaction {
   /**
    * core app have been loaded
    */
-  async ready () {
+  async ready() {
     // do some things
   }
 
   /**
    * electron app ready
    */
-  async electronAppReady () {
+  async electronAppReady() {
     // do some things
   }
 
   /**
    * main window have been loaded
    */
-  async windowReady () {
+  async windowReady() {
     // do some things
-
   }
 
   /**
    * before app close
-   */  
-  async beforeClose () {
+   */
+  async beforeClose() {
     // do some things
-
+    // 清空opgg buildId
+    const db = Storage.JsonDB.connection('ddragon').db;
+    db.set('opgg', '').write();
   }
 }
 
 new Main();
- 

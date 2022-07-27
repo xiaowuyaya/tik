@@ -3,6 +3,7 @@ const chromeExtension = require('../library/chromeExtension');
 const initialize = require('../library/initialize');
 const security = require('../library/security');
 const tray = require('../library/tray');
+const autoUpdater = require('../library/autoUpdater')
 const credentials = require('../library/credentials');
 
 /**
@@ -24,4 +25,8 @@ module.exports = async (app) => {
 
   // 获取credentials凭证信息
   credentials.install(app);
+
+  // 自动更新
+  autoUpdater.install(app)
+
 };

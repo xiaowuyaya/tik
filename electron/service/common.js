@@ -4,6 +4,7 @@ const getMac = require('getmac').default;
 const { Service, Utils } = require('ee-core');
 const fs = require('fs');
 const path = require('path');
+const { autoUpdater } = require('electron-updater');
 
 /**
  * 通用业务模块
@@ -76,14 +77,21 @@ class CommonService extends Service {
   getAllHeroScreenshot() {
     const BASE_URI = path.join(Utils.getAppUserDataDir(), 'game_screenshot');
     const dateDir = fs.readdirSync(BASE_URI);
-    let res = []
+    let res = [];
     for (var i = 0; i < dateDir.length; i++) {
       const imgs = fs.readdirSync(path.join(BASE_URI, dateDir[i]));
       for (var j = 0; j < imgs.length; j++) {
-        res.push(path.join(BASE_URI, dateDir[i], imgs[j]))
+        res.push(path.join(BASE_URI, dateDir[i], imgs[j]));
       }
     }
-    return res
+    return res;
+  }
+
+  /**
+   * 检查更新
+   */
+  checkUpdate() {
+    autoUpdater.checkForUpdates();
   }
 }
 

@@ -31,7 +31,7 @@ class OpggController extends Controller {
       //   .get(`https://www.op.gg/_next/data/${buildId}/champions.json?position=${args.position}`)
       //   .set('accept-language', 'zh-CN,zh;q=0.9')
       //   .set('user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
-      return R.success(resp.data.pageProps);
+      return R.success(resp.data.pageProps, '数据获取成功');
     } catch (err) {
       return R.fail(err.message);
     }
@@ -77,7 +77,7 @@ class OpggController extends Controller {
           'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36',
         },
       });
-      return R.success(res.data.pageProps);
+      return R.success(res.data.pageProps, '数据获取成功');
     } catch (err) {
       return R.fail(err.message);
     }

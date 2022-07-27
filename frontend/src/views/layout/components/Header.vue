@@ -12,15 +12,18 @@
     </span>
     <!-- btns -->
     <div class="flex no-drag mr-1">
-      <img class="w-32px cursor-pointer mx-2px p-6px hover:bg-gray-300 redius rounded" src="@/assets/svgs/feedBack.svg" alt="" />
-      <img class="w-32px cursor-pointer mx-2px p-6px hover:bg-gray-300 redius rounded" src="@/assets/svgs/mini.svg" alt="" @click="handleMinisize" />
+      <img
+        class="Pshake w-32px cursor-pointer mx-2px p-6px hover:bg-gray-300 redius rounded"
+        src="@/assets/svgs/donate.svg"
+        @click="openUrl('https://lol-tool.com/donate')"
+      />
+      <img class="w-32px cursor-pointer mx-2px p-6px hover:bg-gray-300 redius rounded" src="@/assets/svgs/mini.svg" @click="handleMinisize" />
       <img
         class="w-32px cursor-pointer mx-2px p-6px hover:bg-gray-300 redius rounded"
         src="@/assets/svgs/setting.svg"
-        alt=""
         @click="showSettingsDrawer = !showSettingsDrawer"
       />
-      <img class="w-32px cursor-pointer mx-2px p-6px hover:bg-gray-300 redius rounded" src="@/assets/svgs/close.svg" alt="" @click="handleQuitModal" />
+      <img class="w-32px cursor-pointer mx-2px p-6px hover:bg-gray-300 redius rounded" src="@/assets/svgs/close.svg" @click="handleQuitModal" />
     </div>
     <!-- 退出确认框 -->
     <a-modal v-model:visible="showQuitModal" width="40%" title="关闭窗口方式" draggable okText="确定并记住选择" @ok="handleQuit">
@@ -55,7 +58,7 @@
           <span>{{ appInfoStore.appVersion }}</span>
         </a-col>
         <a-col :span="8">
-          <a-button type="text">检查更新</a-button>
+          <a-button type="text" @click="handleUpdate">检查更新</a-button>
         </a-col>
       </a-row>
       <a-row class="py-1.2" :gutter="12" align="center" justify="center">
@@ -106,7 +109,8 @@ import { openUrl, openPath, copyToClipboard } from '@/utils/tools';
 import { useAppInfoStore } from '@/stores/modules/appInfo';
 import { useSettingsStore } from '@/stores/modules/settings';
 import ipcRenderer from '@/utils/ipcRenderer';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { Message } from '@arco-design/web-vue';
 
 const appInfoStore = useAppInfoStore();
 const settingsStore = useSettingsStore();
@@ -114,6 +118,17 @@ const settingsStore = useSettingsStore();
 const qunLink = 'https://qm.qq.com/cgi-bin/qm/qr?k=9HNfbMmM3ISfaX2YBjyJrD5r_Xgt8Bio&jump_from=webapi';
 const showQuitModal = ref(false);
 const showSettingsDrawer = ref(false);
+
+onMounted(() => {
+  // 监听update事件
+  ipcRenderer.ipc.removeAllListeners('controller.application.listenUpdateInfo');
+  ipcRenderer.ipc.on('controller.application.listenUpdateInfo', (_event, data) => {
+    Message[data.type]({
+      content: data.msg,
+      duration: 1500,
+    })
+  });
+});
 
 const handleMinisize = () => {
   ipcRenderer.sendSync('controller.common.handleWindow', { btn: 0 });
@@ -134,4 +149,53 @@ const handleQuit = () => {
   settingsStore.syncLocal();
   ipcRenderer.sendSync('controller.common.handleWindow', { btn: 1, quitType: settingsStore.app.quit });
 };
+
+const handleUpdate = () => {
+  ipcRenderer.sendSync('controller.common.checkUpdate', { });
+}
 </script>
+
+<style>
+.Pshake {
+  display: inline-block;
+  -webkit-transform-origin: center center;
+  -ms-transform-origin: center center;
+  transform-origin: center center;
+  -webkit-animation: Pshake_Crazy 1s ease-in-out infinite;
+  animation: Pshake_Crazy 1s ease-in-out infinite;
+}
+
+@keyframes Pshake_Crazy {
+  /* 10% {
+    transform: translate(-0.5px, -0.5px) rotate(0.5deg);
+  } */
+  20% {
+    transform: translate(-0.5px, 1.5px) rotate(0.5deg);
+  }
+  /* 30% {
+    transform: translate(1.5px, 0.5px) rotate(0.5deg);
+  } */
+  40% {
+    transform: translate(1.5px, -0.5px) rotate(-0.5deg);
+  }
+  /* 50% {
+    transform: translate(2.5px, 1.5px) rotate(1.5deg);
+  } */
+  60% {
+    transform: translate(-0.5px, -0.5px) rotate(-0.5deg);
+  }
+  /* 70% {
+    transform: translate(-0.5px, 2.5px) rotate(1.5deg);
+  } */
+  80% {
+    transform: translate(2.5px, -1.5px) rotate(-0.5deg);
+  }
+  /* 90% {
+    transform: translate(1.5px, -0.5px) rotate(1.5deg);
+  } */
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+}
+</style>

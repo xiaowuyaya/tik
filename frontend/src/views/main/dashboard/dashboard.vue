@@ -23,17 +23,17 @@
           <!-- 段位信息 -->
           <div class="flex">
             <div class="flex flex-col items-center">
-              <img class="w-10" :src="getTigerImg(summonerInfo.rankedSoloTier)" />
+              <img class="w-10" :src="`/src/assets/img/ranked/${summonerInfo.rankedSoloTier}.png`" />
               <div class="">{{ summonerInfo.rankedSolo }}</div>
               <div class="text-gray-600">单双排</div>
             </div>
             <div class="flex flex-col items-center ml-6">
-              <img class="w-10" :src="getTigerImg(summonerInfo.rankedFlexTier)" />
+              <img class="w-10" :src="`/src/assets/img/ranked/${summonerInfo.rankedFlexTier}.png`" />
               <div class="">{{ summonerInfo.rankedFlex }}</div>
               <div class="text-gray-600">灵活组排</div>
             </div>
             <div class="flex flex-col items-center ml-6">
-              <img class="w-10" :src="getTigerImg(summonerInfo.rankedHighestTier)" />
+              <img class="w-10" :src="`/src/assets/img/ranked/${summonerInfo.rankedHighestTier}.png`" />
               <div class="">{{ summonerInfo.rankedHighest }}</div>
               <div class="text-gray-600">历史最高</div>
             </div>
@@ -50,7 +50,8 @@
             状态：
             <span :class="[userStore.wxOpenId ? 'text-green-500' : 'text-red-500']">{{ userStore.wxOpenId ? '已订阅' : '未订阅' }}</span>
           </div>
-          <div v-if="userStore.wxOpenId == null">订阅微信小程序以获取更多功能</div>
+          <!-- TODO: 小程序做完 这边要给二维码 -->
+          <a-link v-if="!userStore.wxOpenId" @click="" >订阅微信小程序获取更多功能</a-link>
         </div>
       </a-card>
       <a-card class="mt-4" title="英雄时刻" :hoverable="true" :header-style="{ border: 'none' }">
@@ -187,10 +188,6 @@ onBeforeMount(async () => {
   const heroImgsRes = await ipcRenderer.invoke('controller.common.getAllHeroScreenshot', '');
   heroTimeImgs.value = heroImgsRes.data;
 });
-
-const getTigerImg = (tiger) => {
-  return new URL(`../../assets/img/ranked/${tiger}.png`, import.meta.url).href;
-};
 
 const handleRouter = (name) => {
   router.push({ name });

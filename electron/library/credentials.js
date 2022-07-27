@@ -36,5 +36,7 @@ module.exports = {
     }
     // 将结果装发给转发到渲染进程
     eeApp.electron.mainWindow.webContents.send('controller.lcu.enable', credentials);
+    // 向客户端发送启动提醒
+    await eeApp.service.lcu.launchNotifications();
   },
 };

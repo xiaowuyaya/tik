@@ -47,6 +47,22 @@ const mode = {
     GRANDMASTER: '宗师',
     CHALLENGER: '王者',
   },
+  // opgg position
+  opggPosition: {
+    TOP: "上单",
+    JUNGLE: "打野",
+    MID: "中单",
+    ADC: 'ad',
+    SUPPORT: "辅助",
+  },
+
+  panelPosition: {
+    TOP: "上单",
+    JUNGLE: "打野",
+    MIDDLE: "中单",
+    BOTTOM: 'ADC',
+    UTILITY: "辅助",
+  }
 };
 
 export const translate = (type: string, key: string) => {

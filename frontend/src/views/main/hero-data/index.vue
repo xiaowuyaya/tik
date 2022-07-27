@@ -31,7 +31,7 @@
                 <div class="text-sm ml-2 font-bold flex flex-col justify-center">
                   <span>{{ record.name }}</span>
                   <span class="font-normal mr-1 text-xs">
-                    <span class="position" v-for="(item, index) in record.positions" :key="index">{{ item.name }}</span>
+                    <span class="pr-1" v-for="(item, index) in record.positions" :key="index">{{ translate('opggPosition', item.name) }}</span>
                   </span>
                 </div>
               </div>
@@ -89,6 +89,7 @@
 import { useSettingsStore } from '@/stores/modules/settings';
 import ipcRenderer from '@/utils/ipcRenderer';
 import { useMessage } from '@/utils/message-notice';
+import { translate } from '@/utils/translate';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 

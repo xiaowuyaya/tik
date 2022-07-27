@@ -128,16 +128,16 @@ async function checkOpgg(eeApp) {
   db.set('opgg', { buildId }).write();
   // 初始化 符文窗口
   let championToolWindow = new BrowserWindow({
-    width: 340,
-    height: 620,
+    width: 320,
+    height: 652,
     // 设置窗口位置在屏幕右下角
     x: screen.getPrimaryDisplay().workAreaSize.width - 300,
     y: screen.getPrimaryDisplay().workAreaSize.height - 610,
-    show: true,
+    show: false,
     resizable: false, // 大小调整
     fullscreenable: false, // 是否可以全屏
-    transparent: false, // 透明背景
-    frame: true, // 显示框体
+    transparent: true, // 透明背景
+    frame: false, // 显示框体
     webPreferences: {
       contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
       nodeIntegration: true,
@@ -147,7 +147,6 @@ async function checkOpgg(eeApp) {
   // 获取配置
   const applicationConfig = Utils.getEeConfig();
   const URL = `http://${applicationConfig.mainServer.host}:${applicationConfig.mainServer.port}/#/tools/rune`;
-  console.log(URL);  //window.location.href = "http://localhost:7333/#/tools/rune"
   championToolWindow.loadURL(URL);
 
   // 开发者工具

@@ -61,6 +61,10 @@ class CommonController extends Controller {
   setWxOpenId(args, event) {
     c.put('openid', args.openid);
   }
+
+  checkUpdate(args, event) {
+    this.service.common.checkUpdate()
+  }
 }
 
 module.exports = CommonController;

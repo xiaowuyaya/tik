@@ -13,7 +13,7 @@ class OpggService extends Service {
  * 显示英雄数据工具窗口
  */
   async showChampionToolWindow (args) {
-    const championsDB = Storage.JsonDB.connection("champions").db
+    const championsDB = Storage.JsonDB.connection("ddragon").db
     const windowId = championsDB.get('championToolWindowId').value()
     const championToolWindow = BrowserWindow.fromId(windowId)
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAppInfoStore } from '@/stores/modules/appInfo';
 import { useSettingsStore } from '@/stores/modules/settings';
 import { useChampionsStore } from '@/stores/modules/champions';
@@ -16,12 +16,14 @@ appInfoStore.load();
 settingsStore.load();
 championsStore.load();
 
-/* 判断是否已经登入 */
-const token = getToken();
-if (token) {
-  router.push({ name: 'dashboard' });
-} else {
-  router.push({ name: 'login' });
+if (window.location.href.indexOf('/tools/rune') === -1) {
+  /* 判断是否已经登入 */
+  const token = getToken();
+  if (token) {
+    router.push({ name: 'dashboard' });
+  } else {
+    router.push({ name: 'login' });
+  }
 }
 
 /* 监听credentials是否存在，用于判断客户端是否启动 */
