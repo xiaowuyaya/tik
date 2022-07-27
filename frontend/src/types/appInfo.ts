@@ -3,5 +3,5 @@ export interface AppInfo {
   macAddr: string
   logDir: string
   configDir: string
-  lcuEnable: boolean
+  lcuEnable: boolean | null
 }

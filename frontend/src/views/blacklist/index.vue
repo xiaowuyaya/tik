@@ -67,7 +67,7 @@ import { useUserStore } from '@/stores/modules/user';
 import { environmentOption } from '@/utils/options';
 import { IconSearch } from '@arco-design/web-vue/es/icon';
 import { onBeforeMount, reactive, ref, h } from 'vue';
-import { Message } from '@arco-design/web-vue';
+import { Message, TableColumnData } from '@arco-design/web-vue';
 
 const blacklistStore = useBlacklistStore();
 const userStore = useUserStore();
@@ -85,17 +85,17 @@ const tableScroll = ref({
   y: '460px',
 });
 
-const tableTitle = [
+const tableTitle: TableColumnData[] = [
   {
     title: '大区',
     dataIndex: 'environment',
-    width: '90',
+    width: 90,
   },
-  { title: '账号', dataIndex: 'summonerName', width: '140' },
+  { title: '账号', dataIndex: 'summonerName', width: 140 },
   {
     title: '拉黑玩家',
     dataIndex: 'banName',
-    width: '140',
+    width: 140,
     filterable: {
       filter: (value, record) => record.banName.includes(value),
       slotName: 'name-filter',
@@ -106,7 +106,7 @@ const tableTitle = [
   {
     title: '拉黑时间',
     slotName: 'createdAt',
-    width: '150',
+    width: 150,
     sortable: {
       sortDirections: ['ascend', 'descend'],
     },

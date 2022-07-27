@@ -1,8 +1,8 @@
 const { Storage, Utils } = require('ee-core');
-const { app } = require('electron');
+const { app, BrowserWindow, screen } = require('electron');
 const _ = require('lodash');
 const c = require('../utils/cache');
-const { registerShortcutKey } = require('../core/shortcutKey')
+const { registerShortcutKey } = require('../core/shortcutKey');
 
 /* 项目初始化 */
 module.exports = {
@@ -11,7 +11,8 @@ module.exports = {
     checkSettings(eeApp);
     checkBlacklist(eeApp);
     checkPanelData(eeApp);
-    await registerShortcutKey(eeApp)
+    await registerShortcutKey(eeApp);
+    await checkOpgg(eeApp);
   },
 };
 
@@ -94,8 +95,8 @@ function checkPanelData(eeApp) {
   try {
     const data = {
       orderList: [],
-      chaosList: []
-    }
+      chaosList: [],
+    };
     // 测试用数据 ./panelData.test.json
     // const json = require('./panelData.test.json');
     // const data = json;
@@ -105,4 +106,57 @@ function checkPanelData(eeApp) {
   } catch (err) {
     eeApp.logger.error(`[check:panel-data] 发生异常: ${err}`);
   }
+}
+
+async function checkOpgg(eeApp) {
+  eeApp.logger.info(`[check:opgg] 正在初始化opgg相关数据`);
+  const db = Storage.JsonDB.connection('ddragon').db;
+  const opggWebRequest = await eeApp.curl('https://www.op.gg/champions', {
+    method: 'GET',
+    dataType: 'text',
+    headers: {
+      'accept-language': 'zh-CN,zh;q=0.9',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
+    },
+  });
+  const opggHtmlStr = opggWebRequest.data;
+  const buildIdStr = opggHtmlStr.match(/\"buildId\":\"([^\"]*)\"/g)[0]; // "buildId":"QZI7BcDH28BxUKEq6HHGV"
+  // 格式有问题 不能通过JSON.parse()转JSON，去除buildId
+  const buildId = buildIdStr.replace(/\"buildId\":/g, '').replace(/\"/g, '');
+
+  // 重置opggBuildId
+  db.set('opgg', { buildId }).write();
+  // 初始化 符文窗口
+  let championToolWindow = new BrowserWindow({
+    width: 340,
+    height: 620,
+    // 设置窗口位置在屏幕右下角
+    x: screen.getPrimaryDisplay().workAreaSize.width - 300,
+    y: screen.getPrimaryDisplay().workAreaSize.height - 610,
+    show: false,
+    resizable: false, // 大小调整
+    fullscreenable: false, // 是否可以全屏
+    transparent: false, // 透明背景
+    frame: true, // 显示框体
+    webPreferences: {
+      contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
+      nodeIntegration: true,
+      allowRunningInsecureContent: true,
+    },
+  });
+  // 获取配置
+  const applicationConfig = Utils.getEeConfig();
+  const URL = `http://${applicationConfig.mainServer.host}:${applicationConfig.mainServer.port}/#/champion-stats/rune`;
+
+  championToolWindow.loadURL(URL);
+
+  // 开发者工具
+  if (!app.isPackaged) {
+    // championToolWindow.webContents.openDevTools();
+  }
+
+  // championToolWindow.setAlwaysOnTop(true)
+
+  db.set('championToolWindowId', championToolWindow.id).write();
+  eeApp.logger.info(`[check:opgg] 窗口：championToolWindow 创建完成，id为：${championToolWindow.id}`);
 }

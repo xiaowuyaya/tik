@@ -12,7 +12,7 @@ export const useAppInfoStore = defineStore({
       macAddr: '',
       logDir: '',
       configDir: '',
-      lcuEnable: false
+      lcuEnable: null
     }
   },
   getters: {},

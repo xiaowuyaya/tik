@@ -164,6 +164,7 @@ module.exports = (appInfo) => {
       confirm: false,
       muteAll: false,
       heroScreenshot: true,
+      showChampTool: true,
       normalAuto: {
         pick: false,
         pickSelect: [],

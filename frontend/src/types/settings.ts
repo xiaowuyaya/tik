@@ -31,6 +31,7 @@ export interface AppSettings {
   confirm: boolean
   muteAll: boolean
   heroScreenshot: boolean
+  showChampTool: boolean
   normalAuto: {
     pick: boolean
     ban: boolean

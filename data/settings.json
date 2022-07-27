@@ -25,11 +25,13 @@
     }
   },
   "app": {
-    "quit": "0",
-    "rememberQuit": true,
+    "quit": "",
+    "rememberQuit": false,
     "accept": true,
     "confirm": false,
     "muteAll": false,
+    "heroScreenshot": true,
+    "showChampTool": true,
     "normalAuto": {
       "pick": false,
       "pickSelect": [],
@@ -53,7 +55,6 @@
         "bottom": [],
         "utility": []
       }
-    },
-    "heroScreenshot": false
+    }
   }
 }
