@@ -33,7 +33,7 @@
     "heroScreenshot": true,
     "showChampTool": true,
     "normalAuto": {
-      "pick": false,
+      "pick": true,
       "pickSelect": [],
       "ban": false,
       "banSelect": []

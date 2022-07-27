@@ -103,7 +103,7 @@ module.exports = (appInfo) => {
   /* 主进程 */
   config.mainServer = {
     host: '127.0.0.1',
-    port: 7072, // 默认端口（如果端口被使用，则随机获取一个）
+    port: 7333, // 默认端口（如果端口被使用，则随机获取一个）
   };
 
   /**
@@ -134,10 +134,11 @@ module.exports = (appInfo) => {
   /* 托盘 (可选)  */
   config.tray = {
     title: 'tik 英雄联盟对局助手', // 托盘显示标题
-    icon: '/public/images/logo.png', // 托盘图标
+    icon: '/build/icons/icon.ico', // 托盘图标
   };
 
   config.settings = {
+
     version: app.getVersion(),
     send: {
       enable: true,

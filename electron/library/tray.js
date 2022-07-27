@@ -46,10 +46,8 @@ module.exports = {
     appTray.on('click', function () {
       if (mainWindow.isVisible()) {
         mainWindow.hide();
-        //mainWindow.setSkipTaskbar(true);
       } else {
         mainWindow.show();
-        //mainWindow.setSkipTaskbar(false);
       }
     });
   },

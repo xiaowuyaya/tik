@@ -133,7 +133,7 @@ async function checkOpgg(eeApp) {
     // 设置窗口位置在屏幕右下角
     x: screen.getPrimaryDisplay().workAreaSize.width - 300,
     y: screen.getPrimaryDisplay().workAreaSize.height - 610,
-    show: false,
+    show: true,
     resizable: false, // 大小调整
     fullscreenable: false, // 是否可以全屏
     transparent: false, // 透明背景
@@ -146,13 +146,13 @@ async function checkOpgg(eeApp) {
   });
   // 获取配置
   const applicationConfig = Utils.getEeConfig();
-  const URL = `http://${applicationConfig.mainServer.host}:${applicationConfig.mainServer.port}/#/champion-stats/rune`;
-
+  const URL = `http://${applicationConfig.mainServer.host}:${applicationConfig.mainServer.port}/#/tools/rune`;
+  console.log(URL);  //window.location.href = "http://localhost:7333/#/tools/rune"
   championToolWindow.loadURL(URL);
 
   // 开发者工具
   if (!app.isPackaged) {
-    // championToolWindow.webContents.openDevTools();
+    championToolWindow.webContents.openDevTools();
   }
 
   // championToolWindow.setAlwaysOnTop(true)
