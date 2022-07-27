@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     ACol: typeof import('@arco-design/web-vue')['Col']
     ADivider: typeof import('@arco-design/web-vue')['Divider']
     ADrawer: typeof import('@arco-design/web-vue')['Drawer']
+    AEmpty: typeof import('@arco-design/web-vue')['Empty']
     AForm: typeof import('@arco-design/web-vue')['Form']
     AFormItem: typeof import('@arco-design/web-vue')['FormItem']
     AImage: typeof import('@arco-design/web-vue')['Image']

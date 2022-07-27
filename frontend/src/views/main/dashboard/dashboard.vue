@@ -51,14 +51,17 @@
             <span :class="[userStore.wxOpenId ? 'text-green-500' : 'text-red-500']">{{ userStore.wxOpenId ? '已订阅' : '未订阅' }}</span>
           </div>
           <!-- TODO: 小程序做完 这边要给二维码 -->
-          <a-link v-if="!userStore.wxOpenId" @click="" >订阅微信小程序获取更多功能</a-link>
+          <a-link v-if="!userStore.wxOpenId" @click="">订阅微信小程序获取更多功能</a-link>
         </div>
       </a-card>
       <a-card class="mt-4" title="英雄时刻" :hoverable="true" :header-style="{ border: 'none' }">
         <template #extra>
           <a-link @click="handleRouter('hero-time')">更多</a-link>
         </template>
-        <div>
+        <div v-if="heroTimeImgs.length == 0">
+          <a-empty description='暂无英雄时刻截图，快开始对局吧' />
+        </div>
+        <div v-if="heroTimeImgs.length != 0">
           <a-carousel
             :autoPlay="true"
             :animation="false"

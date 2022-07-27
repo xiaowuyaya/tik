@@ -39,7 +39,7 @@
       width="35%"
       :closable="false"
       popup-container="#main"
-      :drawer-style="{ 'border-bottom-right-radius': '0.375rem', 'border-top-right-radius': '0.375rem' }"
+      :drawer-style="{ 'border-bottom-right-radius': '0.375rem', 'border-top-right-radius': '0.375rem', 'z-index': '99' }"
     >
       <div class="font-black text-base text-gray-700 border-b py-2 mt-2 mx-4">通用</div>
 
