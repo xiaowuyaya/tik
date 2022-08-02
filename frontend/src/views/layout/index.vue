@@ -30,6 +30,10 @@
             <icon-dashboard />
             个人中心
           </a-menu-item>
+          <a-menu-item key="talent-market">
+            <icon-user-group />
+            人才市场
+          </a-menu-item>
           <a-menu-item key="panel">
             <icon-list />
             对局面板

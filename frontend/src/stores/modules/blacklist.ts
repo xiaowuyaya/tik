@@ -1,4 +1,4 @@
-import { addBlacklist, CreatBlacklist, getAllBlacklist } from "@/api/blacklist"
+import { addBlacklist, CreatBlacklist, deleteBlacklist, DeleteBlacklist, getAllBlacklist } from "@/api/blacklist"
 import ipcRenderer from "@/utils/ipcRenderer"
 import { useMessage } from '@/utils/message-notice'
 import { defineStore } from "pinia"
@@ -26,6 +26,13 @@ export const useBlacklistStore = defineStore({
       const res = await ipcRenderer.invoke('controller.data.updateDataByField', { dbName: 'blacklist', field: 'list', data: reqRes.data })
       this.list = reqRes.data
       useMessage(res, '添加黑名单信息成功')
+    },
+    async delete(dto:DeleteBlacklist ){
+      await deleteBlacklist(dto)
+      const reqRes = await getAllBlacklist()
+      const res = await ipcRenderer.invoke('controller.data.updateDataByField', { dbName: 'blacklist', field: 'list', data: reqRes.data })
+      this.list = reqRes.data
+      useMessage(res, '移除黑名单成功')
     }
   }
 })

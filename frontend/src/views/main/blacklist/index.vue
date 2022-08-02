@@ -55,6 +55,9 @@
         <template #createdAt="{ record }">
           <span>{{ dayjs(record.createdAt).format('YYYY.MM.DD  HH:mm') }}</span>
         </template>
+        <template #optional="{ record }">
+          <a-button type="primary" status="danger" @click="handleDeleteBlacklist(record)">删除</a-button>
+        </template>
       </a-table>
     </a-card>
   </div>
@@ -67,7 +70,7 @@ import { useUserStore } from '@/stores/modules/user';
 import { environmentOption } from '@/utils/options';
 import { IconSearch } from '@arco-design/web-vue/es/icon';
 import { onBeforeMount, reactive, ref, h } from 'vue';
-import { Message, TableColumnData } from '@arco-design/web-vue';
+import { Message, Modal, TableColumnData } from '@arco-design/web-vue';
 
 const blacklistStore = useBlacklistStore();
 const userStore = useUserStore();
@@ -111,6 +114,11 @@ const tableTitle: TableColumnData[] = [
       sortDirections: ['ascend', 'descend'],
     },
   },
+  {
+    title: '操作',
+    slotName: 'optional',
+    width: 86,
+  },
 ];
 
 onBeforeMount(async () => {
@@ -135,7 +143,7 @@ const submit = async () => {
     Message.error({
       content: `${errMsg}不可为空`,
       duration: 3 * 1000,
-    })
+    });
     return;
   }
   await blacklistStore.add(useForm);
@@ -143,6 +151,18 @@ const submit = async () => {
 
 const reload = async () => {
   await blacklistStore.getAll();
+};
+
+const handleDeleteBlacklist = async (record) => {
+  Modal.info({
+    title: '删除黑名单',
+    content: `是否确定将: ${record.banName}， 移除黑名单`,
+    hideCancel: false,
+    cancelText: '取消',
+    onOk: () => {
+      blacklistStore.delete({ ids: [record.id] });
+    },
+  });
 };
 </script>
 <style scoped>

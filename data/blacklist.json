@@ -1,3 +1,22 @@
 {
-  "list": []
+  "list": [
+    {
+      "id": 30,
+      "environment": "艾欧尼亚",
+      "summonerName": "测试12",
+      "banId": null,
+      "banName": "123",
+      "reason": "123132",
+      "createdAt": "2022-08-02T08:45:16.544Z"
+    },
+    {
+      "id": 31,
+      "environment": "艾欧尼亚",
+      "summonerName": "测试12",
+      "banId": null,
+      "banName": "123123",
+      "reason": "123132",
+      "createdAt": "2022-08-02T08:45:27.165Z"
+    }
+  ]
 }

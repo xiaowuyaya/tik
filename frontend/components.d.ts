@@ -45,17 +45,10 @@ declare module '@vue/runtime-core' {
     ATypography: typeof import('@arco-design/web-vue')['Typography']
     ATypographyParagraph: typeof import('@arco-design/web-vue')['TypographyParagraph']
     AUpload: typeof import('@arco-design/web-vue')['Upload']
-    ElButton: typeof import('element-plus/es')['ElButton']
-    ElForm: typeof import('element-plus/es')['ElForm']
-    ElFormItem: typeof import('element-plus/es')['ElFormItem']
-    ElInput: typeof import('element-plus/es')['ElInput']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     NoClientStart: typeof import('./src/components/NoClientStart.vue')['default']
     NoGameData: typeof import('./src/components/NoGameData.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
