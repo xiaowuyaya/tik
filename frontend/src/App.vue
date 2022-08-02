@@ -16,7 +16,7 @@ appInfoStore.load();
 settingsStore.load();
 championsStore.load();
 
-if (window.location.href.indexOf('/tools/rune') === -1) {
+if (window.location.href.indexOf('/tools/rune') === -1 && window.location.href.indexOf('/tools/spells') === -1) {
   /* 判断是否已经登入 */
   const token = getToken();
   if (token) {

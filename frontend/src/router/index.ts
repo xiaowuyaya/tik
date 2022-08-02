@@ -94,8 +94,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/tools/rune',
     name: 'tools-rune',
-    meta: { index: 13 },
+    meta: { index: 14 },
     component: () => import('@/views/tools/rune/index.vue')
+  },
+  {
+    path: '/tools/spells',
+    name: 'tools-spells',
+    meta: { index: 14 },
+    component: () => import('@/views/tools/spells/index.vue')
   }
 ]
 

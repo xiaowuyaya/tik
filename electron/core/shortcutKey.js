@@ -1,5 +1,5 @@
 const { Storage } = require('ee-core');
-const { Notification } = require('electron');
+const { Notification, BrowserWindow } = require('electron');
 const ioHook = require('iohook');
 const { sendStringInProgress } = require('../utils/win32-hook');
 const c = require('../utils/cache');
@@ -23,6 +23,7 @@ async function setup(eeApp, sendSettings) {
   await orderPanelInfo(eeApp, sendSettings);
   await chaosPanelInfo(eeApp, sendSettings);
   await muteAll(eeApp, sendSettings);
+  await spellsWindow(eeApp);
   ioHook.start();
 }
 
@@ -144,4 +145,18 @@ async function muteAll(eeApp, sendSettings) {
       eeApp.logger.error(`[shortcutKey:muteAll] 发生异常: ${err}`);
     }
   });
+}
+
+async function spellsWindow(eeApp){
+  // lctrl + f1
+  ioHook.registerShortcut([29,59], async (keys) => {
+    const db = Storage.JsonDB.connection('ddragon').db;
+    const winId = db.get('spellsWindowId').value()
+    const win = BrowserWindow.fromId(winId);
+    if(!win.isVisible()){
+      win.show()
+    }else{
+      win.hide()
+    }
+  })
 }

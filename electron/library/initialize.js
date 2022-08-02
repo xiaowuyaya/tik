@@ -2,7 +2,7 @@ const { Storage, Utils } = require('ee-core');
 const { app, BrowserWindow, screen } = require('electron');
 const _ = require('lodash');
 const c = require('../utils/cache');
-const path = require('path')
+const path = require('path');
 const { registerShortcutKey } = require('../core/shortcutKey');
 
 /* 项目初始化 */
@@ -14,6 +14,7 @@ module.exports = {
     checkPanelData(eeApp);
     await registerShortcutKey(eeApp);
     await checkOpgg(eeApp);
+    checkSpellsWin(eeApp)
   },
 };
 
@@ -117,7 +118,7 @@ async function checkOpgg(eeApp) {
     dataType: 'text',
     headers: {
       'accept-language': 'zh-CN,zh;q=0.9',
-      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36',
     },
   });
   const opggHtmlStr = opggWebRequest.data;
@@ -160,4 +161,38 @@ async function checkOpgg(eeApp) {
 
   db.set('championToolWindowId', championToolWindow.id).write();
   eeApp.logger.info(`[check:opgg] 窗口：championToolWindow 创建完成，id为：${championToolWindow.id}`);
+}
+
+function checkSpellsWin(eeApp) {
+  eeApp.logger.info(`[check:opgg] 正在初始化召唤师技能提醒窗口`);
+
+  // 初始化 符文窗口
+  let spellsWindow = new BrowserWindow({
+    width: 600,
+    height: 120,
+    show: true,
+    x: 0,
+    y: 0,
+    resizable: false, // 大小调整
+    fullscreenable: false, // 是否可以全屏
+    webPreferences: {
+      contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
+      nodeIntegration: true,
+      allowRunningInsecureContent: true,
+    },
+  });
+
+  // 获取配置
+  const applicationConfig = Utils.getEeConfig();
+  const URL = `http://${applicationConfig.mainServer.host}:${applicationConfig.mainServer.port}/#/tools/spells`;
+  spellsWindow.loadURL(URL);
+
+  // 开发者工具
+  if (!app.isPackaged) {
+    spellsWindow.webContents.openDevTools();
+  }
+
+  const db = Storage.JsonDB.connection('ddragon').db;
+  db.set('spellsWindowId', spellsWindow.id).write();
+  eeApp.logger.info(`[check:opgg] spellsWindow 创建完成，id为：${spellsWindow.id}`);
 }
