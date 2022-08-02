@@ -5,8 +5,8 @@
         <a-form-item>
           <a-upload
             :action="uploadReq.url"
-            :headers="uploadReq.headers"
-            :fileList="file ? [file] : []"
+            :headers="uploadReq.headers as any"
+            :fileList="file ? [file] : [] as any"
             accept="image/png, image/jpeg, image/gif"
             :show-file-list="false"
             @success="handleAvatarSuccess"
@@ -56,6 +56,7 @@
         </a-form-item>
         <a-form-item>
           <a-button type="primary" @click="submit">提交更新</a-button>
+          <a-button class="ml-2" type="primary" status="danger" @click="userStore.logout">退出账号</a-button>
         </a-form-item>
       </a-form>
     </a-card>
@@ -80,7 +81,7 @@ const uploadReq = reactive({
 });
 
 const file = ref({
-  url: baseUrl + userStore.avatarUrl,
+  url: userStore.avatarUrl,
   status: '',
   percent: 0
 });
@@ -91,7 +92,7 @@ const handleAvatarSuccess = async () => {
     duration: 1500
   })
   await userStore.myInfo({ mac: appInfoStore.macAddr, clientVersion: appInfoStore.appVersion });
-  file.value.url = baseUrl + userStore.avatarUrl;
+  file.value.url = userStore.avatarUrl;
 };
 
 const handleAvatarError = (error) => {

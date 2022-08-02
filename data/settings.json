@@ -30,7 +30,10 @@
     "accept": true,
     "confirm": false,
     "muteAll": false,
-    "heroScreenshot": true,
+    "heroScreenshot": {
+      "enable": true,
+      "send": false
+    },
     "showChampTool": true,
     "normalAuto": {
       "pick": false,

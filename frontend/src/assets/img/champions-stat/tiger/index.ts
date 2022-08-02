@@ -1,0 +1,9 @@
+import a1 from './0.svg'
+import a2 from './2.svg'
+import a3 from './3.svg'
+import a4 from './4.svg'
+import a5 from './5.svg'
+
+const list = [a1,a2,a3,a4,a5]
+
+export default list

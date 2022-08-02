@@ -1,4 +1,5 @@
-const { Appliaction, Storage } = require('ee-core');
+const { Appliaction, Storage, Utils } = require('ee-core');
+const path = require('path')
 
 class Main extends Appliaction {
   constructor() {
@@ -10,7 +11,9 @@ class Main extends Appliaction {
    * core app have been loaded
    */
   async ready() {
-    // do some things
+    // 初始化荣誉截图文件夹
+    Utils.mkdir(path.join(Utils.getAppUserDataDir(), 'game_screenshot'), 'game_screenshot');
+    this.logger.info(`[main] game_screenshot目录已创建`);
   }
 
   /**

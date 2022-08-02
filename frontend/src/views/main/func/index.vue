@@ -97,7 +97,7 @@
         <div class="mb-2 flex w-full justify-center">
           <a-select
             class="!w-[40%]"
-            v-model="summonerBackground.curChampionId"
+            v-model="(summonerBackground.curChampionId as any)"
             @change="handleSummonerBackground('champions')"
             placeholder="请选择英雄 可搜索"
             allow-clear
@@ -179,7 +179,6 @@ const handleCreatePracticeToolMode = async () => {
 const handleSummonerBackground = async (type) => {
   if (type === 'champions') {
     const r = await ipcRenderer.invoke('controller.lcu.getChampionSkinListById', { championId: summonerBackground.curChampionId });
-    console.log(r);
     
     curChampionSkinList.value = r.skins;
     summonerBackground.imgTitle = r.title;

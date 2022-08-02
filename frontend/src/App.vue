@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useAppInfoStore } from '@/stores/modules/appInfo';
 import { useSettingsStore } from '@/stores/modules/settings';
 import { useChampionsStore } from '@/stores/modules/champions';

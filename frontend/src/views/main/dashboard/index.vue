@@ -15,7 +15,6 @@ const currentTabComponent = ref<any>(NoClientStart);
 
 onBeforeMount(async () => {
   const isGamelaunch = await ipcRenderer.invoke('controller.lcu.isGamelaunch', '');
-  console.log(isGamelaunch)
   if (isGamelaunch) {
     appInfoStore.lcuEnable = isGamelaunch;
     currentTabComponent.value = Dashboard;

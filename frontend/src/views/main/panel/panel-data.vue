@@ -3,7 +3,7 @@
     <a-card class="mb-1" :hoverable="true" :header-style="{ border: 'none' }" :body-style="{ padding: '10px' }">
       <a-row :gutter="24">
         <a-col :span="12">
-          <a-form-item class="!mb-0" label="面板数据不全">
+          <a-form-item class="!mb-0" label="显示最近战绩情况">
             <a-switch v-model="showDetailData" type="line" />
           </a-form-item>
         </a-col>
@@ -288,7 +288,6 @@ ipcRenderer.ipc.on('controller.lcu.listenPlayerStatus', async (_event, data) => 
 const getPlayerList = async (status) => {
   if (status == 'InProgress' || status == 'ChampSelect') {
     playerList.value = await ipcRenderer.invoke('controller.lcu.getPanelData', { status });
-    console.log(playerList.value);
   }
 };
 

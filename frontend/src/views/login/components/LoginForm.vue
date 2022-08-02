@@ -85,8 +85,8 @@ const { appVersion, macAddr } = appInfoStore;
 
 const captchaImg = ref<string>("");
 const loginForm = reactive({
-  username: "xiaowuyaya",
-  password: "123123",
+  username: "",
+  password: "",
   captchaId: "",
   verifyCode: "",
   clientVersion: appVersion,
@@ -95,11 +95,11 @@ const loginForm = reactive({
 const rules = reactive<FormRules>({
   username: [
     { required: true, message: "用户名不能为空", trigger: "blur" },
-    { min: 3, max: 32, message: "用户名长度为3到32位", trigger: "blur" },
+    { min: 3, max: 32, message: "用户名长度为6到32位", trigger: "blur" },
   ],
   password: [
     { required: true, message: "登录密码不能为空", trigger: "blur" },
-    { min: 6, max: 32, message: "密码长度为3到32位", trigger: "blur" },
+    { min: 6, max: 32, message: "密码长度为6到32位", trigger: "blur" },
   ],
   verifyCode: [{ required: true, message: "验证码不能为空", trigger: "blur" }],
 });
@@ -121,7 +121,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
           router.push({ name: "dashboard" });
         }, 1000);
       } catch (err) {
-        console.log(err);
 
         await getCaptchaImg();
       }

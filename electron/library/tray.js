@@ -1,4 +1,5 @@
 const { Tray, Menu, app } = require('electron');
+const { Utils } = require('ee-core')
 const path = require('path');
 
 /* 托盘 */
@@ -9,7 +10,7 @@ module.exports = {
     const trayConfig = eeApp.config.tray;
     const mainWindow = eeApp.electron.mainWindow;
 
-    let iconPath = path.join(eeApp.config.homeDir, trayConfig.icon);
+    let iconPath = path.join(Utils.getExtraResourcesDir(),'icon.ico');
 
     // 托盘菜单功能列表
     let trayMenuTemplate = [

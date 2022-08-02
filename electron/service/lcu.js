@@ -207,9 +207,9 @@ class LcuService extends Service {
       temp.gameType = match.gameType;
       temp.gameCreationDate = match.gameCreationDate;
       temp.championId = match.participants[0].championId;
-      temp.spell1 = this.getSpellImgByKey(match.participants[0].spell1Id) ;
-      temp.spell2 = this.getSpellImgByKey(match.participants[0].spell2Id) ;
-      temp.championAvatar = this.getAvatarUrlByChampId(match.participants[0].championId)
+      temp.spell1 = this.getSpellImgByKey(match.participants[0].spell1Id);
+      temp.spell2 = this.getSpellImgByKey(match.participants[0].spell2Id);
+      temp.championAvatar = this.getAvatarUrlByChampId(match.participants[0].championId);
       temp.champLevel = match.participants[0].stats.champLevel;
       temp.kills = match.participants[0].stats.kills;
       temp.deaths = match.participants[0].stats.deaths;
@@ -463,12 +463,19 @@ class LcuService extends Service {
 
   // TODO: 需要重写，目前沿用旧版本
   async getPanelDataInChampSelect() {
-    let formatedList = await this.getFormatInfoBySummonerIdList();
-    let playerList = await this.dataAnalysis(formatedList);
+    let formatedList, playerList;
+    try {
+      formatedList = await this.getFormatInfoBySummonerIdList();
+      playerList = await this.dataAnalysis(formatedList);
+    } catch (err) {
+      formatedList = null;
+      playerList = null;
+      this.app.logger.error(`[service:lcu] 发生异常：${err}`);
+    }
     // 更新数据
     const panelData = {
-      orderList: playerList.orderList ? playerList.orderList : '',
-      chaosList: playerList.chaosList ? playerList.chaosList : '',
+      orderList: playerList ? playerList.orderList : '',
+      chaosList: playerList ? playerList.chaosList : '',
     };
     c.put('panel-data', panelData);
 
@@ -487,9 +494,8 @@ class LcuService extends Service {
       const ban = blackList[i];
       for (let j = 0; j < formatedList.length; j++) {
         const player = formatedList[j];
-        if (player.summonerName == ban.blackName) {
-          // 发送信息到聊天框
-          await this.snedMsgInChampSelect(blackNoticeToAll ? 'all' : 'me', `[对局助手]：玩家 ${ban.blackName} 在你的黑名单中, 原因：${ban.reason}`);
+        if (player.summonerName == ban.banName) {
+          await api.sendMsgInChampSelect('all', `[对局助手]：玩家 ${ban.banName} 在你的黑名单中, 原因：${ban.reason}`);
         }
       }
     }
@@ -523,7 +529,7 @@ class LcuService extends Service {
       // 应用符文
       let r = await api.postRunePage(data);
       // 发送信息
-      await this.sendMsgInChampSelect('all', `${data.name} OPGG符文应用成功！ --lol-tool.cοΜ`);
+      await api.sendMsgInChampSelect('all', `${data.name} OPGG符文应用成功！ --lol-tool.cοΜ`);
       const parm = {
         code: 200,
         msg: r,
@@ -550,7 +556,7 @@ class LcuService extends Service {
     return await api.setBackgroundSkinId(param);
   }
 
-  getSpellImgByKey(keyId){
+  getSpellImgByKey(keyId) {
     const db = Storage.JsonDB.connection('ddragon').db;
     const summonerSpellsData = db.get('summonerSpells').value();
     for (const key in summonerSpellsData) {
@@ -560,12 +566,12 @@ class LcuService extends Service {
     }
   }
 
-  getSpellInfoByName(name){
+  getSpellInfoByName(name) {
     const db = Storage.JsonDB.connection('ddragon').db;
     const summonerSpellsData = db.get('summonerSpells').value();
     for (const key in summonerSpellsData) {
       if (summonerSpellsData[key].name == name) {
-        return summonerSpellsData[key]
+        return summonerSpellsData[key];
       }
     }
   }

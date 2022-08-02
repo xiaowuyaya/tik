@@ -6,7 +6,7 @@ module.exports = (appInfo) => {
   config.openDevTools = false;
 
   /* 服务器地址 */
-  config.serverUrl = 'https://api.lol-tool.com';
+  config.serverUrl = 'https://tik.lol-tool.com';
 
   /* 自动更新 */
   config.autoUpdate = {

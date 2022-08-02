@@ -15,7 +15,7 @@
             <div class="ml-4 flex flex-col justify-end">
               <div class="flex mb-2.5">
                 <span class="text-[24px] font-bold text-gray-900">{{ champion.data.summary.meta.name }}</span>
-                <img class="pl-1" :src="`/src/assets/img/champions-stat/tiger/${champion.data.summary.summary.average_stats.tier}.svg`" />
+                <img class="pl-1" :src="getPositionTigerImg(champion.data.summary.summary.average_stats.tier)" />
               </div>
               <div class="flex">
                 <img class="border-black mr-2 h-[30px] w-[30px]" :src="champion.data.summary.meta.passive.image_url" alt="" />
@@ -304,6 +304,7 @@ import ipcRenderer from '@/utils/ipcRenderer';
 import { useMessage } from '@/utils/message-notice';
 import { onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import positionTigerSvg from '@/assets/img/champions-stat/tiger'
 
 const route = useRoute();
 
@@ -346,4 +347,8 @@ const showChampionToolWindow = async () => {
     position: champion.value.position,
   });
 };
+
+function getPositionTigerImg(tiger) {
+  return positionTigerSvg[tiger]
+}
 </script>

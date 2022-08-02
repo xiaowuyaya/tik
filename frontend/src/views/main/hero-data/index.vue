@@ -40,7 +40,7 @@
           <a-table-column title="层级" :width="100">
             <template #cell="{ record }">
               <div class="flex items-center">
-                <img :src="`/src/assets/img/champions-stat/tiger/${record.positionTierData.tier}.svg`" />
+                <img :src="getPositionTigerImg(record.positionTierData.tier)" />
               </div>
             </template>
           </a-table-column>
@@ -92,6 +92,7 @@ import { useMessage } from '@/utils/message-notice';
 import { translate } from '@/utils/translate';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import positionTigerSvg from '@/assets/img/champions-stat/tiger'
 
 const settingsStore = useSettingsStore();
 const router = useRouter();
@@ -107,7 +108,6 @@ const tableScroll = ref({
 
 onMounted(async () => {
   await getChampionsData();
-  console.log(championsData.value);
 });
 
 async function getChampionsData() {
@@ -135,5 +135,9 @@ function handleDetail(row: any) {
       position: position.value,
     },
   });
+}
+
+function getPositionTigerImg(tiger) {
+  return positionTigerSvg[tiger]
 }
 </script>

@@ -28,5 +28,4 @@ module.exports = async (app) => {
 
   // 自动更新
   autoUpdater.install(app)
-
 };

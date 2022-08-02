@@ -87,6 +87,12 @@ class LcuController extends Controller {
   async getPanelData(args, event) {
     const status = args.status;
     let panelData = c.get('panel-data');
+    if (!panelData) {
+      panelData = {
+        orderList: [],
+        chaosList: [],
+      };
+    }
     try {
       // 如果在选人阶段，队友信息为空，则重新获取
       if (status == 'ChampSelect' && panelData.orderList.length < 5) {
@@ -105,7 +111,7 @@ class LcuController extends Controller {
     } catch (err) {
       this.app.logger.error(`[controller:lcu] 获取面板数据失败:${err}`);
     }
-    
+
     return JSON.parse(JSON.stringify(panelData));
   }
 

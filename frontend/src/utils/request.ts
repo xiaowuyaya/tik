@@ -55,8 +55,7 @@ class AxiosHttpRequest implements BaseType {
     return config
   }
   // 拦截设置
-  interceptors(instance: AxiosInstance, url: string | number | undefined) {
-    console.log(url);
+  interceptors(instance: AxiosInstance, _url: string | number | undefined) {
 
     // 请求拦截
     instance.interceptors.request.use((config: AxiosRequestType) => {

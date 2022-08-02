@@ -185,7 +185,7 @@ exports.mode = {
     1111: 'Teamfight Tactics test games',
     1200: 'Nexus Blitz games',
     1300: 'Nexus Blitz games',
-    1400: 'Ultimate Spellbook games',
+    1400: '终极魔典',
     1900: 'Pick URF games',
     2000: 'Tutorial 1',
     2010: 'Tutorial 2',

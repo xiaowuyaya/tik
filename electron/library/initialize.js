@@ -2,6 +2,7 @@ const { Storage, Utils } = require('ee-core');
 const { app, BrowserWindow, screen } = require('electron');
 const _ = require('lodash');
 const c = require('../utils/cache');
+const path = require('path')
 const { registerShortcutKey } = require('../core/shortcutKey');
 
 /* 项目初始化 */
@@ -144,6 +145,7 @@ async function checkOpgg(eeApp) {
       allowRunningInsecureContent: true,
     },
   });
+
   // 获取配置
   const applicationConfig = Utils.getEeConfig();
   const URL = `http://${applicationConfig.mainServer.host}:${applicationConfig.mainServer.port}/#/tools/rune`;

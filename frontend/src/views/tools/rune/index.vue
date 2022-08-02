@@ -25,18 +25,18 @@
         </div>
         <div class="flex">
           <div
-            class="flex items-center flex-1 justify-between bg-gray-100 p-2 rounded "
+            class="flex items-center flex-1 justify-between bg-gray-100 p-2 rounded"
             v-for="(item, index) in champion.data.summary.summary.positions"
             :key="index"
             @click="changePosition(item.name)"
           >
             <div class="flex flex-col items-center justify-center flex-1">
-              <img :src="`/src/assets/img/champions-stat/position/${item.name.toLowerCase()}.svg`" alt="" />
+              <img :src="getPositionImg(item.name.toLowerCase())" alt="" />
               <span class="mt-1">{{ translate('opggPosition', item.name) }}</span>
             </div>
             <div class="flex flex-col items-center justify-center flex-1">
               <span class="font-extrabold text-blue-500">{{ (item.stats.win_rate * 100).toFixed(2) }}%</span>
-              <img class="mt-1" :src="`/src/assets/img/champions-stat/tiger/${item.stats.tier_data.tier}.svg`" alt="" />
+              <img class="mt-1" :src="getPositionTigerImg(item.stats.tier_data.tier)" alt="" />
             </div>
           </div>
         </div>
@@ -49,21 +49,20 @@
         <div class="flex justify-between">
           <div
             class="flex items-center justify-between bg-gray-100 p-2 rounded"
-            v-for="(item, index) in champion.data.summoner_spells[0].ids"
+            v-for="(summoner_spells, index) in champion.data.summoner_spells.slice(0,2)"
             :key="index"
-            @click="changePosition(item.name)"
           >
             <div class="flex items-center justify-center flex-1">
               <img
                 class="rounded-full w-[34px] h-[34px] last:ml-[-10px]"
-                v-for="(item, index) in champion.data.summoner_spells[0].ids"
+                v-for="(item, index) in summoner_spells.ids"
                 :key="index"
                 :src="findDetailObj('spells', item).image_url"
               />
             </div>
             <div class="flex flex-col items-center justify-center flex-1 ml-2">
-              <span class="font-extrabold text-blue-500">{{ (champion.data.summoner_spells[0].pick_rate * 100).toFixed(2) }}%</span>
-              <span class="mt-1">{{ champion.data.summoner_spells[0].play }}次</span>
+              <span class="font-extrabold text-blue-500">{{ (summoner_spells.pick_rate * 100).toFixed(2) }}%</span>
+              <span class="mt-1">{{ summoner_spells.play }}次</span>
             </div>
           </div>
         </div>
@@ -153,7 +152,7 @@
             </div>
             <!-- btn -->
             <div class="px-2 mr-2">
-              <a-button type="primary"  @click="useSelectRune(core_item)">
+              <a-button type="primary" @click="useSelectRune(core_item)">
                 <template #icon>
                   <icon-plus />
                 </template>
@@ -177,6 +176,8 @@ import { translate } from '@/utils/translate';
 import ipcRenderer from '@/utils/ipcRenderer';
 import { useMessage } from '@/utils/message-notice';
 import { onBeforeMount, ref } from 'vue';
+import positionSvg from '@/assets/img/champions-stat/position';
+import positionTigerSvg from '@/assets/img/champions-stat/tiger';
 
 // 显示加载动画
 const isLoading = ref<boolean>(false);
@@ -205,6 +206,7 @@ const getChampionData = async (championName, position) => {
   isLoading.value = true;
   const dataResp = await ipcRenderer.invoke('controller.opgg.getDetailByPositionAndName', { championName, position });
   useMessage(dataResp);
+
   champion.value = dataResp.data;
   backgroundImg.value = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.value.data.summary.meta.key}_0.jpg`;
 
@@ -258,4 +260,12 @@ const useSelectRune = async (item) => {
   const resp = await ipcRenderer.invoke('controller.lcu.postRunePage', { data });
   useMessage(resp, '符文导入成功');
 };
+
+function getPositionImg(position) {
+  return positionSvg[position];
+}
+
+function getPositionTigerImg(tiger) {
+  return positionTigerSvg[tiger];
+}
 </script>

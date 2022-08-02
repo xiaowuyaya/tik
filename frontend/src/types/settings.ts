@@ -30,7 +30,10 @@ export interface AppSettings {
   accept: boolean
   confirm: boolean
   muteAll: boolean
-  heroScreenshot: boolean
+  heroScreenshot: {
+    enable: boolean,
+    send: boolean
+  }
   showChampTool: boolean
   normalAuto: {
     pick: boolean

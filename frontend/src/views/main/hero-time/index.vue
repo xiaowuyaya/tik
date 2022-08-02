@@ -4,7 +4,12 @@
       <a-row :gutter="24">
         <a-col :span="12">
           <a-form-item class="!mb-0" label="开启英雄时刻截图">
-            <a-switch v-model="settingsStore.app.heroScreenshot" @change="settingsStore.syncLocal" type="line" />
+            <a-switch v-model="settingsStore.app.heroScreenshot.enable" @change="settingsStore.syncLocal" type="line" />
+          </a-form-item>
+        </a-col>
+         <a-col :span="12">
+          <a-form-item class="!mb-0" label="开启文本发送">
+            <a-switch v-model="settingsStore.app.heroScreenshot.send" @change="settingsStore.syncLocal" type="line" />
           </a-form-item>
         </a-col>
       </a-row>

@@ -2,7 +2,7 @@
   <div class="flex p-2">
     <a-card class="w-[26%]" :hoverable="true" :header-style="{ border: 'none' }">
       <!-- 搜索框 -->
-      <a-input-search v-model="summonerName" placeholder="请输入游戏名" size="small" button-text="查找" search-button />
+      <a-input-search v-model="summonerName" placeholder="请输入游戏名" size="small" button-text="查找" search-button @click="getHistory" />
       <!-- 历史列表 -->
       <div class="mt-4 border-t">
         <block
@@ -174,7 +174,6 @@ const getHistoryDetail = async (gameId) => {
  * @param {*} pageNum
  */
 const changePage = async (pageNum) => {
-  console.log(pageNum);
   pagination.page = pageNum;
   await getHistory();
 };

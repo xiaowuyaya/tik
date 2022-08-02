@@ -113,7 +113,6 @@ module.exports = (appInfo) => {
     enable: false,
   };
 
-
   /* 被浏览器唤醒 (可选) */
   config.awakeProtocol = {
     protocol: 'lol-tool', // 自定义协议名（默认你的应用名称-英文）
@@ -123,11 +122,9 @@ module.exports = (appInfo) => {
   /* 托盘 (可选)  */
   config.tray = {
     title: 'tik 英雄联盟对局助手', // 托盘显示标题
-    icon: '/build/icons/icon.ico', // 托盘图标
   };
 
   config.settings = {
-
     version: app.getVersion(),
     send: {
       enable: true,
@@ -153,7 +150,10 @@ module.exports = (appInfo) => {
       accept: true,
       confirm: false,
       muteAll: false,
-      heroScreenshot: true,
+      heroScreenshot: {
+        enable: true,
+        send: false
+      },
       showChampTool: true,
       normalAuto: {
         pick: false,

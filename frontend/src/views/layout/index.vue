@@ -8,7 +8,7 @@
         <!-- userinfo -->
         <div class="flex flex-col items-center pt-4 pb-1 mb-1">
           <a-avatar :trigger-icon-style="{ color: '#3491FA' }" :size="60" @click="changePath('account')">
-            <img class="cursor-pointer" :src="`${baseUrl}${userStore.avatarUrl}`" alt="加载异常" />
+            <img class="cursor-pointer" :src="userStore.avatarUrl" alt="加载异常" />
             <template #trigger-icon>
               <IconEdit />
             </template>
@@ -80,8 +80,6 @@ import { useAppInfoStore } from '@/stores/modules/appInfo';
 import Header from './components/Header.vue';
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-
-const baseUrl = import.meta.env.VITE_APP_BASE_API;
 
 const userStore = useUserStore();
 const appInfoStore = useAppInfoStore();

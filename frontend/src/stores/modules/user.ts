@@ -1,8 +1,8 @@
 import { getMyInfo, login, LoginClientUserDto, MyInfoDto, updateUserInfo } from "@/api/user";
 import { add, CreateEnvironmentDto } from '@/api/environment'
 import { UserInfo } from "@/types/user";
-import { setToken } from "@/utils/auth";
-import { Message } from '@arco-design/web-vue';
+import { removeToken, setToken } from "@/utils/auth";
+import { Message, Modal } from '@arco-design/web-vue';
 import { defineStore } from "pinia";
 import ipcRenderer from "@/utils/ipcRenderer";
 
@@ -38,6 +38,23 @@ export const useUserStore = defineStore({
       })
       setToken(token);
       await ipcRenderer.invoke('controller.common.setWxOpenId', { openid: this.wxOpenId });
+    },
+    logout() {
+      Modal.error({
+        title: '退出账号',
+        content:
+          '是否确定退出当前账号？',
+        closable: true,
+        okText: '确定',
+        cancelText: '取消',
+        simple: true,
+        hideCancel:false,
+        async onOk() {
+          removeToken()
+          window.location.reload();
+        },
+        onClose() { }
+      });
     },
     async myInfo(data: MyInfoDto) {
       const res = await getMyInfo(data);

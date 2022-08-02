@@ -2,10 +2,14 @@ const { gameScreenshot, sendStringInProgress } = require('../utils/win32-hook');
 const { request } = require('../utils/league-connect');
 const { io } = require('socket.io-client');
 const c = require('../utils/cache');
+const { Utils, Storage } = require('ee-core');
+
+const SERVER_URI = Utils.getEeConfig().serverUrl;
+
 class GameEventListen {
   constructor(eeApp) {
     this.BASE_URI = 'https://127.0.0.1:2999';
-    this.SOCKET_URI = 'http://localhost:3001/';
+    this.SOCKET_URI = SERVER_URI;
     this.socket = null;
     this.eeApp = eeApp;
     this.gameEventTimer = null;
@@ -16,6 +20,12 @@ class GameEventListen {
    */
   async eventListenStart(summonerName) {
     this.eeApp.logger.info(`[gameevent:gameeventlisten] 游戏事件监听开始。`);
+    const db = Storage.JsonDB.connection('settings').db;
+    const appSettings = db.get('app').value();
+    if (!appSettings.heroScreenshot.enable) {
+      this.eeApp.logger.info(`[gameevent:gameeventlisten] 荣誉截图设置为关闭`);
+      return;
+    }  
     let tempData = [];
     this.gameEventTimer = setInterval(async () => {
       const data = await request(`${this.BASE_URI}/liveclientdata/eventdata`);
@@ -27,18 +37,22 @@ class GameEventListen {
         // 多杀
         if (e.EventName == 'Multikill' && e.KillStreak >= 3) {
           if (e.KillerName == summonerName) {
-            gameScreenshot(this.eeApp, `${e.EventName}_${e.KillStreak}`);
+            if (!appSettings.heroScreenshot.send) {
+              gameScreenshot(this.eeApp, `${e.EventName}_${e.KillStreak}`);
+            }
           }
         }
         // 五杀团灭
         if (e.EventName == 'Ace' && e.AcingTeam >= 'ORDER' && e.Acer == '古田县第一中学') {
           if (e.KillerName == summonerName) {
-            gameScreenshot(this.eeApp, 'Ace');
+            if (!appSettings.heroScreenshot.send) {
+              gameScreenshot(this.eeApp, 'Ace');
+            }
           }
         }
       }
     }, 150);
-  }
+  } 
 
   /**
    * 召唤师技能监听
@@ -56,7 +70,6 @@ class GameEventListen {
     });
 
     this.socket.on('disconnect', () => {
-      console.log('ws链接已断开');
       this.eeApp.logger.info(`[gameevent:spellListenStart] socket链接已断开`);
     });
 

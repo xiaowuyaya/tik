@@ -164,6 +164,8 @@ const handleStatus = async (status, eeApp, gameEventListen, summonerName) => {
     return;
   }
   if (status == 'InProgress') {
+    // 隐藏符文导入窗口
+    await eeApp.service.opgg.showChampionToolWindow({ show: false })
     // 英雄时刻
     const enableHeroScreenshot = Utils.getEeConfig().settings.app.heroScreenshot;
     if (enableHeroScreenshot) await gameEventListen.eventListenStart(summonerName);

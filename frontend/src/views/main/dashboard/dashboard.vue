@@ -23,17 +23,17 @@
           <!-- 段位信息 -->
           <div class="flex">
             <div class="flex flex-col items-center">
-              <img class="w-10" :src="`/src/assets/img/ranked/${summonerInfo.rankedSoloTier}.png`" />
+              <img class="w-10" :src="getRankdTiger(summonerInfo.rankedSoloTier)" />
               <div class="">{{ summonerInfo.rankedSolo }}</div>
               <div class="text-gray-600">单双排</div>
             </div>
             <div class="flex flex-col items-center ml-6">
-              <img class="w-10" :src="`/src/assets/img/ranked/${summonerInfo.rankedFlexTier}.png`" />
+              <img class="w-10" :src="getRankdTiger(summonerInfo.rankedFlexTier)" />
               <div class="">{{ summonerInfo.rankedFlex }}</div>
               <div class="text-gray-600">灵活组排</div>
             </div>
             <div class="flex flex-col items-center ml-6">
-              <img class="w-10" :src="`/src/assets/img/ranked/${summonerInfo.rankedHighestTier}.png`" />
+              <img class="w-10" :src="getRankdTiger(summonerInfo.rankedHighestTier)" />
               <div class="">{{ summonerInfo.rankedHighest }}</div>
               <div class="text-gray-600">历史最高</div>
             </div>
@@ -114,6 +114,7 @@ import { translate } from '@/utils/translate';
 import dayjs from 'dayjs';
 import { useUserStore } from '@/stores/modules/user';
 import { useRouter } from 'vue-router';
+import rankTiger from '@/assets/img/ranked'
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -195,6 +196,10 @@ onBeforeMount(async () => {
 const handleRouter = (name) => {
   router.push({ name });
 };
+
+const getRankdTiger = (tiger) => {
+  return rankTiger[tiger]
+}
 </script>
 
 <style scoped lang="less"></style>

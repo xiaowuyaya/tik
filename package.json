@@ -1,7 +1,7 @@
 {
   "name": "tik",
   "private": "true",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "author": "xiaowuyaya, Inc <liaolingwei605@163.com>",
   "description": "通过获取游戏开始时的双方玩家的历史对局数据（也可在英雄选择时队友的历史对局数据），对数据进行算法分析，依照算法，对每个人的历史对局数据进行评分。根据评分结果，得出每位玩家的大致游戏水平，在游戏中能做出针对性的判断结果。",
   "main": "main.js",
@@ -60,7 +60,7 @@
     "nsis": {
       "oneClick": false,
       "allowElevation": true,
-      "allowToChangeInstallationDirectory": true,
+      "allowToChangeInstallationDirectory": false,
       "installerIcon": "./build/icons/icon.ico",
       "uninstallerIcon": "./build/icons/icon.ico",
       "installerHeaderIcon": "./build/icons/icon.ico",
