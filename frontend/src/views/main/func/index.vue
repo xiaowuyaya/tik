@@ -3,6 +3,19 @@
     <a-form :model="settingsStore" auto-label-width>
       <a-card :hoverable="true" :header-style="{ border: 'none' }">
         <a-row :gutter="12" align="center" justify-content="space-between">
+        <!-- 手动技能计时 -->
+          <a-col :span="6">
+            <a-form-item class="!mb-0" field="settingsStore.app.spellsWin.enable" label="手动技能计时">
+              <a-switch v-model="settingsStore.app.spellsWin.enable" @change="handleConfigChange">
+                <template #checked-icon>
+                  <icon-check />
+                </template>
+                <template #unchecked-icon>
+                  <icon-close />
+                </template>
+              </a-switch>
+            </a-form-item>
+          </a-col>
           <!-- 自动接受对局 -->
           <a-col :span="6">
             <a-form-item class="!mb-0" field="settingsStore.app.accept" label="自动接收对局">

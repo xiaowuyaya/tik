@@ -9,7 +9,7 @@ export default defineConfig({
   theme: {
     extend: {
       fontFamily: {
-        pingfang: ["SC-S", "SC-t", 'Myriad Pro', 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', 'sans-serif'],
+        pingfang: ["SC-S", 'Myriad Pro', 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', 'sans-serif'],
         youshe: ["YouShe"]
       },
       colors: {

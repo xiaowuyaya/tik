@@ -150,6 +150,10 @@ module.exports = (appInfo) => {
       accept: true,
       confirm: false,
       muteAll: false,
+      spellsWin: {
+        enable: false,
+        key: [59],
+      },
       heroScreenshot: {
         enable: true,
         send: false

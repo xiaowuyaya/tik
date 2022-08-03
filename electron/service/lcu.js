@@ -3,6 +3,7 @@ const api = require('../core/api');
 const { translate } = require('../utils/translate');
 const c = require('../utils/cache');
 const _ = require('lodash');
+const { sendStringInProgress } = require('../utils/win32-hook');
 
 class LcuService extends Service {
   constructor(ctx) {
@@ -573,6 +574,86 @@ class LcuService extends Service {
       if (summonerSpellsData[key].name == name) {
         return summonerSpellsData[key];
       }
+    }
+  }
+
+  async getPlayerSpells() {
+    let playerList;
+    while (true) {
+      try {
+        /**
+         * getPlayerListInGame这个接口在刚进入游戏时可能获取不到数据，直接走个死循环，有时候获取到了还是空数组
+         */
+        playerList = await api.getPlayerListInGame();
+        if (playerList.length > 0) break;
+      } catch (err) {}
+    }
+    let r = [];
+    const summoner = await api.getSummonerData();
+    let team;
+    for (let j = 0; j < playerList.length; j++) {
+      if (summoner.displayName == playerList[j].summonerName) {
+        if (playerList[j].team == 'ORDER') {
+          team = 'CHAOS';
+        } else {
+          team = 'ORDER';
+        }
+        break;
+      }
+    }
+    for (let i = 0; i < playerList.length; i++) {
+      if (playerList[i].team == team) {
+        let temp = {};
+        const spellOne = await this.getSpellInfoByName(playerList[i].summonerSpells.summonerSpellOne.displayName);
+        const spellOneImg = spellOne.img;
+        const spellOneCooldownBurn = spellOne.cooldownBurn;
+        const spellTwo = await this.getSpellInfoByName(playerList[i].summonerSpells.summonerSpellTwo.displayName);
+        const spellTwoImg = spellTwo.img;
+        const spellTwoCooldownBurn = spellTwo.cooldownBurn;
+        temp.championName = playerList[i].championName;
+        temp.championImg = await this.getAvatarUrlByChampName(playerList[i].championName);
+        temp.summonerName = playerList[i].summonerName;
+        temp.summonerSpellOne = {
+          name: playerList[i].summonerSpells.summonerSpellOne.displayName,
+          img: spellOneImg,
+          cooldownBurn: Number(spellOneCooldownBurn),
+        };
+        temp.summonerSpellTwo = {
+          name: playerList[i].summonerSpells.summonerSpellTwo.displayName,
+          img: spellTwoImg,
+          cooldownBurn: Number(spellTwoCooldownBurn),
+        };
+        r.push(temp);
+      }
+    }
+    return r;
+  }
+
+  async handleSpellsTime(championName, summonerName, spellName, cooldownBurn) {
+    const data = await api.getGameStatusInfo();
+    const curTime = this.setHis(parseInt(data.gameTime) + cooldownBurn);
+    sendStringInProgress(this.app, `${championName}:${summonerName} 已使用 ${spellName}, 技能将在${curTime} 冷却完毕`);
+    setTimeout(() => {
+      sendStringInProgress(this.app, `${championName}:${summonerName} 的 ${spellName}冷却时间还剩 30秒`);
+    }, (cooldownBurn - 30) * 1000);
+    setTimeout(() => {
+      sendStringInProgress(this.app, `${championName}:${summonerName} 的 ${spellName}已转好`);
+    }, cooldownBurn * 1000);
+  }
+
+  setHis(times = 0) {
+    if (typeof times === 'number') {
+      if (times <= 0) {
+        return '00:00:00';
+      } else {
+        let hh = parseInt(times / 3600); //小时
+        let shh = times - hh * 3600;
+        let ii = parseInt(shh / 60);
+        let ss = shh - ii * 60;
+        return (hh < 10 ? '0' + hh : hh) + ':' + (ii < 10 ? '0' + ii : ii) + ':' + (ss < 10 ? '0' + ss : ss);
+      }
+    } else {
+      return '00:00:00';
     }
   }
 }

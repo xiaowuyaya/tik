@@ -4,10 +4,6 @@
   src: url('../assets/font/PingFangSC-Regular.otf');
 }
 @font-face {
-  font-family: "SC-T";
-  src: url('../assets/font/PingFang_SC_T.otf');
-}
-@font-face {
   font-family: "YouShe";
   src: url('../assets/font/YouSheBiaoTiHei.ttf');
 }

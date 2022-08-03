@@ -30,6 +30,12 @@
     "accept": true,
     "confirm": false,
     "muteAll": false,
+    "spellsWin": {
+      "enable": true,
+      "key": [
+        59
+      ]
+    },
     "heroScreenshot": {
       "enable": true,
       "send": false

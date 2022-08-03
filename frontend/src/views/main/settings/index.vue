@@ -46,6 +46,21 @@
         </a-row>
       </a-card>
       <a-card class="mt-2" :hoverable="true" :header-style="{ border: 'none' }" title="自定义快捷键">
+        <a-form-item field="settingsStore.app.spellsWin.key" label-col-flex="74px" label="技能窗口">
+          <a-select
+            :disabled="!settingsStore.app.spellsWin.enable"
+            class="!w-[46%]"
+            v-model="settingsStore.app.spellsWin.key"
+            placeholder="请选择快捷键组合"
+            size="large"
+            multiple
+            :limit="3"
+            @change="handleNotice('spellsWin')"
+          >
+            <a-option v-for="(item, index) in keyCodeOptions" :key="index" :value="item.value">{{ item.label }}</a-option>
+          </a-select>
+          <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.spellsWin }}</span>
+        </a-form-item>
         <a-form-item field="settingsStore.send.keys.order" label-col-flex="74px" label="发送友军">
           <a-select
             :disabled="!settingsStore.send.enable"
@@ -139,12 +154,14 @@ import { onBeforeMount, reactive } from 'vue';
 const settingsStore = useSettingsStore();
 
 const hotKeyNotice = reactive({
+  spellsWin: '',
   order: '',
   chaos: '',
   muteAll: '',
 });
 
 onBeforeMount(() => {
+  handleNotice('spellsWin');
   handleNotice('order');
   handleNotice('chaos');
   handleNotice('muteAll');
@@ -159,7 +176,12 @@ const submit = async () => {
  * @param {*} type
  */
 const handleNotice = (type: string) => {
-  let keys = settingsStore.send.keys[type];
+  let keys;
+  if (type == 'spellsWin') {
+    keys = settingsStore.app.spellsWin.key;
+  } else {
+    keys = settingsStore.send.keys[type];
+  }
   let str = '';
   if (keys.length == 0) {
     str = '无快捷键';

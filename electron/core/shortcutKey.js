@@ -1,7 +1,7 @@
 const { Storage } = require('ee-core');
 const { Notification, BrowserWindow } = require('electron');
 const ioHook = require('iohook');
-const { sendStringInProgress } = require('../utils/win32-hook');
+const { sendStringInProgress, windowKeepTop } = require('../utils/win32-hook');
 const c = require('../utils/cache');
 const { translate } = require('../utils/translate');
 
@@ -10,20 +10,21 @@ exports.registerShortcutKey = async (eeApp) => {
 
   const db = Storage.JsonDB.connection('settings').db;
   const sendSettings = db.get('send').value();
+  const appSettings = db.get('app').value();
 
   if (!sendSettings.enable) {
     eeApp.logger.info(`[shortcutKey] 当前设置已关闭快捷发送功能，停止注册`);
     return;
   }
 
-  await setup(eeApp, sendSettings);
+  await setup(eeApp, sendSettings, appSettings);
 };
 
-async function setup(eeApp, sendSettings) {
+async function setup(eeApp, sendSettings, appSettings) {
   await orderPanelInfo(eeApp, sendSettings);
   await chaosPanelInfo(eeApp, sendSettings);
   await muteAll(eeApp, sendSettings);
-  await spellsWindow(eeApp);
+  await spellsWindow(eeApp, appSettings);
   ioHook.start();
 }
 
@@ -147,14 +148,14 @@ async function muteAll(eeApp, sendSettings) {
   });
 }
 
-async function spellsWindow(eeApp){
-  // lctrl + f1
-  ioHook.registerShortcut([29,59], async (keys) => {
+async function spellsWindow(eeApp, appSettings){
+  ioHook.registerShortcut(appSettings.spellsWinKey.key, async (keys) => {
     const db = Storage.JsonDB.connection('ddragon').db;
     const winId = db.get('spellsWindowId').value()
     const win = BrowserWindow.fromId(winId);
     if(!win.isVisible()){
       win.show()
+      windowKeepTop(eeApp,'TIK SPELLS')
     }else{
       win.hide()
     }

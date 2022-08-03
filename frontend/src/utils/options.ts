@@ -62,6 +62,10 @@ export const rankOptions = [
 
 export const keyCodeOptions = [
   {
+    label: "`",
+    value: 41,
+  },
+  {
     label: "左 Ctrl",
     value: 29,
   },

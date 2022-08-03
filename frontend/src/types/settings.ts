@@ -30,6 +30,10 @@ export interface AppSettings {
   accept: boolean
   confirm: boolean
   muteAll: boolean
+  spellsWin: {
+    enable: boolean,
+    key: number[],
+  },
   heroScreenshot: {
     enable: boolean,
     send: boolean

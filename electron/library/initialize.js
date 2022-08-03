@@ -2,7 +2,6 @@ const { Storage, Utils } = require('ee-core');
 const { app, BrowserWindow, screen } = require('electron');
 const _ = require('lodash');
 const c = require('../utils/cache');
-const path = require('path');
 const { registerShortcutKey } = require('../core/shortcutKey');
 
 /* 项目初始化 */
@@ -170,11 +169,13 @@ function checkSpellsWin(eeApp) {
   let spellsWindow = new BrowserWindow({
     width: 600,
     height: 120,
-    show: true,
-    x: 0,
+    show: false,
+    x: 0 + screen.getPrimaryDisplay().workAreaSize.width * 0.3,
     y: 0,
     resizable: false, // 大小调整
     fullscreenable: false, // 是否可以全屏
+    transparent: true, // 透明背景
+    frame: false, // 显示框体
     webPreferences: {
       contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
       nodeIntegration: true,

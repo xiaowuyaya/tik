@@ -192,6 +192,20 @@ class LcuController extends Controller {
   }
 
   // TODO: 发送指定玩家 sendPanelDataBySummonerName
+
+  async getPlayerSpells(args, event) {
+    return this.service.lcu.getPlayerSpells();
+  }
+
+  async handleSpellsTime(args, event) {
+    const { championName, summonerName, spellName, cooldownBurn } = args;
+    try{
+      await this.service.lcu.handleSpellsTime( championName, summonerName, spellName, cooldownBurn )
+      return R.success()
+    }catch(err){
+      return R.fail(err)
+    }
+  }
 }
 
 module.exports = LcuController;

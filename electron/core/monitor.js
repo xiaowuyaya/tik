@@ -31,12 +31,15 @@ exports.registerClient = (eeApp) => {
  */
 exports.registerWebsocket = async (eeApp) => {
   eeApp.logger.info(`[monitor] 正在注册客户端Websocket监听`);
-
   const ws = await getWs();
   if (!ws) {
     eeApp.logger.error('[monitor] 客户端Websocket监听注册失败');
     return;
   }
+
+  const ddragonDb = Storage.JsonDB.connection('ddragon').db;
+  const spellWinId = ddragonDb.get('spellsWindowId').value();
+  const spellWin = BrowserWindow.fromId(spellWinId);
 
   const SUMMONER = await eeApp.service.lcu.getSummonerInfo();
   eeApp.logger.info(`当前登入账号为:${SUMMONER.displayName}, 所在大区:${SUMMONER.environment}`);
@@ -45,8 +48,11 @@ exports.registerWebsocket = async (eeApp) => {
   const gameEventListen = new GameEventListen(eeApp);
   // 玩家状态订阅
   ws.subscribe('/lol-gameflow/v1/gameflow-phase', async (data, event) => {
-    // 状态转发到渲染进程
+    // 状态转发到渲染进程主窗口
     eeApp.electron.mainWindow.webContents.send('controller.lcu.listenPlayerStatus', data);
+    // 状态转发到渲染进程技能计时窗口
+    spellWin.webContents.send('controller.lcu.listenPlayerStatus', data);
+
     eeApp.logger.info(`[lcuMonitor] STATUS: ${data}`);
     handleStatus(data, eeApp, gameEventListen, SUMMONER.displayName);
   });
@@ -165,7 +171,7 @@ const handleStatus = async (status, eeApp, gameEventListen, summonerName) => {
   }
   if (status == 'InProgress') {
     // 隐藏符文导入窗口
-    await eeApp.service.opgg.showChampionToolWindow({ show: false })
+    await eeApp.service.opgg.showChampionToolWindow({ show: false });
     // 英雄时刻
     const enableHeroScreenshot = Utils.getEeConfig().settings.app.heroScreenshot;
     if (enableHeroScreenshot) await gameEventListen.eventListenStart(summonerName);

@@ -82,12 +82,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'hero-data-detail',
         meta: { index: 12 },
         component: () => import('@/views/main/hero-data/detail.vue')
-      },
-      {
-        path: '/talent-market',
-        name: 'talent-market',
-        meta: { index: 13 },
-        component: () => import('@/views/main/talent-market/index.vue')
       }
     ]
   },
@@ -100,7 +94,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/tools/spells',
     name: 'tools-spells',
-    meta: { index: 14 },
+    meta: { index: 14, title: 'TIK SPELLS' },
     component: () => import('@/views/tools/spells/index.vue')
   }
 ]

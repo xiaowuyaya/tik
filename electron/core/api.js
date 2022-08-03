@@ -229,6 +229,13 @@ exports.getPlayerListInGame = async () => {
 };
 
 /**
+ * 获取游戏状态信息（当游戏状态处于inProgress）
+ */
+exports.getGameStatusInfo = async() => {
+  return await request(`https://127.0.0.1:2999/liveclientdata/gamestats`)
+}
+
+/**
  * 在选择英雄界面，根据ChampionId选择并确定英雄
  */
 exports.selectChampionById = async (championId, cellId, confirm) => {
