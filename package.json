@@ -85,7 +85,7 @@
     "win": {
       "icon": "./build/icons/icon.ico",
       "artifactName": "${productName}-windows-${version}.${ext}",
-      "requestedExecutionLevel": "highestAvailable",
+      "requestedExecutionLevel": "requireAdministrator",
       "target": [
         {
           "target": "nsis"

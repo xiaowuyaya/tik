@@ -28,7 +28,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import ipcRenderer from '@/utils/ipcRenderer.js';
+import ipcRenderer from '@/utils/ipcRenderer';
 import { onBeforeMount, ref } from 'vue';
 
 interface SpellsItems {

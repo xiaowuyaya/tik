@@ -170,7 +170,7 @@ function checkSpellsWin(eeApp) {
     width: 600,
     height: 120,
     show: false,
-    x: 0 + screen.getPrimaryDisplay().workAreaSize.width * 0.3,
+    x: 0 + screen.getPrimaryDisplay().workAreaSize.width * 0.15,
     y: 0,
     resizable: false, // 大小调整
     fullscreenable: false, // 是否可以全屏

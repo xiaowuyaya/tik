@@ -51,7 +51,12 @@
             <span :class="[userStore.wxOpenId ? 'text-green-500' : 'text-red-500']">{{ userStore.wxOpenId ? '已订阅' : '未订阅' }}</span>
           </div>
           <!-- TODO: 小程序做完 这边要给二维码 -->
-          <a-link v-if="!userStore.wxOpenId" @click="">订阅微信小程序获取更多功能</a-link>
+          <a-link v-if="!userStore.wxOpenId" @click="showQrCode = true">绑定微信小程序启用更多功能</a-link>
+          <a-modal v-model:visible="showQrCode" width="33%" title="微信小程序二维码" draggable hide-cancel simple okText="OK">
+            <div class="flex justify-center items-center">
+              <a-image width="200" src="/src/assets/QrCode.jpg" />
+            </div>
+          </a-modal>
         </div>
       </a-card>
       <a-card class="mt-4" title="英雄时刻" :hoverable="true" :header-style="{ border: 'none' }">
@@ -59,7 +64,7 @@
           <a-link @click="handleRouter('hero-time')">更多</a-link>
         </template>
         <div v-if="heroTimeImgs.length == 0">
-          <a-empty description='暂无英雄时刻截图，快开始对局吧' />
+          <a-empty description="暂无英雄时刻截图，快开始对局吧" />
         </div>
         <div v-if="heroTimeImgs.length != 0">
           <a-carousel
@@ -104,6 +109,7 @@
         </block>
       </a-card>
     </div>
+    <!-- QrCode -->
   </div>
 </template>
 
@@ -114,7 +120,7 @@ import { translate } from '@/utils/translate';
 import dayjs from 'dayjs';
 import { useUserStore } from '@/stores/modules/user';
 import { useRouter } from 'vue-router';
-import rankTiger from '@/assets/img/ranked'
+import rankTiger from '@/assets/img/ranked';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -155,6 +161,8 @@ const gameStatus = ref('');
 const historyList = ref<any>([]);
 
 const heroTimeImgs = ref([]);
+
+const showQrCode = ref<boolean>(false);
 
 // 持续监听玩家游戏状态变化,当状态满足条件时重新夹在数据
 ipcRenderer.ipc.removeAllListeners('controller.lcu.listenPlayerStatus');
@@ -198,8 +206,8 @@ const handleRouter = (name) => {
 };
 
 const getRankdTiger = (tiger) => {
-  return rankTiger[tiger]
-}
+  return rankTiger[tiger];
+};
 </script>
 
 <style scoped lang="less"></style>

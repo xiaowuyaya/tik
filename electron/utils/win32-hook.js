@@ -9,14 +9,14 @@ const dayjs = require('dayjs');
 /* 基于大漠插件实现win32窗口相关hook */
 
 function registerDm() {
-  const filePath = path.join(Utils.getExtraResourcesDir(), 'dll', 'dm.dll');
+  const filePath = path.join(Utils.getExtraResourcesDir(), 'dll', 'dm.dll');  // 添加双引号 以防出现 Program Files 自带空格问题
   // 判断文件是否存在
   const exists = fsExistsSync(filePath);
   if (exists) {
     try {
       return new winax.Object('dm.dmsoft');
     } catch (err) {
-      execSync(`regsvr32 ${filePath} /s`);
+      execSync(`regsvr32 "${filePath}" /s`);
       return new winax.Object('dm.dmsoft');
     }
   } else {
@@ -24,7 +24,7 @@ function registerDm() {
       .showMessageBox({
         type: 'error',
         title: '检测到dm.dll文件不存在',
-        message: `请检查 ${filePath} 是否存在？\n 您可以无视这个警告，但是您将无法使用在游戏中发送战绩的功能。`,
+        message: `请检查 ${filePath} 是否存在？\n 您可以无视这个警告，但是您将无法正常使用完整功能`,
         buttons: ['无视', '如何解决'],
       })
       .then((buttonIndex) => {

@@ -149,7 +149,8 @@ async function muteAll(eeApp, sendSettings) {
 }
 
 async function spellsWindow(eeApp, appSettings){
-  ioHook.registerShortcut(appSettings.spellsWinKey.key, async (keys) => {
+  ioHook.registerShortcut(appSettings.spellsWin.key, async (keys) => {
+    if(!appSettings.spellsWin.enable) return
     const db = Storage.JsonDB.connection('ddragon').db;
     const winId = db.get('spellsWindowId').value()
     const win = BrowserWindow.fromId(winId);

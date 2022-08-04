@@ -6,7 +6,7 @@
         <!-- 手动技能计时 -->
           <a-col :span="6">
             <a-form-item class="!mb-0" field="settingsStore.app.spellsWin.enable" label="手动技能计时">
-              <a-switch v-model="settingsStore.app.spellsWin.enable" @change="handleConfigChange">
+              <a-switch v-model="settingsStore.app.spellsWin.enable" :disabled="userStore.wxOpenId == ''" @change="handleConfigChange">
                 <template #checked-icon>
                   <icon-check />
                 </template>
@@ -96,8 +96,22 @@
         </a-row>
         <a-row :gutter="42" align="center" justify-content="space-between">
           <a-col :span="12">
-            <a-form-item class="!mb-0" label="生涯背景修改">
+            <a-form-item label="生涯背景修改">
               <a-button type="primary" long size="large" @click="showSummonerBackground = true">点击选择</a-button>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="42" align="center" justify-content="space-between">
+          <a-col :span="12">
+            <a-form-item label="隐藏分查询">
+              <a-input placeholder="请前往小程序查看" :disabled="true"></a-input>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="42" align="center" justify-content="space-between">
+          <a-col :span="12">
+            <a-form-item class="!mb-0" label="本命英雄查询">
+              <a-input placeholder="请前往小程序查看" :disabled="true"></a-input>
             </a-form-item>
           </a-col>
         </a-row>
@@ -145,7 +159,9 @@ import ipcRenderer from '@/utils/ipcRenderer';
 import { useMessage } from '@/utils/message-notice';
 import _ from 'lodash';
 import { useChampionsStore } from '@/stores/modules/champions';
+import { useUserStore } from '@/stores/modules/user.js';
 
+const userStore = useUserStore();
 const championsStore = useChampionsStore();
 const settingsStore = useSettingsStore();
 const useForm = reactive({
