@@ -6,7 +6,7 @@
         <!-- 手动技能计时 -->
           <a-col :span="6">
             <a-form-item class="!mb-0" field="settingsStore.app.spellsWin.enable" label="手动技能计时">
-              <a-switch v-model="settingsStore.app.spellsWin.enable" :disabled="userStore.wxOpenId == ''" @change="handleConfigChange">
+              <a-switch v-model="settingsStore.app.spellsWin.enable" :disabled="!userStore.wxOpenId" @change="handleConfigChange">
                 <template #checked-icon>
                   <icon-check />
                 </template>
@@ -83,7 +83,7 @@
         <a-row :gutter="42" align="center" justify-content="space-between">
           <a-col :span="12">
             <a-form-item class="" field="useForm.spectator" label="拉起观战">
-              <a-input-search :disabled="true" @search="handleSpectator" search-button placeholder="请输入需要观战的玩家游戏名" />
+              <a-input-search  @search="handleSpectator" search-button placeholder="请输入需要观战的玩家游戏名" />
             </a-form-item>
           </a-col>
         </a-row>

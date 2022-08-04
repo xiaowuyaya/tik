@@ -7,8 +7,8 @@ const { registerShortcutKey } = require('../core/shortcutKey');
 /* 项目初始化 */
 module.exports = {
   async install(eeApp) {
-    await checkDataDragon(eeApp);
     checkSettings(eeApp);
+    await checkDataDragon(eeApp);
     checkBlacklist(eeApp);
     checkPanelData(eeApp);
     await registerShortcutKey(eeApp);
@@ -67,7 +67,7 @@ function checkSettings(eeApp) {
   try {
     const db = Storage.JsonDB.connection('settings').db;
     const settingVersion = db.get('version').value();
-    if (_.isEmpty(settingVersion) || !_.isEqual(settingVersion, app.getVersion())) {
+    if (!_.isEqual(settingVersion, app.getVersion())) {
       const eeConfig = Utils.getEeConfig();
       const settings = eeConfig.settings;
       db.set('version', settings.version).set('send', settings.send).set('app', settings.app).write();

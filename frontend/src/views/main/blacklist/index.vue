@@ -36,6 +36,11 @@
             <a-button @click="reload">刷新</a-button>
           </a-form-item>
         </a-col>
+        <a-col :span="2">
+          <a-form-item class="!mb-0">
+            <a-button :disabled="true" @click="inputData">导入旧版数据</a-button>
+          </a-form-item>
+        </a-col>
       </a-row>
     </a-card>
     <!-- 表格显示 -->
@@ -71,6 +76,7 @@ import { environmentOption } from '@/utils/options';
 import { IconSearch } from '@arco-design/web-vue/es/icon';
 import { onBeforeMount, reactive, ref, h } from 'vue';
 import { Message, Modal, TableColumnData } from '@arco-design/web-vue';
+import ipcRenderer from '@/utils/ipcRenderer.js';
 
 const blacklistStore = useBlacklistStore();
 const userStore = useUserStore();
@@ -164,6 +170,12 @@ const handleDeleteBlacklist = async (record) => {
     },
   });
 };
+
+const inputData = async () => {
+  const data = await ipcRenderer.invoke('controller.common.importBlacklistData', '');
+  console.log(data);
+  
+}
 </script>
 <style scoped>
 .custom-filter {

@@ -50,11 +50,10 @@
             状态：
             <span :class="[userStore.wxOpenId ? 'text-green-500' : 'text-red-500']">{{ userStore.wxOpenId ? '已订阅' : '未订阅' }}</span>
           </div>
-          <!-- TODO: 小程序做完 这边要给二维码 -->
           <a-link v-if="!userStore.wxOpenId" @click="showQrCode = true">绑定微信小程序启用更多功能</a-link>
-          <a-modal v-model:visible="showQrCode" width="33%" title="微信小程序二维码" draggable hide-cancel simple okText="OK">
+          <a-modal v-model:visible="showQrCode" width="33%" title="微信小程序二维码" draggable hide-cancel simple okText="OK" @close="reloadStatus">
             <div class="flex justify-center items-center">
-              <a-image width="200" src="/src/assets/QrCode.jpg" />
+              <img width="200" src="@/assets/QrCode.jpg" alt="">
             </div>
           </a-modal>
         </div>
@@ -121,8 +120,10 @@ import dayjs from 'dayjs';
 import { useUserStore } from '@/stores/modules/user';
 import { useRouter } from 'vue-router';
 import rankTiger from '@/assets/img/ranked';
+import { useAppInfoStore } from '@/stores/modules/appInfo.js';
 
 const userStore = useUserStore();
+const appInfoStore = useAppInfoStore()
 const router = useRouter();
 
 interface SummonerInfo {
@@ -208,6 +209,10 @@ const handleRouter = (name) => {
 const getRankdTiger = (tiger) => {
   return rankTiger[tiger];
 };
+
+const reloadStatus = async() => {
+  await userStore.myInfo({ mac: appInfoStore.macAddr, clientVersion: appInfoStore.appVersion });
+}
 </script>
 
 <style scoped lang="less"></style>

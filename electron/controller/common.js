@@ -2,6 +2,9 @@ const { Controller } = require('ee-core');
 const R = require('../utils/res');
 const { shell } = require('electron');
 const c = require('../utils/cache');
+const _ = require('lodash');
+const fs = require('fs');
+const { dialog } = require('electron');
 
 class CommonController extends Controller {
   constructor(ctx) {
@@ -63,8 +66,34 @@ class CommonController extends Controller {
   }
 
   checkUpdate(args, event) {
-    this.service.common.checkUpdate()
+    this.service.common.checkUpdate();
   }
+
+  // importBlacklistData(args, event) {
+  //   try {
+  //     const file = dialog.showOpenDialogSync({
+  //       title: '读取旧版黑名单备份文件',
+  //       buttonLabel: '确定',
+  //       filters: [
+  //         {
+  //           // 只读取js文件
+  //           name: 'bans.bak',
+  //           extensions: ['json'],
+  //         },
+  //       ],
+  //     });
+  //     const res = fs.readFileSync(file[0], 'utf-8');
+  //     const bakList = []
+  //     _.forIn(res, (list, key) => {
+  //       for (var i = 0; i < list.length; i++) {
+  //         list[i]
+  //       }
+  //     })
+  //     return R.success(res);
+  //   } catch (err) {
+  //     return R.fail(err);
+  //   }
+  // }
 }
 
 module.exports = CommonController;

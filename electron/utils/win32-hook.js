@@ -50,7 +50,7 @@ exports.sendStringInProgress = (eeApp, string) => {
     dm.setWindowState(hwnd1, 1)
     dm.setKeypadDelay('normal', 100);
     dm.keyPress(13);
-    dm.sendString(hwnd1, string);
+    dm.sendString(hwnd1, `${string} 来自：Tik对局助手`);
     dm.keyPress(13);
     eeApp.logger.info(`[win32:sendStringInProgress] 向${hwnd1}输出内容成功: ${string}`);
   } catch (err) {

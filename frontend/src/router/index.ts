@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/func',
         name: 'func',
-        meta: { index: 6 },
+        meta: { index: 6, keepAlive: true },
         component: () => import('@/views/main/func/index.vue')
       },
       {
