@@ -60,7 +60,7 @@
     "nsis": {
       "oneClick": false,
       "allowElevation": true,
-      "allowToChangeInstallationDirectory": false,
+      "allowToChangeInstallationDirectory": true,
       "installerIcon": "./build/icons/icon.ico",
       "uninstallerIcon": "./build/icons/icon.ico",
       "installerHeaderIcon": "./build/icons/icon.ico",
@@ -85,7 +85,7 @@
     "win": {
       "icon": "./build/icons/icon.ico",
       "artifactName": "${productName}-windows-${version}.${ext}",
-      "requestedExecutionLevel": "requireAdministrator",
+      "requestedExecutionLevel": "highestAvailable",
       "target": [
         {
           "target": "nsis"
