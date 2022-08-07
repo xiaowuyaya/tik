@@ -20,7 +20,7 @@ class DataService extends Service {
       return r
     } catch (err) {
       this.app.logger.error(`[service:storage] 获取配置文件数据失败:${err}`);
-      return R.fail(err);
+      return R.fail(null,err);
     }
   }
 
@@ -35,7 +35,7 @@ class DataService extends Service {
       return r
     } catch (err) {
       this.app.logger.error(`[service:storage] 获取配置${field}失败:${err}`);
-      return R.fail(err);
+      return R.fail(null,err);
     }
   }
 
@@ -53,7 +53,7 @@ class DataService extends Service {
       return R.success();
     } catch (err) {
       this.app.logger.error(`[service:storage] 获取配置${field}失败:${err}`);
-      return R.fail(err);
+      return R.fail(null,err);
     }
   }
 

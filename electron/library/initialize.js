@@ -7,13 +7,17 @@ const { registerShortcutKey } = require('../core/shortcutKey');
 /* 项目初始化 */
 module.exports = {
   async install(eeApp) {
-    checkSpellsWin(eeApp)
-    checkSettings(eeApp);
     await checkDataDragon(eeApp);
-    checkBlacklist(eeApp);
-    checkPanelData(eeApp);
+    checkSettings(eeApp);
     await registerShortcutKey(eeApp);
-    await checkOpgg(eeApp);
+    checkBlacklist(eeApp);
+    checkSpellsWin(eeApp)
+    checkPanelData(eeApp);
+    try{
+      await checkOpgg(eeApp);
+    }catch(err){
+      eeApp.logger.error(`[initialize] opgg数据获取异常`)
+    }
   },
 };
 

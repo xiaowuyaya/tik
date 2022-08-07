@@ -29,7 +29,7 @@
 </template>
 <script setup lang="ts">
 import ipcRenderer from '@/utils/ipcRenderer';
-import { onBeforeMount, ref } from 'vue';
+import {  onMounted, ref } from 'vue';
 
 interface SpellsItems {
   championName: string;
@@ -51,7 +51,7 @@ const gameStatus = ref('');
 
 const spellsData = ref<SpellsItems[]>([]);
 
-onBeforeMount(async () => {
+onMounted(async () => {
   gameStatus.value = await ipcRenderer.invoke('controller.lcu.getPlayerStatus', '');
   await getSpellData(gameStatus.value);
 });
@@ -64,7 +64,6 @@ ipcRenderer.ipc.on('controller.lcu.listenPlayerStatus', async (_event, data) => 
 });
 
 async function getSpellData(status: string) {
-  console.log(status);
 
   if (status == 'InProgress' || status == '游戏中') {
     spellsData.value = await ipcRenderer.invoke('controller.lcu.getPlayerSpells', '');

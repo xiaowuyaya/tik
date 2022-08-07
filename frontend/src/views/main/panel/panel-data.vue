@@ -23,14 +23,14 @@
               <!-- 头像 -->
               <a-col :span="2">
                 <a-avatar class="rounded" :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
-                  <img :src="item.championAvatar" />
+                  <img :src="item.profileIcon" />
                 </a-avatar>
               </a-col>
               <a-col :span="2">
                 <span class="font-black text-[15px]">{{ item.type || '未知' }}</span>
               </a-col>
               <a-col :span="2">
-                <span class="text-[14px] text-center">{{ item.rankInfo.rankedSolo || '未知' }}</span>
+                <span class="text-[14px] text-center">{{ item.rank.rankedSolo || '未知' }}</span>
               </a-col>
               <!-- 信息相关 -->
               <a-col :span="4" @click="handlePlayerHistory(item.summonerName)">
@@ -76,14 +76,14 @@
               <!-- 头像 -->
               <a-col :span="2">
                 <a-avatar class="rounded" :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
-                  <img :src="item.championAvatar" />
+                  <img :src="item.profileIcon" />
                 </a-avatar>
               </a-col>
               <a-col :span="2">
                 <span class="font-black text-[15px]">{{ item.type || '未知' }}</span>
               </a-col>
               <a-col :span="2">
-                <span class="text-[14px] text-center">{{ item.rankInfo.rankedSolo || '未知' }}</span>
+                <span class="text-[14px] text-center">{{ item.rank.rankedSolo || '未知' }}</span>
               </a-col>
               <!-- 信息相关 -->
               <a-col :span="4" @click="handlePlayerHistory(item.summonerName)">
@@ -137,13 +137,13 @@
                 <a-col flex="48px">
                   <div class="flex flex-col items-center justify-center">
                     <a-avatar :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
-                      <img :src="item.championAvatar" />
+                      <img :src="item.profileIcon" />
                     </a-avatar>
                   </div>
                 </a-col>
                 <a-col flex="120px">
                   <div class="flex flex-col items-center justify-center">
-                    <span class="">{{ item.rankInfo.rankedSolo }}</span>
+                    <span class="">{{ item.rank.rankedSolo }}</span>
                     <span class="font-black mt-1">{{ item.summonerName }}</span>
                   </div>
                 </a-col>
@@ -183,13 +183,13 @@
                 <a-col flex="48px">
                   <div class="flex flex-col items-center justify-center">
                     <a-avatar :size="42" shape="square" @click="handleAddBlacklist(item.summonerName, item.summonerId)">
-                      <img :src="item.championAvatar" />
+                      <img :src="item.profileIcon" />
                     </a-avatar>
                   </div>
                 </a-col>
                 <a-col flex="120px">
                   <div class="flex flex-col items-center justify-center">
-                    <span class="">{{ item.rankInfo.rankedSolo }}</span>
+                    <span class="">{{ item.rank.rankedSolo }}</span>
                     <span class="font-black mt-1">{{ item.summonerName }}</span>
                   </div>
                 </a-col>
@@ -288,6 +288,8 @@ ipcRenderer.ipc.on('controller.lcu.listenPlayerStatus', async (_event, data) => 
 const getPlayerList = async (status) => {
   if (status == 'InProgress' || status == 'ChampSelect') {
     playerList.value = await ipcRenderer.invoke('controller.lcu.getPanelData', { status });
+    console.log(playerList.value);
+    
   }
 };
 

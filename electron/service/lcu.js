@@ -3,7 +3,7 @@ const api = require('../core/api');
 const { translate } = require('../utils/translate');
 const c = require('../utils/cache');
 const _ = require('lodash');
-const { sendStringInProgress } = require('../utils/win32-hook');
+const { sendSpellsInfo } = require('../utils/win32-hook');
 
 class LcuService extends Service {
   constructor(ctx) {
@@ -172,6 +172,147 @@ class LcuService extends Service {
       r.push(temp);
     }
     return r;
+  }
+
+  // 20220807 重写获取面板数据逻辑
+  async getPanelDataInChampSelectV2() {
+    const sessionRes = await api.getSessionInfo();
+    if (!sessionRes.myTeam) return null;
+
+    let playerList = [];
+    for (let i = 0; i < sessionRes.myTeam.length; i++) {
+      let temp = {};
+      temp.team = 'order';
+      // 是否为机器人
+      if (sessionRes.myTeam[i].summonerId != 0) {
+        temp.summonerId = sessionRes.myTeam[i].summonerId;
+        temp.position = sessionRes.myTeam[i].assignedPosition;
+        const summonerInfo = await api.getSummonerBySummonerId(sessionRes.myTeam[i].summonerId);
+        temp.summonerName = summonerInfo.displayName;
+        temp.profileIcon = await api.getSummonerAvatarBase64(summonerInfo.profileIconId);
+
+        const historyMatches = await api.getHistoryMatchesByPuuid(summonerInfo.puuid);
+        const matchesData = await this.sourcingRules(historyMatches);
+        temp.matches = matchesData;
+
+        const rank = await api.getRankedStatusInfoByPuuid(summonerInfo.puuid);
+        temp.rank = {
+          rankedSolo: `${translate('rank', rank.queueMap.RANKED_SOLO_5x5.tier)} ${rank.queueMap.RANKED_SOLO_5x5.division}`,
+          rankedFlex: `${translate('rank', rank.queueMap.RANKED_FLEX_SR.tier)} ${rank.queueMap.RANKED_FLEX_SR.division}`,
+        };
+      } else {
+        temp.summonerId = sessionRes.myTeam[i].summonerId;
+        temp.position = sessionRes.myTeam[i].assignedPosition;
+        temp.summonerName = 'BOT';
+        temp.profileIcon = 'https://ddragon.leagueoflegends.com/cdn/12.5.1/img/profileicon/29.png';
+        temp.matches = {
+          source: '',
+          kda: '',
+          winRate: '',
+          data: '',
+        };
+        temp.rank = {
+          rankedSolo: '',
+          rankedFlex: '',
+        };
+      }
+      playerList.push(temp);
+    }
+    const res = await this.sortAndSetDesignation(playerList);
+
+    // 获取发送配置
+    const settingsDB = Storage.JsonDB.connection('settings').db;
+    const sendConfig = settingsDB.get('send').value();
+    // 获取黑名单列表
+    const bansDB = Storage.JsonDB.connection('blacklist').db;
+    const blackList = bansDB.get('list').value();
+
+    // 黑名单信息是否发送所有人
+    const blackNoticeToAll = sendConfig.blackListNotice;
+
+    // 判断玩家中是否有黑名单成员
+    for (let i = 0; i < blackList.length; i++) {
+      const ban = blackList[i];
+      for (let j = 0; j < res.length; j++) {
+        const player = res[j];
+        if (player.summonerName == ban.banName) {
+          console.log('cunzai ');
+          await api.sendMsgInChampSelect(blackNoticeToAll ? 'all' : 'self', `[Tik对局助手]：玩家 ${ban.banName} 在你的黑名单中, 原因：${ban.reason}`);
+          break;
+        }
+      }
+    }
+
+    const panelData = {
+      orderList: res,
+      chaosList: [],
+    };
+    return panelData;
+  }
+  // 20220807 重写获取面板数据逻辑
+  async getPanelDataInProgressV2() {
+    let playerList;
+    let panelData = {
+      orderList: [],
+      chaosList: [],
+    };
+    while (true) {
+      try {
+        /**
+         * getPlayerListInGame这个接口在刚进入游戏时可能获取不到数据，直接走个死循环，有时候获取到了还是空数组
+         */
+        playerList = await api.getPlayerListInGame();
+        if (playerList.length > 0) break;
+      } catch (err) {}
+    }
+    for (let i = 0; i < playerList.length; i++) {
+      if (!playerList[i].isBot) {
+        let res = {};
+        res.position = playerList[i].position;
+        res.summonerName = playerList[i].summonerName;
+        res.championName = playerList[i].championName;
+        res.summonerId = await api.getSummonerIdBySummonerName(playerList[i].summonerName);
+        res.profileIcon = await this.getAvatarUrlByChampName(playerList[i].championName);
+        const puuid = await api.getPuuidBySummonerName(playerList[i].summonerName);
+        const historyMatches = await api.getHistoryMatchesByPuuid(puuid);
+        const matchesData = await this.sourcingRules(historyMatches);
+        res.matches = matchesData;
+        const rank = await api.getRankedStatusInfoByPuuid(puuid);
+        res.rank = {
+          rankedSolo: `${translate('rank', rank.queueMap.RANKED_SOLO_5x5.tier)} ${rank.queueMap.RANKED_SOLO_5x5.division}`,
+          rankedFlex: `${translate('rank', rank.queueMap.RANKED_FLEX_SR.tier)} ${rank.queueMap.RANKED_FLEX_SR.division}`,
+        };
+        if (playerList[i].team == 'ORDER') {
+          panelData.orderList.push(res);
+        } else {
+          panelData.chaosList.push(res);
+        }
+      } else {
+        let res = {};
+        res.position = playerList[i].position;
+        res.summonerName = playerList[i].summonerName;
+        res.championName = playerList[i].championName;
+        res.profileIcon = await this.getAvatarUrlByChampName(playerList[i].championName);
+        res.matches = {
+          source: '',
+          kda: '',
+          winRate: '',
+          data: '',
+        };
+        res.rank = {
+          rankedSolo: '',
+          rankedFlex: '',
+        };
+        if (playerList[i].team == 'ORDER') {
+          panelData.orderList.push(res);
+        } else {
+          panelData.chaosList.push(res);
+        }
+      }
+    }
+    panelData.orderList = await this.sortAndSetDesignation(panelData.orderList);
+    panelData.chaosList = await this.sortAndSetDesignation(panelData.chaosList);
+    return panelData;
   }
 
   /**
@@ -632,13 +773,7 @@ class LcuService extends Service {
   async handleSpellsTime(championName, summonerName, spellName, cooldownBurn) {
     const data = await api.getGameStatusInfo();
     const curTime = this.setHis(parseInt(data.gameTime) + cooldownBurn);
-    sendStringInProgress(this.app, `${championName}:${summonerName} 已使用 ${spellName}, 技能将在${curTime} 冷却完毕`);
-    setTimeout(() => {
-      sendStringInProgress(this.app, `${championName}:${summonerName} 的 ${spellName}冷却时间还剩 30秒`);
-    }, (cooldownBurn - 30) * 1000);
-    setTimeout(() => {
-      sendStringInProgress(this.app, `${championName}:${summonerName} 的 ${spellName}已转好`);
-    }, cooldownBurn * 1000);
+    await sendSpellsInfo(this.app, championName, summonerName, spellName, cooldownBurn, curTime);
   }
 
   setHis(times = 0) {

@@ -69,6 +69,10 @@ class AxiosHttpRequest implements BaseType {
       config.headers['Authorization'] = getToken()
       config.headers['Content-Type'] = 'application/json;charset=utf-8'
 
+      // 添加时间戳
+      config.data = {...config.data, _t: Date.now()}
+      config.params = {...config.params, _t: Date.now()}
+
       // get请求映射params参数
       if (config.method === 'get' && config.params) {
         let url = config.url + '?'

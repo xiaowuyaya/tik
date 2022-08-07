@@ -82,12 +82,6 @@ const routes: Array<RouteRecordRaw> = [
         name: 'hero-data-detail',
         meta: { index: 12 },
         component: () => import('@/views/main/hero-data/detail.vue')
-      },
-      {
-        path: '/vip',
-        name: 'vip',
-        meta: { index: 13 },
-        component: () => import('@/views/main/vip/index.vue')
       }
     ]
   },

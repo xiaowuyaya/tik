@@ -18,7 +18,7 @@ class SettingsService extends Service {
       return R.success(r);
     } catch (err) {
       this.app.logger.error(`[service:settings] 获取配置${type}发生异常:${err}`);
-      return R.fail(`获取配置${type}发生异常: ${err}`);
+      return R.fail(null,`获取配置${type}发生异常: ${err}`);
     }
   }
 
@@ -35,7 +35,7 @@ class SettingsService extends Service {
       return R.success();
     } catch (err) {
       this.app.logger.error(`[service:settings] 更新配置${type}发生异常:${err}`);
-      return R.fail(`更新配置${type}发生异常: ${err}`);
+      return R.fail(null,`更新配置${type}发生异常: ${err}`);
     }
   }
 }

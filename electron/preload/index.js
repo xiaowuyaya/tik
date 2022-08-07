@@ -15,7 +15,7 @@ module.exports = async (app) => {
   tray.install(app);
 
   // 项目初始化校验
-  initialize.install(app);
+  await initialize.install(app);
 
   // chrome拓展
   // chromeExtension.install();
@@ -24,7 +24,7 @@ module.exports = async (app) => {
   security.install(app);
 
   // 获取credentials凭证信息
-  credentials.install(app);
+  await credentials.install(app);
 
   // 自动更新
   autoUpdater.install(app)

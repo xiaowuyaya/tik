@@ -92,6 +92,11 @@ exports.getPuuidBySummonerName = async (summonerName) => {
   return data.puuid;
 };
 
+exports.getSummonerIdBySummonerName = async (summonerName) => {
+  const data = await http2Request(`/lol-summoner/v1/summoners?name=${encodeURI(summonerName)}`);
+  return data.summonerId;
+};
+
 /**
  * 根据summonerId获取用户信息
  */

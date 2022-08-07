@@ -38,7 +38,7 @@
         </a-col>
         <a-col :span="2">
           <a-form-item class="!mb-0">
-            <a-button :disabled="true" @click="inputData">导入旧版数据</a-button>
+            <a-button @click="showImportBak = true">导入旧版数据</a-button>
           </a-form-item>
         </a-col>
       </a-row>
@@ -65,6 +65,19 @@
         </template>
       </a-table>
     </a-card>
+    <!-- 备份文件导入提醒 -->
+    <a-modal v-model:visible="showImportBak" @ok="inputData" ok-text="开始导入">
+    <template #title>
+      serendipity 黑名单备份文件导入
+    </template>
+    <div>
+      <p>1. 打开旧版本serendipity程序</p>
+      <p>2. 点击右上角设置-打开配置路径-在配置路径下找到bans.bak.json文件，记住这个路径！</p>
+      <p>3. 点击开始导入，选中bans.bak.json文件开始导入操作</p>
+      <p class="text-red-500">注意：仅导入当前账号所登入过大区的黑名单信息，如果当前账号下从未登入过黑名单中存在的大区将会导入失败！</p>
+      <p class="text-red-500">例如：如果当前账号{{userStore.username}}从未在 艾欧尼亚 玩过，而黑名单中有 艾欧尼亚 的数据，此条数据将导入失败</p>
+    </div>
+  </a-modal>
   </div>
 </template>
 
@@ -77,9 +90,12 @@ import { IconSearch } from '@arco-design/web-vue/es/icon';
 import { onBeforeMount, reactive, ref, h } from 'vue';
 import { Message, Modal, TableColumnData } from '@arco-design/web-vue';
 import ipcRenderer from '@/utils/ipcRenderer.js';
+import { useMessage } from '@/utils/message-notice';
 
 const blacklistStore = useBlacklistStore();
 const userStore = useUserStore();
+
+const showImportBak = ref(false)
 
 const useForm = reactive({
   environment: '',
@@ -172,10 +188,21 @@ const handleDeleteBlacklist = async (record) => {
 };
 
 const inputData = async () => {
-  const data = await ipcRenderer.invoke('controller.common.importBlacklistData', '');
-  console.log(data);
-  
-}
+  const resp = await ipcRenderer.invoke('controller.common.importBlacklistData', '');
+  useMessage(resp, '读取黑名单备份文件成功', async () => {
+    for (var i = 0; i < resp.data.length; i++) {
+      await blacklistStore.add({
+        environment: resp.data[i].environment,
+        summonerId: '',
+        summonerName: resp.data[i].summonerName,
+        banName: resp.data[i].blackName,
+        reason: resp.data[i].reason,
+      });
+    }
+  });
+
+  console.log(resp);
+};
 </script>
 <style scoped>
 .custom-filter {

@@ -2,14 +2,14 @@ const winax = require('winax');
 const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
-const { Utils } = require('ee-core');
-const { dialog, shell } = require('electron');
+const { Utils, Storage } = require('ee-core');
+const { dialog, shell, BrowserWindow } = require('electron');
 const dayjs = require('dayjs');
 
 /* 基于大漠插件实现win32窗口相关hook */
 
 function registerDm() {
-  const filePath = path.join(Utils.getExtraResourcesDir(), 'dll', 'dm.dll');  // 添加双引号 以防出现 Program Files 自带空格问题
+  const filePath = path.join(Utils.getExtraResourcesDir(), 'dll', 'dm.dll'); // 添加双引号 以防出现 Program Files 自带空格问题
   // 判断文件是否存在
   const exists = fsExistsSync(filePath);
   if (exists) {
@@ -91,7 +91,7 @@ exports.windowKeepTop = (eeApp, winTitle) => {
   dm.setWindowState(hwnd1, 8);
 };
 
-exports.sendSpellsInfo = () => {
+exports.sendSpellsInfo = async (eeApp, championName, summonerName, spellName, cooldownBurn, curTime) => {
   const hwnd1 = dm.findWindow('', 'TIK SPELLS');
   if (!hwnd1) {
     eeApp.logger.error(`[win32:sendSpellsInfo] 未找到窗口：${winTitle}`);
@@ -99,6 +99,18 @@ exports.sendSpellsInfo = () => {
   }
   // 取消置顶
   dm.setWindowState(hwnd1, 9);
+  const db = Storage.JsonDB.connection('ddragon').db;
+  const winId = db.get('spellsWindowId').value();
+  const win = BrowserWindow.fromId(winId);
+  win.hide();
+
+  this.sendStringInProgress(eeApp, `${championName}:${summonerName} 已使用 ${spellName}, 技能将在${curTime} 冷却完毕`);
+  setTimeout(() => {
+    this.sendStringInProgress(eeApp, `${championName}:${summonerName} 的 ${spellName}冷却时间还剩 30秒`);
+  }, (cooldownBurn - 30) * 1000);
+  setTimeout(() => {
+    this.sendStringInProgress(eeApp, `${championName}:${summonerName} 的 ${spellName}已转好`);
+  }, cooldownBurn * 1000);
 };
 
 function fsExistsSync(path) {

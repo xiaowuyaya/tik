@@ -33,7 +33,7 @@ class OpggController extends Controller {
       //   .set('user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
       return R.success(resp.data.pageProps, '数据获取成功');
     } catch (err) {
-      return R.fail(err.message);
+      return R.fail(null,err.message);
     }
   }
 
@@ -79,7 +79,7 @@ class OpggController extends Controller {
       });
       return R.success(res.data.pageProps, '数据获取成功');
     } catch (err) {
-      return R.fail(err.message);
+      return R.fail(null,err.message);
     }
   }
 

@@ -1,6 +1,7 @@
 import http from "@/utils/request";
 
 export interface CreatBlacklist {
+  summonerName?: string;
   environment: string;
   summonerId: string;
   banId?: string;

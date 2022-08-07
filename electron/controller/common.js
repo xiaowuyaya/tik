@@ -69,37 +69,62 @@ class CommonController extends Controller {
     this.service.common.checkUpdate();
   }
 
-  test(args, event) {
-    console.log();
-    console.log("123123");
-    return {"123": "123123"}
-  }
+  importBlacklistData(args, event) {
+    try {
+      const file = dialog.showOpenDialogSync({
+        title: '读取旧版黑名单备份文件',
+        buttonLabel: '确定',
+        filters: [
+          {
+            // 只读取js文件
+            name: 'bans.bak',
+            extensions: ['json'],
+          },
+        ],
+      });
+      const res = fs.readFileSync(file[0], 'utf-8');
+      const bakData = JSON.parse(res)
+      let bakList = []
+      _.forOwn(bakData, (list, key) => {
+        for (let i = 0; i < list.length; i++) {
 
-  // importBlacklistData(args, event) {
-  //   try {
-  //     const file = dialog.showOpenDialogSync({
-  //       title: '读取旧版黑名单备份文件',
-  //       buttonLabel: '确定',
-  //       filters: [
-  //         {
-  //           // 只读取js文件
-  //           name: 'bans.bak',
-  //           extensions: ['json'],
-  //         },
-  //       ],
-  //     });
-  //     const res = fs.readFileSync(file[0], 'utf-8');
-  //     const bakList = []
-  //     _.forIn(res, (list, key) => {
-  //       for (var i = 0; i < list.length; i++) {
-  //         list[i]
-  //       }
-  //     })
-  //     return R.success(res);
-  //   } catch (err) {
-  //     return R.fail(err);
-  //   }
-  // }
+          if(!list[i].summonerName || !list[i].environment) {
+            continue
+          }
+
+          let flag = false
+          if(bakList.length == 0) {
+            bakList.push(list[i])
+            continue
+          }
+
+          for (let j = 0; j < bakList.length; j++) {
+            const element = bakList[j];
+            if(element.blackName == list[i].blackName){
+              flag = true
+              break
+            }
+          }
+          if (flag) {
+            break
+          }else{
+            bakList.push(list[i])
+
+          }
+        }
+      })
+      console.log(bakList);
+      for (let k = 0; k < bakList.length; k++) {
+        const item = bakList[k];
+        if(!item.blackName){
+          throw new Error('备份文件格式有误')
+        }
+      }
+      return R.success(bakList);
+    } catch (err) {
+      return R.fail(null,err);
+    }
+  }
 }
 
 module.exports = CommonController;

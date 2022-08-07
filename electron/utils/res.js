@@ -12,8 +12,8 @@ class R {
     return new R(200, data, msg);
   }
 
-  static fail(msg = '') {
-    return new R(500, msg);
+  static fail(data, msg = '') {
+    return new R(500, data, msg);
   }
 }
 

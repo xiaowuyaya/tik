@@ -12,7 +12,7 @@
     </template>
 
     <a-typography  style="background: var(--color-fill-2); padding: 24px">
-      <a-typography-paragraph >您可以尝试如下操作</a-typography-paragraph>
+      <a-typography-paragraph >五秒后还未检测到信息，您可以尝试如下操作</a-typography-paragraph>
       <ul>
         <li>请先打开英雄联盟客户端后再运行本程序。</li>
         <li>确保本程序是否以管理员的方式启动。</li>

@@ -23,7 +23,7 @@ module.exports = {
         // 部分win7以上电脑没有wimc，采用pws方式获取凭证
         credentials = await authenticate(authenticationOptions[1]);
       }
-      eeApp.logger.info(`[credentials] 获取credentials成功`);
+      eeApp.logger.info(`[credentials] 获取credentials成功:${JSON.stringify(credentials.port)}, ${JSON.stringify(credentials.password)}`);
     } catch (err) {
       eeApp.logger.info(`[credentials] 发生异常: ${err}`);
     }

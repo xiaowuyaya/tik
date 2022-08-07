@@ -46,7 +46,7 @@
         </a-row>
       </a-card>
       <a-card class="mt-2" :hoverable="true" :header-style="{ border: 'none' }" title="自定义快捷键">
-        <a-form-item field="settingsStore.app.spellsWin.key" label-col-flex="74px" label="技能窗口">
+        <a-form-item  field="settingsStore.app.spellsWin.key" label-col-flex="74px" label="技能窗口">
           <a-select
             :disabled="!settingsStore.app.spellsWin.enable"
             class="!w-[46%]"
@@ -61,7 +61,7 @@
           </a-select>
           <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.spellsWin }}</span>
         </a-form-item>
-        <a-form-item field="settingsStore.send.keys.order" label-col-flex="74px" label="发送友军">
+        <a-form-item  field="settingsStore.send.keys.order" label-col-flex="74px" label="发送友军">
           <a-select
             :disabled="!settingsStore.send.enable"
             class="!w-[46%]"
@@ -76,7 +76,7 @@
           </a-select>
           <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.order }}</span>
         </a-form-item>
-        <a-form-item field="settingsStore.send.keys.chaos" label-col-flex="74px" label="发送敌军">
+        <a-form-item  field="settingsStore.send.keys.chaos" label-col-flex="74px" label="发送敌军">
           <a-select
             :disabled="!settingsStore.send.enable"
             class="!w-[46%]"
@@ -91,7 +91,7 @@
           </a-select>
           <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.chaos }}</span>
         </a-form-item>
-        <a-form-item field="settingsStore.send.keys.muteAll" label-col-flex="74px" label="全体禁言">
+        <a-form-item class="!mb-0" field="settingsStore.send.keys.muteAll" label-col-flex="74px" label="全体禁言">
           <a-select
             :disabled="!settingsStore.send.enable"
             class="!w-[46%]"
@@ -125,19 +125,19 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item field="settingsStore.send.title.no4" label-col-flex="50px" label="第四">
+            <a-form-item class="!mb-0" field="settingsStore.send.title.no4" label-col-flex="50px" label="第四">
               <a-input v-model="settingsStore.send.title.no4" placeholder="请输入该排名称号" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item field="settingsStore.send.title.no5" label-col-flex="50px" label="第五">
+            <a-form-item class="!mb-0" field="settingsStore.send.title.no5" label-col-flex="50px" label="第五">
               <a-input v-model="settingsStore.send.title.no5" placeholder="请输入该排名称号" allow-clear />
             </a-form-item>
           </a-col>
         </a-row>
       </a-card>
     </a-form>
-    <a-button class="!absolute bottom-14 right-6" type="primary" status="danger" size="large" @click="submit">
+    <a-button class="!absolute bottom-8 right-6" type="primary" status="danger" size="large" @click="submit">
       <template #icon>
         <icon-check />
       </template>

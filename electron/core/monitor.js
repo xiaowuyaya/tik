@@ -39,7 +39,7 @@ exports.registerWebsocket = async (eeApp) => {
 
   const ddragonDb = Storage.JsonDB.connection('ddragon').db;
   const spellWinId = ddragonDb.get('spellsWindowId').value();
-  const spellWin = BrowserWindow.fromId(spellWinId);
+  eeApp.logger.info(`以获取到spellWinId：${spellWinId}`);
 
   const SUMMONER = await eeApp.service.lcu.getSummonerInfo();
   eeApp.logger.info(`当前登入账号为:${SUMMONER.displayName}, 所在大区:${SUMMONER.environment}`);
@@ -50,6 +50,8 @@ exports.registerWebsocket = async (eeApp) => {
   ws.subscribe('/lol-gameflow/v1/gameflow-phase', async (data, event) => {
     // 状态转发到渲染进程主窗口
     eeApp.electron.mainWindow.webContents.send('controller.lcu.listenPlayerStatus', data);
+    
+    const spellWin = BrowserWindow.fromId(spellWinId);
     // 状态转发到渲染进程技能计时窗口
     spellWin.webContents.send('controller.lcu.listenPlayerStatus', data);
 

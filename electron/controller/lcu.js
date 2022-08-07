@@ -45,7 +45,7 @@ class LcuController extends Controller {
       return R.success(null, `段位伪造成功`);
     }
     this.app.logger.error(`[controller:lcu] 段位伪造${args.tiger}失败`);
-    return R.fail(`段位伪造失败: ${err}`);
+    return R.fail(null,`段位伪造失败: ${err}`);
   }
 
   async changeStatus(args, event) {
@@ -55,7 +55,7 @@ class LcuController extends Controller {
       return R.success(null, `状态更改成功`);
     }
     this.app.logger.error(`[controller:lcu] 状态更改${args.status}失败`);
-    return R.fail(`状态更改失败: ${err}`);
+    return R.fail(null,`状态更改失败: ${err}`);
   }
 
   // TODO: 该功能出问题了
@@ -66,7 +66,7 @@ class LcuController extends Controller {
       return R.success(null, `拉起观战${args.summonerName}成功, 即将启动观战`);
     }
     this.app.logger.error(`[controller:lcu] 拉起观战${args.summonerName}失败`);
-    return R.fail(`玩家：${args.summonerName}非法或未登入游戏`);
+    return R.fail(null,`玩家：${args.summonerName}非法或未登入游戏`);
   }
 
   async createLobby(args, event) {
@@ -77,7 +77,7 @@ class LcuController extends Controller {
         return R.success(null, `创建房间${args.mode}成功`);
       }
       this.app.logger.error(`[controller:lcu] 创建房间${args.mode}失败`);
-      return R.fail(`未登入游戏或当前已在游戏中`);
+      return R.fail(null,`未登入游戏或当前已在游戏中`);
     }
   }
 
@@ -97,7 +97,8 @@ class LcuController extends Controller {
       // 如果在选人阶段，队友信息为空，则重新获取
       if (status == 'ChampSelect' && panelData.orderList.length < 5) {
         this.app.logger.info(`[controller:lcu] 正在获取选人界面的面板数据`);
-        panelData = await this.service.lcu.getPanelDataInChampSelect();
+        panelData = await this.service.lcu.getPanelDataInChampSelectV2();
+        c.put('panel-data', panelData)
         // 发送提示信息
         this.app.logger.info(`[controller:lcu] 选人界面的面板数据获取成功`);
         await this.service.lcu.sendMsgInChampSelect('me', `队友信息获取成功`);
@@ -105,7 +106,8 @@ class LcuController extends Controller {
       // 获取游戏中的对局信息
       if (status == 'InProgress' && panelData.chaosList.length == 0) {
         this.app.logger.info(`[controller:lcu] 正在获取游戏中的面板数据`);
-        panelData = await this.service.lcu.getPanelDataInProgress();
+        panelData = await this.service.lcu.getPanelDataInProgressV2();
+        c.put('panel-data', panelData)
         this.app.logger.info(`[controller:lcu] 游戏中的面板数据获取成功`);
       }
     } catch (err) {
@@ -184,7 +186,7 @@ class LcuController extends Controller {
       if (result.backgroundSkinId) {
         return R.success(null, `切换生涯背景成功`);
       } else {
-        return R.fail(`切换生涯背景失败`);
+        return R.fail(null,`切换生涯背景失败`);
       }
     } catch (err) {
       this.app.logger.error(`[controller:lcu] 设置为生涯背景失败:${err}`);
@@ -199,12 +201,17 @@ class LcuController extends Controller {
 
   async handleSpellsTime(args, event) {
     const { championName, summonerName, spellName, cooldownBurn } = args;
-    try{
-      await this.service.lcu.handleSpellsTime( championName, summonerName, spellName, cooldownBurn )
-      return R.success()
-    }catch(err){
-      return R.fail(err)
+    try {
+      await this.service.lcu.handleSpellsTime(championName, summonerName, spellName, cooldownBurn);
+      return R.success();
+    } catch (err) {
+      return R.fail(null,err);
     }
+  }
+
+  async getPanelDataInChampSelectV2(args, event) {
+    const r = await this.service.lcu.getPanelDataInProgressV2();
+    return JSON.stringify(r)
   }
 }
 
