@@ -138,6 +138,6 @@ function handleDetail(row: any) {
 }
 
 function getPositionTigerImg(tiger) {
-  return positionTigerSvg[tiger]
+  return positionTigerSvg[tiger - 1]
 }
 </script>

@@ -58,6 +58,10 @@
             <icon-settings />
             相关设置
           </a-menu-item>
+           <a-menu-item key="vip">
+           <icon-star-fill />
+            会员转区
+          </a-menu-item>
           <a-menu-item key="hero-time">
             <icon-file-image />
             英雄时刻

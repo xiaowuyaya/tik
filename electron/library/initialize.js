@@ -7,13 +7,13 @@ const { registerShortcutKey } = require('../core/shortcutKey');
 /* 项目初始化 */
 module.exports = {
   async install(eeApp) {
+    checkSpellsWin(eeApp)
     checkSettings(eeApp);
     await checkDataDragon(eeApp);
     checkBlacklist(eeApp);
     checkPanelData(eeApp);
     await registerShortcutKey(eeApp);
     await checkOpgg(eeApp);
-    checkSpellsWin(eeApp)
   },
 };
 

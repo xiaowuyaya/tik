@@ -69,6 +69,12 @@ class CommonController extends Controller {
     this.service.common.checkUpdate();
   }
 
+  test(args, event) {
+    console.log();
+    console.log("123123");
+    return {"123": "123123"}
+  }
+
   // importBlacklistData(args, event) {
   //   try {
   //     const file = dialog.showOpenDialogSync({

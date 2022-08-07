@@ -18,7 +18,7 @@ module.exports = async (app) => {
   initialize.install(app);
 
   // chrome拓展
-  chromeExtension.install();
+  // chromeExtension.install();
 
   // 禁止远程调试
   security.install(app);
