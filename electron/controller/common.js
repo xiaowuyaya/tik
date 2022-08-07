@@ -5,6 +5,7 @@ const c = require('../utils/cache');
 const _ = require('lodash');
 const fs = require('fs');
 const { dialog } = require('electron');
+const path = require('path')
 
 class CommonController extends Controller {
   constructor(ctx) {
@@ -20,7 +21,7 @@ class CommonController extends Controller {
       appVersion: getAppVersion(),
       macAddr: getMacAddr(),
       logDir: getLogDir(),
-      configDir: getConfigDir(),
+      configDir: `${path.join(getConfigDir(), 'data')}`,
       screen: getScreenSize(),
     };
     return R.success(data);

@@ -1,5 +1,4 @@
 'use strict';
-const chromeExtension = require('../library/chromeExtension');
 const initialize = require('../library/initialize');
 const security = require('../library/security');
 const tray = require('../library/tray');
@@ -16,9 +15,6 @@ module.exports = async (app) => {
 
   // 项目初始化校验
   await initialize.install(app);
-
-  // chrome拓展
-  // chromeExtension.install();
 
   // 禁止远程调试
   security.install(app);

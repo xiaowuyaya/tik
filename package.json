@@ -121,7 +121,6 @@
     "iohook": "^0.9.3",
     "league-connect": "6.0.0-rc3",
     "lodash": "^4.17.21",
-    "socket.io-client": "^4.5.1",
     "superagent": "^8.0.0",
     "winax": "^3.3.4"
   }

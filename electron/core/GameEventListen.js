@@ -1,6 +1,5 @@
 const { gameScreenshot, sendStringInProgress } = require('../utils/win32-hook');
 const { request } = require('../utils/league-connect');
-const { io } = require('socket.io-client');
 const c = require('../utils/cache');
 const { Utils, Storage } = require('ee-core');
 
