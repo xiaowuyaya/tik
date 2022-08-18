@@ -1,0 +1,27 @@
+directories:
+  output: release/${version}
+  buildResources: build
+appId: YourAppID
+asar: true
+extraResources:
+  - from: ./resource
+    to: ./resource
+files:
+  - filter:
+      - dist
+mac:
+  artifactName: ${productName}_${version}.${ext}
+  target:
+    - dmg
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: ${productName}_${version}.${ext}
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: false
+electronVersion: 20.0.2

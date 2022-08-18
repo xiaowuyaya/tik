@@ -1,0 +1,46 @@
+/**
+ * @see https://www.electron.build/configuration/configuration
+ */
+{
+  "appId": "com.lol-tool.tik.app",
+  "copyright": "Copyright © 2022 ${author}",
+  "asar": true,
+  "directories": {
+    "output": "release/${version}"
+  },
+  "extraResources": [
+    {
+      "from": "./resources/dll",
+      "to": "./dll"
+    },
+    {
+      "from": "./resources/img",
+      "to": "./img"
+    }
+  ],
+  "files": [
+    "dist"
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis"
+      }
+    ],
+    "artifactName": "${productName}_${version}.${ext}",
+    "icon": "./resources/img/icon.ico",
+    "requestedExecutionLevel": "requireAdministrator"
+  },
+  "nsis": {
+    "runAfterFinish": false,
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "allowElevation": true,
+    "installerIcon": "./resources/img/icon.ico",
+    "uninstallerIcon": "./resources/img/icon.ico",
+    "installerHeaderIcon": "./resources/img/icon.ico",
+    "createStartMenuShortcut": true,
+    "shortcutName": "tik 英雄联盟对局助手"
+  }
+}

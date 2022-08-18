@@ -1,127 +1,41 @@
 {
   "name": "tik",
-  "private": "true",
-  "version": "3.3.4",
+  "version": "3.4.0",
+  "main": "dist/index.js",
+  "description": "英雄联盟进阶辅助工具，通过数据分析提升竞技体验，以及一系列基础工具",
   "author": "xiaowuyaya, Inc <liaolingwei605@163.com>",
-  "description": "通过获取游戏开始时的双方玩家的历史对局数据（也可在英雄选择时队友的历史对局数据），对数据进行算法分析，依照算法，对每个人的历史对局数据进行评分。根据评分结果，得出每位玩家的大致游戏水平，在游戏中能做出针对性的判断结果。",
-  "main": "main.js",
+  "email": "liaolingwei605@163.com",
+  "private": true,
   "scripts": {
-    "start": "electron . ",
-    "dev": " chcp 65001 && electron . --env=local",
-    "reload": "nodemon",
-    "test": "set DEBUG=* && electron . --env=local",
-    "build-w": "electron-builder -w --ia32",
-    "build-w-64": "electron-builder -w --x64",
-    "build-m": "electron-builder -m",
-    "build-m-arm64": "electron-builder -m --arm64",
-    "build-l": "electron-builder -l",
-    "rd": "ee-core rd --dist_dir=./frontend/dist",
-    "compress": "ee-core compress",
-    "restore": "ee-core restore",
-    "rebuild": "electron-rebuild",
-    "re-sqlite": "electron-rebuild -f -w better-sqlite3",
-    "cp-iohook": "xcopy .\\build\\lib\\iohook\\ .\\node_modules\\iohook\\builds\\ /E/H/C/I"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build && electron-builder"
   },
-  "nodemonConfig": {
-    "watch": [
-      "electron/",
-      "main.js"
-    ],
-    "ignore": [],
-    "ext": "js,json",
-    "verbose": true,
-    "exec": "electron . --env=local --hot-reload=1",
-    "restartable": "hr",
-    "colours": true,
-    "events": {}
-  },
-  "build": {
-    "productName": "tik",
-    "appId": "tik.lol-tool.com",
-    "copyright": "XiaoWuYaYa (lol-tool.com) All rights",
-    "directories": {
-      "output": "out"
-    },
-    "asar": true,
-    "files": [
-      "**/*",
-      "!frontend/",
-      "!run/",
-      "!logs/",
-      "!data/"
-    ],
-    "extraResources": {
-      "from": "./build/extraResources/",
-      "to": "extraResources"
-    },
-    "electronDownload": {
-      "mirror": "https://npmmirror.com/mirrors/electron/"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowElevation": true,
-      "allowToChangeInstallationDirectory": true,
-      "installerIcon": "./build/icons/icon.ico",
-      "uninstallerIcon": "./build/icons/icon.ico",
-      "installerHeaderIcon": "./build/icons/icon.ico",
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "tik 英雄联盟对局助手"
-    },
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "https://github.com/wallace5303/electron-egg"
-      }
-    ],
-    "mac": {
-      "icon": "./build/icons/icon.icns",
-      "artifactName": "${productName}-macos-${version}.${ext}",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "win": {
-      "icon": "./build/icons/icon.ico",
-      "artifactName": "${productName}-windows-${version}.${ext}",
-      "requestedExecutionLevel": "highestAvailable",
-      "target": [
-        {
-          "target": "nsis"
-        }
-      ]
-    },
-    "linux": {
-      "icon": "./build/icons/256x256.png",
-      "artifactName": "${productName}-linux-${version}.${ext}",
-      "target": [
-        "deb"
-      ]
-    }
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
   },
   "devDependencies": {
-    "debug": "^4.3.3",
-    "electron": "^13.6.9",
-    "electron-builder": "^23.1.0",
-    "electron-rebuild": "^3.2.8",
-    "eslint": "^5.13.0",
-    "eslint-config-egg": "^7.1.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "node-abi": "^3.22.0",
-    "nodemon": "^2.0.16",
-    "prettier": "2.7.1"
+    "@vitejs/plugin-vue": "^3.0.1",
+    "axios": "^0.27.2",
+    "electron": "^20.0.2",
+    "electron-builder": "^23.3.3",
+    "electron-rebuild": "^3.2.9",
+    "less": "^4.1.3",
+    "pinia": "^2.0.19",
+    "tdesign-icons-vue-next": "^0.1.5",
+    "tdesign-vue-next": "^0.20.1",
+    "typescript": "^4.7.4",
+    "unplugin-auto-import": "^0.11.2",
+    "unplugin-vue-components": "^0.22.4",
+    "vite": "^3.0.8",
+    "vite-plugin-electron": "^0.9.0",
+    "vite-plugin-windicss": "^1.8.7",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.3",
+    "vue-tsc": "^0.40.1",
+    "windicss": "^3.5.6"
   },
-  "dependencies": {
-    "cache": "^3.0.0",
-    "dayjs": "^1.10.7",
-    "ee-core": "^1.2.8",
-    "electron-is": "^3.0.0",
-    "getmac": "^5.20.0",
-    "iohook": "^0.9.3",
-    "league-connect": "6.0.0-rc3",
-    "lodash": "^4.17.21",
-    "superagent": "^8.0.0",
-    "winax": "^3.3.4"
+  "env": {
+    "VITE_DEV_SERVER_HOST": "127.0.0.1",
+    "VITE_DEV_SERVER_PORT": 3344
   }
 }
