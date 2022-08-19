@@ -12,6 +12,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 import WindiCSS from 'vite-plugin-windicss'
+import renderer from 'vite-plugin-electron-renderer'
 
 rmSync('dist', { recursive: true, force: true }) // v14.14.0
 
@@ -54,8 +55,12 @@ export default defineConfig({
       // },
       // Enables use of Node.js API in the Renderer-process
       // https://github.com/electron-vite/vite-plugin-electron/tree/main/packages/electron-renderer#electron-renderervite-serve
-      renderer: {},
     }),
+    renderer({
+      resolve(){
+        return ['getmac','electron-store']
+      }
+    })
   ],
   resolve: {
     alias: {

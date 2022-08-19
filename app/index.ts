@@ -1,6 +1,9 @@
 import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import { release } from 'os'
-import { createMainWindow } from './browser/home'
+import { createMainWindow } from './browser/main'
+import Store from 'electron-store'
+import { createMainWindowIpcListen } from './browser/main.ipc'
+Store.initRenderer()
 
 // win7系统关闭app加速
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -19,6 +22,7 @@ let mainWindow
 
 const initApp = async () => {
   mainWindow = await createMainWindow()
+  createMainWindowIpcListen(mainWindow)
 }
 
 app.whenReady().then(async () => {

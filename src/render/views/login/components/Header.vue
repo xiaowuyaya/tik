@@ -5,7 +5,7 @@
 
     <!-- WINDOW BTN -->
     <div class="flex justify-between items-center no-drag">
-      <div class="p-0.01 rounded-md hover:opacity-60 active:opacity-20">
+      <div class="p-0.01 rounded-md hover:opacity-60 active:opacity-20" @click="ipcRenderer.send('mainWin.close')">
         <close-icon size="2.8rem" color="#ebe8f5" />
       </div>
     </div>
@@ -13,7 +13,11 @@
 </template>
 
 <script setup lang="ts">
+import { ipcRenderer } from 'electron';
 import { CloseIcon } from 'tdesign-icons-vue-next'
+
+
+
 </script>
 <style lang="less">
 @import url('@/render/style/drag.less');

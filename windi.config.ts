@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite-plugin-windicss';
-import colors from 'windicss/colors'
 
 export default defineConfig({
   extract: {
@@ -8,11 +7,11 @@ export default defineConfig({
   },
   theme: {
     extend: {
-
+      colors: {
+      }
     },
   },
   darkMode: 'class',
   plugins: [
-    require('@windicss/plugin-question-mark'),
   ],
 });
