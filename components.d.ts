@@ -9,10 +9,19 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TAside: typeof import('tdesign-vue-next')['Aside']
+    TAvatar: typeof import('tdesign-vue-next')['Avatar']
     TButton: typeof import('tdesign-vue-next')['Button']
+    TContent: typeof import('tdesign-vue-next')['Content']
+    TDropdown: typeof import('tdesign-vue-next')['Dropdown']
+    TFooter: typeof import('tdesign-vue-next')['Footer']
     TForm: typeof import('tdesign-vue-next')['Form']
     TFormItem: typeof import('tdesign-vue-next')['FormItem']
+    THeader: typeof import('tdesign-vue-next')['Header']
     TIcon: typeof import('tdesign-vue-next')['Icon']
     TInput: typeof import('tdesign-vue-next')['Input']
+    TLayout: typeof import('tdesign-vue-next')['Layout']
+    TMenu: typeof import('tdesign-vue-next')['Menu']
+    TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
   }
 }

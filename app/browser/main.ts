@@ -5,7 +5,7 @@ import path from 'path'
 /* 主进程窗口 */
 export const createMainWindow = async () => {
   const win = new BrowserWindow({
-    title: 'Tik 英雄联盟对局助手',
+    title: 'Eko 英雄联盟工具箱',
     center: true,
     show: false,
     frame: false,

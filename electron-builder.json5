@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "com.lol-tool.tik.app",
+  "appId": "com.lol-tool.eko.app",
   "copyright": "Copyright © 2022 ${author}",
   "asar": true,
   "directories": {
@@ -41,6 +41,6 @@
     "uninstallerIcon": "./resources/img/icon.ico",
     "installerHeaderIcon": "./resources/img/icon.ico",
     "createStartMenuShortcut": true,
-    "shortcutName": "tik 英雄联盟对局助手"
+    "shortcutName": "eko 英雄联盟工具箱"
   }
 }

@@ -6,9 +6,9 @@
       <div
         class="absolute left-24  py-8 px-8 w-[400px] rounded-md flex flex-col backdrop-filter backdrop-blur-md bg-light-100 bg-opacity-50">
         <!-- TITLE -->
-        <div class=" font-semibold text-gray-900 ">
-          <h1 class="text-[2.4rem] leading-12">登入到</h1>
-          <h1 class="text-[2rem] leading-12">Tik 英雄联盟对局助手</h1>
+        <div class="font-bold text-gray-900 ">
+          <h1 class="text-[2rem] leading-12">登入到</h1>
+          <h1 class="text-[1.8rem] leading-12">Eko 英雄联盟工具箱</h1>
 
           <!-- CHANGE FORM -->
           <div class="text-base py-2 font-normal" v-show="formType == 'login'">

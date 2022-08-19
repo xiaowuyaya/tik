@@ -8,6 +8,14 @@ export default defineConfig({
   theme: {
     extend: {
       colors: {
+        title: '#ecf7fb',
+        light: {
+          hover: '#f3f3f3',
+          focus: '#e8e8e8',
+        }
+      },
+      fontFamily: {
+        title: "AliShuHei"
       }
     },
   },
