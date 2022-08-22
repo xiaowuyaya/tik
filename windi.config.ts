@@ -15,7 +15,8 @@ export default defineConfig({
         }
       },
       fontFamily: {
-        title: "AliShuHei"
+        title: "AliShuHei",
+        test: "Noto Sans SC"
       }
     },
   },

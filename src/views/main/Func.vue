@@ -1,6 +1,7 @@
 <template>
-  <div>
-    功能
+  <div class="w-full h-full">
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+</script>

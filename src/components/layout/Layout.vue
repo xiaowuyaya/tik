@@ -10,7 +10,7 @@
         </t-aside>
         <t-layout>
           <t-content class="p-2">
-            <router-view></router-view>
+            <router-view ></router-view>
           </t-content>
         </t-layout>
       </t-layout>

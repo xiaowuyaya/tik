@@ -1,5 +1,8 @@
 /* 转译配置 */
 export const mode: any = {
+  position: {
+    bottom: '下路', jungle: "打野", middle: '中单', support: '辅助', top: '上单'
+  },
   status: {
     inQueue: '队列中',
     inGame: '游戏中',

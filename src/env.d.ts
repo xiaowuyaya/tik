@@ -7,7 +7,15 @@ declare module '*.vue' {
   export default component
 }
 
+declare module 'loadsh'
 declare interface Window {
   appStore: any,
-  lcuApi: any
+  handle: any,
+  ddragonStore: any
+  utils: any
+}
+
+declare module "*.json" {
+  const jsonValue: any;
+  export default jsonValue;
 }

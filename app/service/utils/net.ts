@@ -1,4 +1,4 @@
-import { createHttp2Request, createHttpSession, createWebSocketConnection, LeagueClient } from 'league-connect'
+import { createHttp2Request, createHttpSession, createWebSocketConnection, LeagueClient } from '../league-connect'
 import { appConfig } from './config'
 
 

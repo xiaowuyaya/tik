@@ -5,7 +5,7 @@ import GOLD from './GOLD.png'
 import GRANDMASTER from './GRANDMASTER.png'
 import IRON from './IRON.png'
 import MASTER from './MASTER.png'
-import NONE from './IRON.png'
+import NONE from './NONE.png'
 import PLATINUM from './PLATINUM.png'
 import SILVER from './SILVER.png'
 

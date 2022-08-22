@@ -1,11 +1,11 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 import { app, BrowserWindow } from 'electron'
 import { release } from 'os'
 import { createMainWindow, createMainWindowIpcListen } from './browser/main'
 import { join } from 'path'
 import ElectronStore from 'electron-store';
 import { createCredentialsService } from '../service/core/credentials';
-import { appConfig } from '../service/utils/config';
-import { createWebSocketConnection } from 'league-connect';
 
 ElectronStore.initRenderer();
 
@@ -24,6 +24,7 @@ if (!app.requestSingleInstanceLock()) {
 
 const preload = join(__dirname, '../preload/index.js')
 
+
 // ------------------ MAIN BEGIN ------------------
 
 let mainWindow: BrowserWindow | null = null
@@ -36,13 +37,6 @@ const initApp = async () => {
 
 app.whenReady().then(async () => {
   await initApp()
-
-
-  const credentials = appConfig.get<any>('credentials');
-  const r = await createWebSocketConnection(credentials);
-  console.log(r);
-  
-
   app.on('activate', async () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow = await createMainWindow(preload)

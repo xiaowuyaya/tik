@@ -74,6 +74,14 @@ export const getSummonerIdsInChampSelect = async () => {
 };
 
 /**
+ * 获取英雄熟练度
+ */
+export const getChampionMastery = async (summonerId:number, limit: number) => {
+  const data = await http2Request(`/lol-collections/v1/inventories/${summonerId}/champion-mastery/top?limit=${limit}`);
+  return data
+}
+
+/**
  * 根据path获取base64图片
  */
 export const getLcuImgBase64 = async (imgUrl: string) => {

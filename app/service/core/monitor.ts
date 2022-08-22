@@ -16,7 +16,6 @@ export const createClientListen = () => {
 
 export const createWebsocketListen = async (mainWindow: BrowserWindow) => {
   const ws = await createWebSocket();
-  console.log(ws);
   if (!ws) return
   // 玩家状态订阅
   ws.subscribe('/lol-gameflow/v1/gameflow-phase', async (data, event) => {

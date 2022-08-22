@@ -45,9 +45,6 @@ import { useUserStore } from '../../stores/user'
 const userStore = useUserStore()
 const router = useRouter()
 
-console.log(userStore.avatarUrl);
-
-
 const summonerSearch = ref('')
 const userDropOptions = ref([{
   content: '个人信息',
