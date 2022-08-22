@@ -7,11 +7,21 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/error/NoGameStart copy.vue')['default']
+    Header: typeof import('./src/components/layout/Header.vue')['default']
+    Home: typeof import('./src/components/home/Home.vue')['default']
+    Layout: typeof import('./src/components/layout/Layout.vue')['default']
+    Menu: typeof import('./src/components/layout/Menu.vue')['default']
+    NoGameStart: typeof import('./src/components/error/NoGameStart.vue')['default']
+    NoPanelData: typeof import('./src/components/error/NoPanelData.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TAside: typeof import('tdesign-vue-next')['Aside']
     TAvatar: typeof import('tdesign-vue-next')['Avatar']
+    TBadge: typeof import('tdesign-vue-next')['Badge']
     TButton: typeof import('tdesign-vue-next')['Button']
+    TCard: typeof import('tdesign-vue-next')['Card']
+    TCol: typeof import('tdesign-vue-next')['Col']
     TContent: typeof import('tdesign-vue-next')['Content']
     TDropdown: typeof import('tdesign-vue-next')['Dropdown']
     TFooter: typeof import('tdesign-vue-next')['Footer']
@@ -23,5 +33,6 @@ declare module '@vue/runtime-core' {
     TLayout: typeof import('tdesign-vue-next')['Layout']
     TMenu: typeof import('tdesign-vue-next')['Menu']
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
+    TRow: typeof import('tdesign-vue-next')['Row']
   }
 }

@@ -1,5 +1,5 @@
 import { rmSync } from 'fs'
-import { resolve } from 'path'
+import { resolve, join } from 'path'
 import {
   type Plugin,
   type UserConfig,
@@ -33,39 +33,42 @@ export default defineConfig({
     WindiCSS(),
     electron({
       main: {
-        entry: 'app/index.ts',
+        entry: 'app/main/index.ts',
         vite: withDebug({
           build: {
-            outDir: 'dist/',
+            outDir: 'dist/app/main',
           },
         }),
       },
-      // preload: {
-      //   input: {
-      //     // You can configure multiple preload here
-      //     index: path.join(__dirname, 'electron/preload/index.ts'),
-      //   },
-      //   vite: {
-      //     build: {
-      //       // For Debug
-      //       sourcemap: 'inline',
-      //       outDir: 'dist/electron/preload',
-      //     },
-      //   },
-      // },
-      // Enables use of Node.js API in the Renderer-process
-      // https://github.com/electron-vite/vite-plugin-electron/tree/main/packages/electron-renderer#electron-renderervite-serve
+      preload: {
+        input: {
+          // You can configure multiple preload here
+          index: join(__dirname, 'app/preload/index.ts'),
+        },
+        vite: {
+          build: {
+            // For Debug
+            sourcemap: 'inline',
+            outDir: 'dist/app/preload',
+          },
+        },
+      },
+      renderer: {
+        resolve() {
+          return ['electron-store','league-connect']
+        },
+      },
     }),
     renderer({
-      resolve(){
-        return ['getmac','electron-store']
+      resolve() {
+        return ['getmac','league-connect']
       }
     })
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
+      '@': resolve(__dirname, 'src'),
+    },
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,

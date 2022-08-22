@@ -1,7 +1,7 @@
 {
   "name": "eko",
   "version": "1.1.1",
-  "main": "dist/index.js",
+  "main": "dist/app/main/index.js",
   "description": "英雄联盟进阶辅助工具，通过数据分析提升竞技体验，以及一系列基础工具",
   "author": "xiaowuyaya, Inc <liaolingwei605@163.com>",
   "email": "liaolingwei605@163.com",
@@ -12,6 +12,9 @@
   },
   "engines": {
     "node": "^14.18.0 || >=16.0.0"
+  },
+  "dependencies":{
+    "league-connect": "^6.0.0-rc8"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.1",
