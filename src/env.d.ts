@@ -10,9 +10,11 @@ declare module '*.vue' {
 declare module 'loadsh'
 declare interface Window {
   appStore: any,
-  handle: any,
   ddragonStore: any
+  panelDataStore: any
+  handle: any,
   utils: any
+  lcuApi: any
 }
 
 declare module "*.json" {

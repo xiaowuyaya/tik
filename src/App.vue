@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {setup} from './utils/init'
+
 
 </script>
 

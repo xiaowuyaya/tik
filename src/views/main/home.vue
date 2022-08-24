@@ -15,8 +15,5 @@ onMounted(() => {
   const credentials = appStore.get('credentials')
   if (credentials) currentTabComponent.value = Home
 })
-
-
-
 </script>
 

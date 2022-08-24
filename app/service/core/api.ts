@@ -1,4 +1,4 @@
-import { http2Request } from '../utils/net'
+import { http2Request, superagentRequest } from '../utils/net'
 
 /**
  * 获取当前登入账号信息
@@ -94,6 +94,20 @@ export const getLcuImgBase64 = async (imgUrl: string) => {
  */
 export const getProfileIconBase64 = async (profileIconId: string) => {
   return await getLcuImgBase64(`/lol-game-data/assets/v1/profile-icons/${profileIconId}.jpg`);
+};
+
+/**
+ * 获取玩家列表（当游戏状态处于inProgress）
+ */
+ export const getPlayerListInGame = async () => {
+  return await superagentRequest(`https://127.0.0.1:2999/liveclientdata/playerlist`);
+};
+
+/**
+ * 获取游戏状态信息（当游戏状态处于inProgress）
+ */
+export const getGameStatusInfo = async () => {
+  return await superagentRequest(`https://127.0.0.1:2999/liveclientdata/gamestats`);
 };
 
 /**
@@ -235,7 +249,7 @@ export const spectatorLaunchByName = async (summonerName: string, gameQueueType:
 /**
  * 在选择英雄界面，选择并确定英雄
  */
-export const selectChampionById = async (championId: string, cellId: string, confirm: string) => {
+export const selectChampionById = async (championId: string, cellId: string, confirm: boolean) => {
   const req = {
     championId: championId,
     completed: confirm,

@@ -9,7 +9,6 @@ export const positionIcon: any = {
 }
 
 export const positionIconByName = (name: any) => {
-  console.log(name);
   
   return positionIcon[name]
 }

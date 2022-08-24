@@ -1,6 +1,6 @@
 import getmac from 'getmac';
 import { defineStore } from "pinia";
-import pkg from '../../../package.json';
+import pkg from '../../package.json';
 
 export const useAppStore = defineStore({
   id: 'app',

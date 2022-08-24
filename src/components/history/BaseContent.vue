@@ -37,10 +37,6 @@
             </div>
           </div>
         </div>
-        <div class="px-1 ">
-          当前游戏状态：
-          <span class="text-blue-500 font-semibold">{{ currentSummoner.gameStatus }}</span>
-        </div>
       </a-card>
       <div class="mt-2 w-full flex">
         <a-card class="h-full flex-1 !mr-1" :hoverable="true" :header-style="{ border: 'none' }">
@@ -162,22 +158,23 @@
 
 <script setup lang="ts">
 import { getRankdTigerImg } from '@/assets/rank-tiger'
-import { ipcRenderer } from 'electron';
 import dayjs from 'dayjs';
 import { positionIcon } from '@/assets/rank-position'
 import { onMounted, ref } from 'vue';
 import _ from 'lodash';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
+const loading = ref(false)
+
+const route = useRoute()
 const router = useRouter()
+
+const summonerName = route.query.summonerName
 
 const handle = window.handle
 const utils = window.utils
 
-const loading = ref(false)
-
 const currentSummoner = ref({
-  gameStatus: '',
   avatar: '',
   summonerLevel: '',
   displayName: '',
@@ -207,21 +204,9 @@ const currentSummoner = ref({
 
 onMounted(async () => {
   loading.value = true
-  currentSummoner.value = await handle.currentSummonerInfo()
+  currentSummoner.value = await handle.searchSummonerInfo(summonerName)
   loading.value = false
 })
-
-ipcRenderer.on('playerStatus', (event, data) => {
-  currentSummoner.value.gameStatus = utils.translate('status', data)
-
-  // 当进入游戏时跳转到面板
-  if (data === 'InProgress' || data === 'ChampSelect') {
-    router.push({
-      path: '/panel',
-    });
-  }
-})
-
 
 const toMatchesDetail = () => {
   router.push({
@@ -231,8 +216,6 @@ const toMatchesDetail = () => {
     }
   })
 }
-
-
 </script>
 
 <style lang="less">

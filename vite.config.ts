@@ -10,7 +10,7 @@ import electron from 'vite-plugin-electron'
 import pkg from './package.json'
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
-import { TDesignResolver } from 'unplugin-vue-components/resolvers';
+import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import WindiCSS from 'vite-plugin-windicss'
 import renderer from 'vite-plugin-electron-renderer'
 
@@ -21,14 +21,14 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
-      resolvers: [TDesignResolver({
-        library: 'vue-next'
-      })],
+      resolvers: [ArcoResolver()],
     }),
     Components({
-      resolvers: [TDesignResolver({
-        library: 'vue-next'
-      })],
+      resolvers: [
+        ArcoResolver({
+          sideEffect: true
+        })
+      ]
     }),
     WindiCSS(),
     electron({
@@ -55,13 +55,13 @@ export default defineConfig({
       },
       renderer: {
         resolve() {
-          return ['electron-store','league-connect']
+          return ['electron-store', 'league-connect']
         },
       },
     }),
     renderer({
       resolve() {
-        return ['getmac','league-connect']
+        return ['getmac', 'league-connect']
       }
     })
   ],

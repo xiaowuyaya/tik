@@ -1,20 +1,18 @@
 <template>
-  <div class="h-full w-full main-container">
-    <t-layout class="!h-full">
-      <t-header height="56px">
+  <div class="h-full w-full main-container bg-white">
+    <a-layout style="height: 100%">
+      <a-layout-header>
         <LayoutHeader />
-      </t-header>
-      <t-layout>
-        <t-aside width="180px">
+      </a-layout-header>
+      <a-layout>
+        <a-layout-sider :width="180">
           <LayoutMenu />
-        </t-aside>
-        <t-layout>
-          <t-content class="p-2">
-            <router-view ></router-view>
-          </t-content>
-        </t-layout>
-      </t-layout>
-    </t-layout>
+        </a-layout-sider>
+        <a-layout-content class="layout-content p-2">
+          <router-view></router-view>
+        </a-layout-content>
+      </a-layout>
+    </a-layout>
   </div>
 </template>
 
@@ -23,12 +21,8 @@ import LayoutHeader from './Header.vue'
 import LayoutMenu from './Menu.vue'
 
 </script>
-
 <style lang="less">
-.main-container {
-  // z-index: 99;
-  // background: url('@/assets/main-bg.png');
-  // opacity: 0.94;
-  // background-size: cover
-}
+  .layout-content {
+    background-color: #f8fafc;
+  }
 </style>

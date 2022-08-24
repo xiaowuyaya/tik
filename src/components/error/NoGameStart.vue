@@ -1,10 +1,26 @@
 <template>
-  <div class="h-full w-full flex flex-col items-center pt-16">
-    <img class="w-[40%]" src="@/assets/no-find.png" alt="">
-    <div class="text-lg">程序未检测到客户端信息，无法提供完整功能</div>
-    <div class="text-base text-gray-600 mt-2 mb-4">请检查是否已开启游戏客户端，并以管理员方式启动本程序</div>
+ <div class="flex items-center h-full pt-40">
+   <a-result status="error">
+    <template #icon>
+      <icon-exclamation-circle-fill size="82"/>
+    </template>
+    <template #title>
+      <span class="text-lg">未获取到客户端信息</span>
+    </template>
+    <template #subtitle>
+      <span class="text-base">程序未检测到客户端信息，无法提供完整功能</span>
+    </template>
 
-  </div>
+    <a-typography  style="background: var(--color-fill-2); padding: 24px">
+      <a-typography-paragraph >五秒后还未检测到信息，您可以尝试如下操作</a-typography-paragraph>
+      <ul>
+        <li>请先打开英雄联盟客户端后再运行本程序。</li>
+        <li>确保本程序是否以管理员的方式启动。</li>
+        <li>如以上操作无法解决您的问题，请加群咨询。</li>
+      </ul>
+    </a-typography>
+  </a-result>
+ </div>
 </template>
 
 <script setup lang="ts">

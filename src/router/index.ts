@@ -23,17 +23,18 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/autobp',
         name: 'autobp',
-        component: () => import('../views/main/AutoBP.vue')
+        meta: { keepAlive: true },
+        component: () => import('../views/main/autobp.vue')
       },
       {
         path: '/func',
         name: 'func',
-        component: () => import('../views/main/Func.vue')
+        component: () => import('../views/main/func.vue')
       },
       {
         path: '/history',
         name: 'history',
-        component: () => import('../views/main/History.vue')
+        component: () => import('../views/main/history.vue')
       },
       {
         path: '/home',
@@ -43,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/panel',
         name: 'panel',
-        component: () => import('../views/main/Panel.vue')
+        component: () => import('../views/main/panel.vue')
       },
       {
         path: '/setting',
@@ -59,6 +60,16 @@ const routes: Array<RouteRecordRaw> = [
         path: '/champdata',
         name: 'champdata',
         component: () => import('../views/main/ChampData.vue')
+      },
+      {
+        path: '/search-content',
+        name: 'search-content',
+        component: () => import('../components/history/BaseContent.vue')
+      },
+      {
+        path: '/matches-datail',
+        name: 'matches-datail',
+        component: () => import('../components/history/MatchesDetail.vue')
       },
     ]
   },

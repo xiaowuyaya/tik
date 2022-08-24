@@ -1,4 +1,5 @@
 import { createHttp2Request, createHttpSession, createWebSocketConnection, LeagueClient } from '../league-connect'
+import request from 'superagent'
 import { appConfig } from './config'
 
 
@@ -33,4 +34,15 @@ export const http2Request = async (url: string, method: 'GET' | 'POST' | 'PUT' |
   // Remember to close the session when done
   session.close()
   return response.json<any>()
+};
+
+// superagent request
+export const superagentRequest = async (url: string, method = 'GET') => {
+  try {
+    const credentials = appConfig.get<any>('credentials');
+    const r = await request(method, url).ca(credentials.certificate);
+    return r.body;
+  } catch (err) {
+    return null;
+  }
 };

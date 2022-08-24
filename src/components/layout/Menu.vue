@@ -1,56 +1,59 @@
 <template>
-  <t-menu theme="light" width="180px" v-model="activeMenuItem" height="100%" >
-    <t-menu-item value="home" :to="{name: 'home'}">
-      <template #icon>
-        <home-icon />
-      </template>账号信息
-    </t-menu-item>
-    <t-menu-item value="panel" :to="{name: 'panel'}">
-      <template #icon>
-        <root-list-icon />
-      </template>对局面板
-    </t-menu-item>
-    <t-menu-item value="history" :to="{name: 'history'}">
-      <template #icon>
-        <search-icon />
-      </template>战绩查询
-    </t-menu-item>
-    <t-menu-item value="func" :to="{name: 'func'}">
-      <template #icon>
-        <control-platform-icon />
-      </template>
+  <a-menu :style="{ height: '100%', 'padding-top': '8px' }" :collapsed="false" :default-selected-keys="selectedKey"
+    :selected-keys="selectedKey" :accordion="true" @menu-item-click="changePath">
+    <a-menu-item key="home">
+      <icon-dashboard />
+      账号信息
+    </a-menu-item>
+    <a-menu-item key="panel">
+      <icon-list />
+      对局面板
+    </a-menu-item>
+    <a-menu-item key="history">
+      <icon-search />
+      战绩查询
+    </a-menu-item>
+    <a-menu-item key="func">
+      <icon-apps />
       常用功能
-    </t-menu-item>
-    <t-menu-item value="autobp" :to="{name: 'autobp'}">
-      <template #icon>
-        <play-circle-stroke-icon />
-      </template>自动禁选
-    </t-menu-item>
-    <t-menu-item value="blacklist" :to="{name: 'blacklist'}">
-      <template #icon>
-        <usergroup-clear-icon />
-      </template>
+    </a-menu-item>
+    <a-menu-item key="autobp">
+      <icon-send />
+      自动禁选
+    </a-menu-item>
+    <a-menu-item key="blacklist">
+      <icon-user-group />
       黑名单
-    </t-menu-item>
-    <t-menu-item value="champdata" :to="{name: 'champdata'}">
-      <template #icon>
-        <chart-icon />
-      </template>
+    </a-menu-item>
+    <a-menu-item key="champdata">
+      <icon-bar-chart />
       英雄数据
-    </t-menu-item>
-    <t-menu-item value="setting" :to="{name: 'setting'}">
-      <template #icon>
-        <setting-icon />
-      </template>设置
-    </t-menu-item>
-  </t-menu>
+    </a-menu-item>
+    <a-menu-item key="setting">
+      <icon-settings />
+      设置
+    </a-menu-item>
+  </a-menu>
 </template>
 
 <script setup lang="ts">
-import { ControlPlatformIcon, RootListIcon, HomeIcon, ChartIcon, UsergroupClearIcon, SearchIcon, SettingIcon, PlayCircleStrokeIcon } from 'tdesign-icons-vue-next'
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-const activeMenuItem = ref('home')
+const route = useRoute()
+const router = useRouter()
+const selectedKey = ref<string[]>(['home']);
 
+// 监听路由变化 更改菜单选中
+watch(
+  () => route.name,
+  (newRoute) => {
+    selectedKey.value[0] = newRoute as any;
+  },
+);
+
+const changePath = (name: string) => {
+  router.push({ name });
+};
 
 </script>

@@ -12,7 +12,7 @@ export const createMainWindow = async (preload: string) => {
     resizable: false,
     width: 1200,
     height: 720,
-    // transparent: true,
+    transparent: true,
     webPreferences: {
       preload,
       nodeIntegration: true,

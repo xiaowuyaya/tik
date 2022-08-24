@@ -7,7 +7,8 @@ body,
   padding: 0;
   margin: 0;
   // PingFang SC
-  font-family:  'Noto Sans SC', sans-serif !important ;
+  // font-family:  'Noto Sans SC', sans-serif !important ;
+  font-family:  PingFang SC, sans-serif !important ;
     // font-family:  font-family: 'Noto Sans SC', sans-serif ;
   font-size: 14px;
   line-height: 1.5;
@@ -16,8 +17,10 @@ body,
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
-  // --td-font-family : 'Noto Sans SC', sans-serif !important;
+ /* 圆框需要 不然圆角会有背景色*/
+ background-color: rgba(0, 0, 0, 0);
+ border-radius: 4px;
+ overflow: hidden;
 }
 
 img {
