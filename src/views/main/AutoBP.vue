@@ -173,12 +173,8 @@
 <script setup lang="ts">
 import { useConfigStore } from '@/stores/config'
 import { ref } from 'vue';
-console.log(window.ddragonStore.get('champions'));
 
 const ddragonStore = ref(window.ddragonStore.get('champions'))
 const configStore = useConfigStore()
 
-const submit = async () => {
-  configStore.changeConfig()
-};
 </script>

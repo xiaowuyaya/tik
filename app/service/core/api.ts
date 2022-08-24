@@ -1,4 +1,4 @@
-import { http2Request, superagentRequest } from '../utils/net'
+import { http2Request, superagentRequest, superagentHttp2Request } from '../utils/net'
 
 /**
  * 获取当前登入账号信息
@@ -85,7 +85,7 @@ export const getChampionMastery = async (summonerId:number, limit: number) => {
  * 根据path获取base64图片
  */
 export const getLcuImgBase64 = async (imgUrl: string) => {
-  const data = await http2Request(imgUrl);
+  const data = await superagentHttp2Request(imgUrl);
   return 'data:image/png;base64,' + Buffer.from(data, 'utf8').toString('base64');
 };
 

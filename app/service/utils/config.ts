@@ -4,12 +4,19 @@ export const appConfig = new Store({
   defaults: {
     /* lcu链接凭证 */
     credentials: '',
+    /* 显示符文小窗 */
+    showChampTool: '',
     /* 自动接收对局 */
     autoAccept: true,
     /* 自动确定英雄 */
     confirmSelect: true,
     /* 自动禁言所有人 */
     autoMuteAll: false,
+    /* 技能提醒窗口 */
+    spellsWin: {
+      enable: true,
+      key: []
+    },
     /* 一般自动禁选 */
     normalAutoPB: {
       enablePick: false,

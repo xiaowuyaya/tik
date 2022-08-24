@@ -1,7 +1,16 @@
-import { useConfigStore } from "@/stores/config";
+import { useAppStore } from "@/stores/app";
+import { useUserStore } from "@/stores/user";
 
-const configStore = useConfigStore()
 
-export const setup = async () => {
-  configStore.init()
+const appStore = useAppStore()
+const userStore = useUserStore();
+
+export const mainSetup = async() => {
+  /* 如果用户信息不存在 重新获取 */
+  if (!userStore.username) {
+    userStore.myInfo({
+      mac: appStore.mac,
+      clientVersion: appStore.version,
+    });
+  }
 }

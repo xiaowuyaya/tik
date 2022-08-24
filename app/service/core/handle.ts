@@ -592,3 +592,27 @@ const sortAndSetDesignation = (list: any[]) => {
   }
   return list;
 }
+
+
+export const changeTier = async (tiger: string) => {
+  try {
+    let r = await api.getPlayerChatInfo();
+    r.lol.rankedLeagueDivision = 'I';
+    r.lol.rankedLeagueQueue = 'RANKED_SOLO_5x5';
+    r.lol.rankedLeagueTier = tiger;
+    r.lol.rankedPrevSeasonDivision = 'I';
+    return await api.putPlayerChatInfo(r);
+  } catch (err) {
+    return null;
+  }
+}
+
+export const changeStatus = async (status: string) => {
+  try {
+    let r = await api.getPlayerChatInfo();
+    r.availability = status;
+    return await api.putPlayerChatInfo(r);
+  } catch (err) {
+    return null;
+  }
+}

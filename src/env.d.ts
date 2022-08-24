@@ -12,6 +12,7 @@ declare interface Window {
   appStore: any,
   ddragonStore: any
   panelDataStore: any
+  blacklistStore: any
   handle: any,
   utils: any
   lcuApi: any

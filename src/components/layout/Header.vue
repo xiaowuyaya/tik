@@ -24,8 +24,8 @@
           </div>
         </a-button>
         <template #content>
-          <a-doption><span class="mx-2">账号信息</span></a-doption>
-          <a-doption><span class="text-red-500 mx-2">退出登入</span></a-doption>
+          <a-doption value="0"><span class="mx-2">账号信息</span></a-doption>
+          <a-doption class="1"><span class="text-red-500 mx-2">退出登入</span></a-doption>
         </template>
       </a-dropdown>
 
@@ -56,9 +56,13 @@ const router = useRouter()
 const summonerSearch = ref('')
 
 
-const handleSelectDropdown = (e: any) => {
-  console.log(e);
-
+const handleSelectDropdown = (select: any) => {
+  if(select == '0') {
+    router.push({name: 'account'})
+  }
+  if(select == '1'){
+    userStore.logout()
+  }
 }
 
 const searchSummoner = () => {

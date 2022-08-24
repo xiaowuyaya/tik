@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/login'
   },
   {
     path: '/login',
@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/account',
         name: 'account',
-        component: () => import('../views/main/Account.vue')
+        component: () => import('../views/main/account.vue')
       },
       {
         path: '/autobp',
@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/blacklist',
         name: 'blacklist',
-        component: () => import('../views/main/Blacklist.vue')
+        component: () => import('../views/main/blacklist.vue')
       },
       {
         path: '/champdata',

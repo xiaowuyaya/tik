@@ -1,5 +1,5 @@
 <template>
-  <a-form :model="formData">
+  <a-form :model="formData" @submit="onSubmit">
     <a-form-item field="username" hide-label :rules="[{ required: true, message: '登入用户名不能为空' }]">
       <template #prefix>
         <icon-user />
@@ -25,7 +25,7 @@
       <a-input class="w-full" v-model="formData.phone" size="large" placeholder="手机号（用于找回账号）" />
     </a-form-item>
     <a-form-item hide-label>
-      <a-button type="primary" size="large" long @click="onSubmit">注册账号</a-button>
+      <a-button type="primary" size="large" long html-type="submit">注册账号</a-button>
     </a-form-item>
   </a-form>
 
@@ -33,10 +33,9 @@
 
 <script setup lang="ts">
 import { IconMobile, IconIdcard, IconLock, IconUser } from '@arco-design/web-vue/es/icon';
-import { useAppStore } from '@/stores/app'
-import { ref } from 'vue';
-
-const appStore = useAppStore()
+import { reactive, ref } from 'vue';
+import { register } from '@/api/user';
+import { Message } from '@arco-design/web-vue';
 
 const INITIAL_DATA = {
   username: '',
@@ -45,9 +44,17 @@ const INITIAL_DATA = {
   phone: '',
 }
 
-const formData = ref({ ...INITIAL_DATA });
+const formData = reactive({ ...INITIAL_DATA });
 
-const onSubmit = async () => { }
+const onSubmit = async () => {
+  try {
+    await register(formData);
+    Message.success({
+      content: '注册成功，快快登入吧！',
+      duration: 3 * 1000,
+    })
+  } catch (err) { }
+}
 
 
 </script>

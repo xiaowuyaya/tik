@@ -4,8 +4,13 @@ const appStore = window.appStore
 
 interface ConfigType {
   autoAccept: boolean | undefined
+  showChampTool: boolean | undefined
   confirmSelect: boolean | undefined
   autoMuteAll: boolean | undefined
+  spellsWin: {
+    enable: boolean | undefined
+    key: number[] | undefined
+  },
   normalAutoPB: {
     enablePick: boolean | undefined
     pickSelect: number[] | undefined
@@ -34,7 +39,7 @@ interface ConfigType {
   onlyRankData: boolean | undefined
   matchCount: number | undefined
   blacklistNoticeAll: boolean | undefined
-  typeTitle: string[] | undefined
+  typeTitle: [string,string,string,string,string] ,
   keys: {
     order: number[] | undefined
     chaos: number[] | undefined
@@ -47,8 +52,13 @@ export const useConfigStore = defineStore({
   state: (): ConfigType => {
     return {
       autoAccept: undefined,
+      showChampTool: undefined,
       confirmSelect: undefined,
       autoMuteAll: undefined,
+      spellsWin: {
+        enable: undefined,
+        key: undefined,
+      },
       normalAutoPB: {
         enablePick: undefined,
         pickSelect: undefined,
@@ -77,7 +87,7 @@ export const useConfigStore = defineStore({
       onlyRankData: undefined,
       matchCount: undefined,
       blacklistNoticeAll: undefined,
-      typeTitle: undefined,
+      typeTitle: ["","","","",""],
       keys: {
         order: undefined,
         chaos: undefined,
@@ -89,7 +99,10 @@ export const useConfigStore = defineStore({
     init() {
       this.autoAccept = appStore.get('autoAccept')
       this.confirmSelect = appStore.get('confirmSelect')
+      this.showChampTool = appStore.get('showChampTool')
       this.autoMuteAll = appStore.get('autoMuteAll')
+      this.spellsWin.enable = appStore.get('spellsWin.enable')
+      this.spellsWin.key = appStore.get('spellsWin.key')
       this.normalAutoPB.enablePick = appStore.get('normalAutoPB.enablePick')
       this.normalAutoPB.pickSelect = appStore.get('normalAutoPB.pickSelect')
       this.normalAutoPB.enableBan = appStore.get('normalAutoPB.enableBan')

@@ -9,7 +9,12 @@
           <LayoutMenu />
         </a-layout-sider>
         <a-layout-content class="layout-content p-2">
-          <router-view></router-view>
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" :key="$route.name" v-if="$route.meta.keepAlive" />
+            </keep-alive>
+            <component :is="Component" :key="$route.name" v-if="!$route.meta.keepAlive" />
+          </router-view>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -19,10 +24,16 @@
 <script setup lang="ts">
 import LayoutHeader from './Header.vue'
 import LayoutMenu from './Menu.vue'
+import { mainSetup } from '@/utils/init'
+import { onMounted } from 'vue';
+
+onMounted(async()=>{
+  await mainSetup()
+})
 
 </script>
 <style lang="less">
-  .layout-content {
-    background-color: #f8fafc;
-  }
+.layout-content {
+  background-color: #f8fafc;
+}
 </style>

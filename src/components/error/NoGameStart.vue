@@ -1,5 +1,5 @@
 <template>
- <div class="flex items-center h-full pt-40">
+ <div class="flex items-center h-full">
    <a-result status="error">
     <template #icon>
       <icon-exclamation-circle-fill size="82"/>
