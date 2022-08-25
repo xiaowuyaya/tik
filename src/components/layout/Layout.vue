@@ -11,9 +11,15 @@
         <a-layout-content class="layout-content p-2">
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <component :is="Component" :key="$route.name" v-if="$route.meta.keepAlive" />
+              <transition mode="out-in" :duration="300" enter-active-class="animate__animated animate__fadeIn"
+                leave-active-class="animate__animated animate__fadeOut" v-if="$route.meta.keepAlive">
+                <component :is="Component" :key="$route.name"  />
+              </transition>
             </keep-alive>
-            <component :is="Component" :key="$route.name" v-if="!$route.meta.keepAlive" />
+            <transition mode="out-in" :duration="300" enter-active-class="animate__animated animate__fadeIn"
+              leave-active-class="animate__animated animate__fadeOut" v-if="!$route.meta.keepAlive">
+              <component :is="Component" :key="$route.name"  />
+            </transition>
           </router-view>
         </a-layout-content>
       </a-layout>
@@ -27,7 +33,7 @@ import LayoutMenu from './Menu.vue'
 import { mainSetup } from '@/utils/init'
 import { onMounted } from 'vue';
 
-onMounted(async()=>{
+onMounted(async () => {
   await mainSetup()
 })
 

@@ -8,6 +8,7 @@ import ArcoVue from '@arco-design/web-vue';
 import App from './App.vue'
 
 import 'virtual:windi.css'
+import 'animate.css'
 
 createApp(App)
   .use(ArcoVue, {})

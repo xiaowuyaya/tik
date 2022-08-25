@@ -18,7 +18,10 @@ if (token) {
 </script>
 
 <template>
-  <router-view />
+  <transition mode="out-in" :duration="300" enter-active-class="animate__animated animate__fadeIn"
+    leave-active-class="animate__animated animate__fadeOut">
+    <router-view />
+  </transition>
 </template>
 
 <style lang="less">

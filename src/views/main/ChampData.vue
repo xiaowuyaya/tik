@@ -28,7 +28,7 @@
       </a-row>
     </a-card>
     <a-card class="mb-1" :hoverable="true" :header-style="{ border: 'none' }">
-      <a-table :data="championsData" height="520" style="width: 100%" :scroll="tableScroll" :pagination="false"
+      <a-table :data="championsData" height="544" style="width: 100%" :scroll="tableScroll" :pagination="false"
         :loading="isLoading" @row-click="handleDetail">
         <template #columns>
           <a-table-column title="#" :width="60">
@@ -143,13 +143,7 @@ async function getChampionsData() {
       return a.positionTierData.rank - b.positionTierData.rank;
     });
   }
-
-
-  console.log(championsData.value);
-
   isLoading.value = false;
-
-
 }
 
 async function changePosition(choosePosition: string) {
@@ -159,10 +153,11 @@ async function changePosition(choosePosition: string) {
 
 function handleDetail(row: any) {
   router.push({
-    name: 'hero-data-detail',
+    name: 'champ-datail',
     query: {
       championName: row.key,
       position: position.value,
+      mode: mode.value
     },
   });
 }

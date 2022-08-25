@@ -59,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/champdata',
         name: 'champdata',
-        component: () => import('../views/main/ChampData.vue')
+        component: () => import('../views/main/champData.vue')
       },
       {
         path: '/search-content',
@@ -70,6 +70,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/matches-datail',
         name: 'matches-datail',
         component: () => import('../components/history/MatchesDetail.vue')
+      },
+      {
+        path: '/champ-datail',
+        name: 'champ-datail',
+        component: () => import('../components/champData/ChampDetail.vue')
       },
     ]
   },

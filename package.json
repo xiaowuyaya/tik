@@ -14,6 +14,7 @@
     "node": "^14.18.0 || >=16.0.0"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "node-fetch": "^3.2.10",
     "superagent": "^8.0.0",
     "ws": "^8.8.1"
