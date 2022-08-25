@@ -132,7 +132,7 @@ export const sendMsgInChampSelect = async (type: string, msg: string) => {
       type: 'celebration',
     };
   }
-  return await http2Request(`/lol-chat/v1/conversations/${chatId}/messages`, 'POST', postData);
+  return await superagentHttp2Request(`/lol-chat/v1/conversations/${chatId}/messages`, 'POST', postData);
 };
 
 /**
@@ -171,7 +171,7 @@ export const createCustomLobby = async (gameMode: string, mapId: string, lobbyNa
     },
     isCustom: true,
   };
-  return await http2Request(`/lol-lobby/v2/lobby`, 'POST', req);
+  return await superagentHttp2Request(`/lol-lobby/v2/lobby`, 'POST', req);
 };
 
 /**
@@ -196,7 +196,7 @@ export const sendNotifications = async (title: string, details: string) => {
     titleKey: 'pre_translated_title',
     type: 'ranked_summary',
   };
-  return await http2Request(`/player-notifications/v1/notifications`, 'POST', req);
+  return await superagentHttp2Request(`/player-notifications/v1/notifications`, 'POST', req);
 };
 
 /**
@@ -210,14 +210,14 @@ export const getPlayerChatInfo = async () => {
  * 修改当前玩家聊天信息
  */
 export const putPlayerChatInfo = async (info: any) => {
-  return await http2Request(`/lol-chat/v1/me`, 'PUT', info);
+  return await superagentHttp2Request(`/lol-chat/v1/me`, 'PUT', info);
 };
 
 /**
  * 接受对局
  */
 export const acceptMatchmaking = async () => {
-  return await http2Request(`/lol-matchmaking/v1/ready-check/accept`, 'POST');
+  return await superagentHttp2Request(`/lol-matchmaking/v1/ready-check/accept`, 'POST');
 };
 
 /**
@@ -229,7 +229,7 @@ export const spectatorLaunchByName = async (summonerName: string, gameQueueType:
     dropInSpectateGameId: summonerName,
     gameQueueType: gameQueueType,
   };
-  return await http2Request(`/lol-spectator/v1/spectate/launch`, 'POST', req);
+  return await superagentHttp2Request(`/lol-spectator/v1/spectate/launch`, 'POST', req);
 };
 
 /**
@@ -275,14 +275,14 @@ export const getAllRunePage = async () => {
  * 应用一套符文配置
  */
 export const postRunePage = async (data: any) => {
-  return await http2Request(`/lol-perks/v1/pages`, 'POST', data);
+  return await superagentHttp2Request(`/lol-perks/v1/pages`, 'POST', data);
 };
 
 /**
  * 删除一套符文配置
  */
 export const delRunePage = async (id: string) => {
-  return await http2Request(`/lol-perks/v1/pages/${id}`, 'DELETE');
+  return await superagentHttp2Request(`/lol-perks/v1/pages/${id}`, 'DELETE');
 };
 
 /**
@@ -297,5 +297,5 @@ export const getChampionSkinListById = async (championId: string) => {
  * 设置生涯背景
  */
 export const setBackgroundSkinId = async (param: any) => {
-  return await http2Request(`/lol-summoner/v1/current-summoner/summoner-profile`, 'POST', param);
+  return await superagentHttp2Request(`/lol-summoner/v1/current-summoner/summoner-profile`, 'POST', param);
 };

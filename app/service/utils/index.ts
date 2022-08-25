@@ -28,3 +28,9 @@ export const getChampionAvatarByCnName = (cnName: string,) => {
 export const getItemsAvatarById = (id: string) => {
   return `https://game.gtimg.cn/images/lol/act/img/item/${id}.png`
 }
+
+export const getSpellInfoByName = (spellName: string) => {
+  const data: any = ddragonConfig.get('spells')
+  const key = _.findKey(data, { name: `${spellName}` })
+  return data[key]
+}

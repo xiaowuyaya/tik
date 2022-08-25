@@ -8,7 +8,7 @@ export const createWebSocket = async () => {
   try {
     const credentials = appConfig.get<any>('credentials');
     return await createWebSocketConnection(credentials);
-  } catch (err) {}
+  } catch (err) { }
 };
 
 
@@ -25,17 +25,18 @@ export const createClient = () => {
 
 // lcu http2 request
 export const http2Request = async (url: string, method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET', postData?: any) => {
-  try{
+  try {
     const credentials = appConfig.get<any>('credentials');
-  const session = await createHttpSession(credentials)
-  const response = await createHttp2Request({
-    method,
-    url
-  }, session, credentials)
-  // Remember to close the session when done
-  session.close()
-  return response.json<any>()
-  }catch(err){return null}
+    const session = await createHttpSession(credentials)
+    const response = await createHttp2Request({
+      method,
+      url,
+      body: postData
+    }, session, credentials)
+    // Remember to close the session when done
+    session.close()
+    return response.json<any>()
+  } catch (err) { return null }
 };
 
 // superagent request
@@ -54,10 +55,10 @@ export const superagentHttp2Request = async (url: string, method = 'GET', data?:
   try {
     const credentials = appConfig.get<any>('credentials');
     const r = await request(method, `https://127.0.0.1:${credentials.port}${url}`)
-    .auth('riot', credentials.password) // 认证
-    .send(data) //post请求参数
-    .ca(credentials.certificate) // tls证书
-    .http2(); // 开启http2
+      .auth('riot', credentials.password) // 认证
+      .send(data) //post请求参数
+      .ca(credentials.certificate) // tls证书
+      .http2(); // 开启http2
     return r.body;
   } catch (err) {
     return null;

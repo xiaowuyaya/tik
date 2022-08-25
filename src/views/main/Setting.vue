@@ -48,36 +48,60 @@
         <a-card class="mt-2" :hoverable="true" :header-style="{ border: 'none' }">
           <div class="text-base font-medium text-gray-500 !mb-4">自定快捷键</div>
           <a-form-item field="settingsStore.app.spellsWin.key" label-col-flex="74px" label="技能窗口">
-            <a-select :disabled="!configStore.spellsWin.enable" class="!w-[46%]" v-model="configStore.spellsWin.key"
-              placeholder="请选择快捷键组合" size="large" multiple :limit="3" @change="handleNotice('spellsWin')">
+            <a-select :disabled="!configStore.spellsWin.enable" v-model="configStore.spellsWin.key"
+              placeholder="请选择快捷键组合" multiple :limit="2" @change="handleNotice('spellsWin')">
               <a-option v-for="(item, index) in keyCodeOptions" :key="index" :value="item.value">{{ item.label }}
               </a-option>
             </a-select>
-            <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.spellsWin }}</span>
+            <a-popover>
+              <icon-question-circle-fill class="mx-1" size="20px" />
+              <template #content>
+                <span class="ml-4 text-gray-600">设置为：{{ hotKeyNotice.spellsWin }}</span>
+              </template>
+            </a-popover>
+
           </a-form-item>
           <a-form-item label-col-flex="74px" label="发送友军">
-            <a-select :disabled="!configStore.enableSendHourse" class="!w-[46%]" v-model="configStore.keys.order"
-              placeholder="请选择快捷键组合" size="large" multiple :limit="3" @change="handleNotice('order')">
+            <a-select :disabled="!configStore.enableSendHourse" v-model="configStore.keys.order" placeholder="请选择快捷键组合"
+              multiple :limit="2" @change="handleNotice('order')">
               <a-option v-for="(item, index) in keyCodeOptions" :key="index" :value="item.value">{{ item.label }}
               </a-option>
             </a-select>
-            <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.order }}</span>
+            <a-popover>
+              <icon-question-circle-fill class="mx-1" size="20px" />
+              <template #content>
+                <span class="ml-4 text-gray-600">设置为：{{ hotKeyNotice.order }}</span>
+              </template>
+            </a-popover>
+
           </a-form-item>
           <a-form-item label-col-flex="74px" label="发送敌军">
-            <a-select :disabled="!configStore.enableSendHourse" class="!w-[46%]" v-model="configStore.keys.chaos"
-              placeholder="请选择快捷键组合" size="large" multiple :limit="3" @change="handleNotice('chaos')">
+            <a-select :disabled="!configStore.enableSendHourse" v-model="configStore.keys.chaos" placeholder="请选择快捷键组合"
+              multiple :limit="2" @change="handleNotice('chaos')">
               <a-option v-for="(item, index) in keyCodeOptions" :key="index" :value="item.value">{{ item.label }}
               </a-option>
             </a-select>
-            <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.chaos }}</span>
+            <a-popover>
+              <icon-question-circle-fill class="mx-1" size="20px" />
+              <template #content>
+                <span class="ml-4 text-gray-600 ">设置为：{{ hotKeyNotice.chaos }}</span>
+              </template>
+            </a-popover>
+
           </a-form-item>
           <a-form-item class="!mb-0" label-col-flex="74px" label="全体禁言">
-            <a-select :disabled="!configStore.enableSendHourse" class="!w-[46%]" v-model="configStore.keys.muteAll"
-              placeholder="请选择快捷键组合" size="large" multiple :limit="3" @change="handleNotice('muteAll')">
+            <a-select :disabled="!configStore.enableSendHourse" v-model="configStore.keys.muteAll"
+              placeholder="请选择快捷键组合" multiple :limit="2" @change="handleNotice('muteAll')">
               <a-option v-for="(item, index) in keyCodeOptions" :key="index" :value="item.value">{{ item.label }}
               </a-option>
             </a-select>
-            <span class="ml-4 text-gray-600">当前快捷键为：{{ hotKeyNotice.muteAll }}</span>
+            <a-popover>
+              <icon-question-circle-fill class="mx-1" size="20px" />
+              <template #content>
+                <span class="ml-4 text-gray-600">设置为：{{ hotKeyNotice.muteAll }}</span>
+              </template>
+            </a-popover>
+
           </a-form-item>
         </a-card>
         <a-card class="mt-2" :hoverable="true" :header-style="{ border: 'none' }">

@@ -17,7 +17,7 @@ export const createClientListen = () => {
   client.start()
 }
 
-export const createWebsocketListen = async (mainWindow: BrowserWindow) => {
+export const createWebsocketListen = async (mainWindow: BrowserWindow, spellsWindow: BrowserWindow) => {
   const ws = await createWebSocket();
   if (!ws) return
 
@@ -30,6 +30,7 @@ export const createWebsocketListen = async (mainWindow: BrowserWindow) => {
   ws.subscribe('/lol-gameflow/v1/gameflow-phase', async (data, event) => {
     // 状态转发到渲染进程主窗口
     mainWindow.webContents.send('playerStatus', data);
+    spellsWindow.webContents.send('playerStatus', data);
 
     statusHandle(data, displayName)
   });

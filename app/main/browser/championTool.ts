@@ -38,6 +38,42 @@ export const createChampionRuneWindow = async (preload: string) => {
   return championRuneWindow
 }
 
+export const createSpellsWindow = async(preload: string) => {
+  let spellsWindow = new BrowserWindow({
+    width: 600,
+    height: 120,
+    show: false,
+    x: 0 + screen.getPrimaryDisplay().workAreaSize.width * 0.15,
+    y: 0,
+    resizable: false, // 大小调整
+    fullscreenable: false, // 是否可以全屏
+    transparent: true, // 透明背景
+    frame: false, // 显示框体
+    webPreferences: {
+      preload,
+      contextIsolation: false, // 设置此项为false后，才可在渲染进程中使用electron api
+      nodeIntegration: true,
+      allowRunningInsecureContent: true,
+    },
+  });
+
+  const dist = path.join(__dirname, '../..')
+
+
+  const url = app.isPackaged ? `file://${path.join(dist, 'index.html')}#/champ-tool/spells` : `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}/#/champ-tool/spells`
+
+  spellsWindow.loadURL(url)
+
+  createSpellsWindowIpcListen(spellsWindow)
+  
+  if (!app.isPackaged) {
+    spellsWindow.webContents.openDevTools()
+  }
+
+
+  return spellsWindow
+}
+
 export const createChampionRuneWindowIpcListen = (championRuneWindow: BrowserWindow) => {
   ipcMain.on('championRuneWindow.show', () => {
     championRuneWindow.show()
@@ -50,4 +86,15 @@ export const createChampionRuneWindowIpcListen = (championRuneWindow: BrowserWin
   ipcMain.on('championRuneWindow.change', (event, data:any) => {
     championRuneWindow.webContents.send('championRuneWindow.changeData', data);
   })
+}
+
+export const createSpellsWindowIpcListen = (spellsWindow: BrowserWindow) => {
+  ipcMain.on('spellsWindow.show', () => {
+    spellsWindow.show()
+  })
+
+  ipcMain.on('spellsWindow.hide', () => {
+    spellsWindow.hide()
+  })
+
 }

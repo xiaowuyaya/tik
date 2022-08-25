@@ -55,9 +55,9 @@ export const appConfig = new Store({
     typeTitle: ['老大', '老二', '老三', '老四', '老六'],
     /* 快捷键相关 */
     keys: {
-      order: [],
-      chaos: [],
-      muteAll: [],
+      order: [61001],
+      chaos: [61009],
+      muteAll: [60999],
     }
   }
 })
@@ -709,7 +709,153 @@ export const ddragonConfig = new Store({
         "championId": "143",
         "enName": "Zyra"
       }
-    }
+    },
+    "spells": {
+      "SummonerBarrier": {
+        "id": "SummonerBarrier",
+        "name": "屏障",
+        "description": "为你的英雄套上护盾，吸收105-411（取决于英雄等级）伤害，持续2秒。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerBarrier.png",
+        "tooltip": "暂时为你的英雄套上持续2秒的护盾，抵挡{{ tooltipabsorbeddamage }}伤害。",
+        "cooldownBurn": "180",
+        "key": "21"
+      },
+      "SummonerBoost": {
+        "id": "SummonerBoost",
+        "name": "净化",
+        "description": "移除身上的所有限制效果（压制效果和击飞效果除外）和召唤师技能的减益效果，并且若在接下来的3秒里再次被施加限制效果时，新效果的持续时间会减少65%。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerBoost.png",
+        "tooltip": "移除你的英雄身上的所有限制效果（压制效果和击飞效果除外）和召唤师技能的减益效果，并且若在接下来的{{ e2 }}秒里再次被施加以上效果时，新效果的持续时间将减少65%。",
+        "cooldownBurn": "210",
+        "key": "1"
+      },
+      "SummonerDot": {
+        "id": "SummonerDot",
+        "name": "引燃",
+        "description": "引燃是对单体敌方目标施放的持续性伤害技能，在5秒的持续时间里造成70-410（取决于英雄等级）真实伤害，获得目标的视野，并减少目标所受的治疗和回复效果。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerDot.png",
+        "tooltip": "引燃目标敌人，在5秒的持续时间里造成共<span class=\"colorFEFCFF\">{{ tooltiptruedamagecalculation }}</span>真实伤害，获得目标视野，并在持续期间为目标施加{{ grievousamount*100 }}%重伤效果。<br /><br /><rules>(重伤效果会使目标所受的治疗和回复效果降低，如果有多个重伤效果则取最高值。这个视野不会使潜行的敌人显形。)</rules>",
+        "cooldownBurn": "180",
+        "key": "14"
+      },
+      "SummonerExhaust": {
+        "id": "SummonerExhaust",
+        "name": "虚弱",
+        "description": "虚弱目标敌方英雄，降低其30%的移动速度，并使其造成的伤害减少40%，持续3秒。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerExhaust.png",
+        "tooltip": "虚弱目标英雄，降低目标{{ e5 }}%的移动速度，并使目标造成的伤害减少{{ damagereductiontooltip }}%，持续3秒。",
+        "cooldownBurn": "210",
+        "key": "3"
+      },
+      "SummonerFlash": {
+        "id": "SummonerFlash",
+        "name": "闪现",
+        "description": "使英雄朝着你的指针所停的区域瞬间传送一小段距离。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerFlash.png",
+        "tooltip": "使英雄朝着你的指针所停的区域瞬间传送一小段距离。",
+        "cooldownBurn": "300",
+        "key": "4"
+      },
+      "SummonerHaste": {
+        "id": "SummonerHaste",
+        "name": "幽灵疾步",
+        "description": "在10秒里，你的英雄可以无视单位的碰撞体积并且获得24~48%移动速度加成(基于英雄等级)。【幽灵疾步】会在参与击杀后延长其持续时间。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerHaste.png",
+        "tooltip": "在{{ duration }}秒里，你的英雄可以无视单位的碰撞体积并且获得{{ movespeedmod }}移动速度加成。<br /><br />【幽灵疾步】会在参与击杀后延长{{ takedownextension }}秒持续时间。",
+        "cooldownBurn": "210",
+        "key": "6"
+      },
+      "SummonerHeal": {
+        "id": "SummonerHeal",
+        "name": "治疗术",
+        "description": "为你和目标友军英雄回复80-318（取决于英雄等级）生命值，并为你和目标友军英雄提供30%移动速度加成，持续1秒。若目标近期已受到过其它治疗术的影响，则治疗术对目标产生的治疗效果减半。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerHeal.png",
+        "tooltip": "为你的英雄和目标友军英雄回复{{ tooltiphealamount }}（取决于英雄等级）生命值，并提供30%移动速度加成，持续1秒。若目标近期已受到过其它治疗术的影响，则治疗术对目标产生的治疗效果减半。<br /><br /><span class=\"colorFFFF00\">如果这个技能无法找到目标，就会作用于范围内伤势最重的一位友军英雄。</span>",
+        "cooldownBurn": "240",
+        "key": "7"
+      },
+      "SummonerMana": {
+        "id": "SummonerMana",
+        "name": "清晰术",
+        "description": "为你的英雄回复50%的最大法力值。也会为周围的友军回复25%的最大法力值",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerMana.png",
+        "tooltip": "为你的英雄回复{{ e1 }}%的最大法力值，并为周围友军回复{{ e2 }}%最大法力值。",
+        "cooldownBurn": "240",
+        "key": "13"
+      },
+      "SummonerPoroRecall": {
+        "id": "SummonerPoroRecall",
+        "name": "护驾！",
+        "description": "快速位移到魄罗之王旁边。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerPoroRecall.png",
+        "tooltip": "<span class=\"colorFFE076\">被动：</span>用魄罗命中一个敌方英雄，会为你的队伍提供一层魄罗印记。当魄罗印记达到10层时，你的队伍就可以召唤出魄罗之王来与你们并肩作战。在魄罗之王处于活跃状态时，双方队伍都无法获得魄罗印记。<br /><br /><span class=\"colorFFE076\">主动：</span>快速冲刺到魄罗之王的身旁。只能在己方召唤了魄罗之王时施放。 <br /><br /><i><span class=\"colorFDD017\">“魄罗们才是扣人心弦的焦点。而你们只是抱大腿的。”</span></i></mainText>",
+        "cooldownBurn": "10",
+        "key": "30"
+      },
+      "SummonerPoroThrow": {
+        "id": "SummonerPoroThrow",
+        "name": "魄罗投掷",
+        "description": "把一个魄罗投向你的敌人。如果它命中了一名敌人，那么你接下来就可以快速位移到被命中的敌人旁边。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerPoroThrow.png",
+        "tooltip": "将一个魄罗投向远处，对命中的第一个敌方单位造成{{ f2 }}真实伤害，并提供目标的<span class=\"coloree91d7\">真实视野</span>。<br /><br />如果这个技能命中了一个敌人，那么在接下来的3秒里可以再次施放此技能，来冲到被命中的目标旁边，多造成{{ f2 }}真实伤害，并缩短下一个【魄罗投掷】{{ e4 }}秒冷却时间。<br /><br />魄罗们不会被法术护盾或各种墙体所格挡，因为它们是萌萌哒小动物，而不是技能！<br /><br /><i><span class=\"colorFDD017\">“魄罗们是符文大陆空气动力学的一个科研模型。”</span></i></mainText>",
+        "cooldownBurn": "20",
+        "key": "31"
+      },
+      "SummonerSmite": {
+        "id": "SummonerSmite",
+        "name": "惩戒",
+        "description": "对目标史诗级野怪、大型野怪、中型野怪或小兵造成450真实伤害。在对抗野怪时，还会回复90 (+10%最大生命值)生命值。可持有2层充能(90秒充能时间)。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerSmite.png",
+        "tooltip": "对目标野怪或小兵造成<span class=\"colorFEFCFF\">{{ smitebasedamage }}</span>真实伤害。对野怪时，额外回复<span class=\"colorFFFFFF\">{{ smitebaseheal }}</span><span class=\"colorFF6666\">(+{{ tooltipsmitehealaddition }})</span>生命值。<br /><br />【惩戒】每{{ ammorechargetime }}秒获得一层充能，最多可保持2层充能。<br /><br /><rules>无法对小型野怪施放。</rules>",
+        "cooldownBurn": "15",
+        "key": "11"
+      },
+      "SummonerSnowURFSnowball_Mark": {
+        "id": "SummonerSnowURFSnowball_Mark",
+        "name": "标记",
+        "description": "沿直线扔出一个雪球。如果雪球命中了一个敌人，那么这个敌人会被【标记】，提供真实视野，并且你的英雄接下来可以快速突进到被【标记】的目标旁边。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerSnowURFSnowball_Mark.png",
+        "tooltip": "扔出一个长程雪球，对命中的第一个敌方单位造成{{ tooltipdamagetotal }}真实伤害并提供目标的<span class=\"coloree91d7\">真实视野</span>。如果雪球命中了一个敌人，那么这个技能可以在{{ e3 }}秒里再次施放，用来让英雄【冲刺】到目标单位旁边，同时造成额外的{{ tooltipdamagetotal }}真实伤害。在【冲刺】到目标旁边的同时，【标记】的冷却时间会减少{{ e4 }}%。<br /><br /><span class=\"colorFFFF00\">【标记】的飞行道具不会被法术护盾或者飞行道具拦截技（亚索的【W风之障壁】、布隆的【E坚不可摧】）所阻挡。</span>",
+        "cooldownBurn": "80",
+        "key": "39"
+      },
+      "SummonerSnowball": {
+        "id": "SummonerSnowball",
+        "name": "标记",
+        "description": "沿直线扔出一个雪球。如果雪球命中了一个敌人，那么这个敌人会被【标记】，提供真实视野，并且你的英雄接下来可以快速突进到被【标记】的目标旁边。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerSnowball.png",
+        "tooltip": "扔出一个长程雪球，对命中的第一个敌方单位造成{{ tooltipdamagetotal }}真实伤害并提供目标的<span class=\"coloree91d7\">真实视野</span>。如果雪球命中了一个敌人，那么这个技能可以在{{ e3 }}秒里再次施放，用来让英雄【冲刺】到目标单位旁边，同时造成额外的{{ tooltipdamagetotal }}真实伤害。在【冲刺】到目标旁边的同时，【标记】的冷却时间会减少{{ e4 }}%。<br /><br /><span class=\"colorFFFF00\">【标记】的飞行道具不会被法术护盾或者飞行道具拦截技（亚索的【W风之障壁】、布隆的【E坚不可摧】）所阻挡。</span>",
+        "cooldownBurn": "80",
+        "key": "32"
+      },
+      "SummonerTeleport": {
+        "id": "SummonerTeleport",
+        "name": "传送",
+        "description": "在引导4秒后，将你的英雄传送到友方建筑物旁边。会在14分钟时升级为【解封的传送】，【解封的传送】可将你的英雄传送至友方建筑物、友方小兵或友方守卫旁边。",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/SummonerTeleport.png",
+        "tooltip": "在引导{{ channelduration }}秒后，将你的英雄传送到友方建筑物旁边。<br /><br />会在14分钟防御塔镀层脱落时升级为【解封的传送】。【解封的传送】拥有{{ upgradedcooldown }}秒冷却时间，可以用在友方的建筑物、小兵或守卫上，并提供{{ msamount*100 }}%移动速度加成，持续{{ msduration }}秒。",
+        "cooldownBurn": "360",
+        "key": "12"
+      },
+      "Summoner_UltBookPlaceholder": {
+        "id": "Summoner_UltBookPlaceholder",
+        "name": "占位",
+        "description": "这个栏位将在游戏开始后，被替换为所选的另一位英雄的终极技能。届时将有30秒的时间选择一个终极技能。请做好准备！",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/Summoner_UltBookPlaceholder.png",
+        "tooltip": "将被替换为你所选的终极技能。{{ spellmodifierdescriptionappend }}",
+        "cooldownBurn": "0",
+        "key": "54"
+      },
+      "Summoner_UltBookSmitePlaceholder": {
+        "id": "Summoner_UltBookSmitePlaceholder",
+        "name": "占位和攻击惩戒",
+        "description": "这个栏位将在游戏开始后，被替换为所选的另一位英雄的终极技能并且你将获得【攻击惩戒】。届时将有30秒的时间选择一个终极技能。请做好准备！",
+        "img": "https://ddragon.leagueoflegends.com/cdn/12.14.1/img/spell/Summoner_UltBookSmitePlaceholder.png",
+        "tooltip": "将被替换为你所选的终极技能。<br /><br />提供【攻击惩戒】。【攻击惩戒】将在你攻击增益野怪、史诗级野怪和峡谷迅捷蟹时将其处决。<br /><br /><attention>【攻击惩戒】没有冷却时间。</attention>{{ spellmodifierdescriptionappend }}",
+        "cooldownBurn": "0",
+        "key": "55"
+      }
+    },
   }
 })
 

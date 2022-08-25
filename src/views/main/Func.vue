@@ -115,7 +115,7 @@
         <div class="mb-2 flex w-full justify-center">
           <a-select class="!w-[40%]" v-model="(summonerBackground.curChampionId as any)"
             @change="handleSummonerBackground('champions')" placeholder="请选择英雄 可搜索" allow-clear allow-search>
-            <a-option v-for="(value, key, index) in championsStore.champions" :key="index" :value="value.championId">{{
+            <a-option v-for="(value, key, index) in championsStore" :key="index" :value="value.championId">{{
                 key
             }}</a-option>
           </a-select>
@@ -138,10 +138,12 @@ import { statusOptions, rankOptions } from '@/utils/options';
 import { useConfigStore } from '@/stores/config';
 import { reactive, ref } from 'vue';
 import _ from 'lodash';
+import { Message } from '@arco-design/web-vue';
 
-const championsStore = ref(window.ddragonStore.get('champions'))
+const championsData = window.ddragonStore.get('champions')
+
+const championsStore = ref(championsData)
 const configStore = useConfigStore()
-const lcuApi = window.lcuApi
 const handle = window.handle
 
 const useForm = reactive({
@@ -162,26 +164,31 @@ const summonerBackground = reactive({
 
 const handleChange = async (type: string, event: any) => {
   let r;
-  if (type === 'ranked') {
+  console.log(event);
+  console.log(type);
+  if (type == 'ranked') {
     r = await handle.changeTiger(event)
-  } else if (type === 'status') {
+
+  } else if (type == 'status') {
     r = await handle.changeStatus(event)
   }
+  showMessage(r,'操作成功', '操作异常，请检查客户端是否已正常启动')
 };
 
 
 const handleSpectator = async (summonerName: string) => {
-  await lcuApi.spectatorLaunchByName(summonerName, 'RANKED_SOLO_5x5')
+  const r = await handle.lcuApi.spectatorLaunchByName(summonerName, 'RANKED_SOLO_5x5')
+  showMessage(r,'拉起观战成功，等待客户端响应', '拉起观战发生异常，客户端未启动或对方不在召唤师峡谷地图游戏中')
 }
 
 const handleCreatePracticeToolMode = async () => {
-  const r = await lcuApi.createCustomLobby('PRACTICETOOL', 11, 'PRACTICETOOL' + Math.random() * 100)
-
+  const r = await handle.lcuApi.createCustomLobby('PRACTICETOOL', 11, 'Tik对局助手5V5训练模式' + Math.random() * 100)
+  showMessage(r,'创建成功', '创建失败，请检查客户端是否启动')
 }
 
 const handleSummonerBackground = async (type: 'champions' | 'skins') => {
   if (type === 'champions') {
-    const r = await lcuApi.getChampionSkinListById(summonerBackground.curChampionId)
+    const r = await handle.lcuApi.getChampionSkinListById(summonerBackground.curChampionId)
     curChampionSkinList.value = r.skins;
     summonerBackground.imgTitle = r.title;
     summonerBackground.imgDesc = r.shortBio;
@@ -189,7 +196,7 @@ const handleSummonerBackground = async (type: 'champions' | 'skins') => {
   if (type === 'skins') {
     _.forEach(curChampionSkinList.value, async (value) => {
       if (value.id === summonerBackground.curSkins) {
-        const r = await lcuApi.getLcuImgBase64(value.splashPath)
+        const r = await handle.lcuApi.getLcuImgBase64(value.splashPath)
         summonerBackground.skinImg = r;
         return;
       }
@@ -198,10 +205,26 @@ const handleSummonerBackground = async (type: 'champions' | 'skins') => {
 };
 
 const handleChangeSummonerBg = async () => {
-  await lcuApi.setBackgroundSkinId({
+  const r = await handle.lcuApi.setBackgroundSkinId({
     key: 'backgroundSkinId',
     value: summonerBackground.curSkins,
   })
+  showMessage(r, '生涯背景修改成功', '修改失败')
 };
+
+
+const showMessage = (res: any, successMsg: string, errMsg: string) => {
+  if (!res) {
+    Message.error({
+      content: errMsg,
+      duration: 2000
+    })
+  } else {
+    Message.success({
+      content: successMsg,
+      duration: 2000
+    })
+  }
+}
 
 </script>

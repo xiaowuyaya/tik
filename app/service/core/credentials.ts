@@ -3,7 +3,7 @@ import { authenticate, AuthenticationOptions, Credentials } from "../league-conn
 import { createClientListen, createWebsocketListen } from "./monitor";
 import { appConfig } from "../utils/config";
 
-export const createCredentialsService = async (mainWindow: BrowserWindow) => {
+export const createCredentialsService = async (mainWindow: BrowserWindow, spellsWindow: BrowserWindow) => {
   let credentials: Credentials | null = null;
   
   try {
@@ -31,6 +31,6 @@ export const createCredentialsService = async (mainWindow: BrowserWindow) => {
 
   if (credentials) {
     createClientListen()
-    await createWebsocketListen(mainWindow)
+    await createWebsocketListen(mainWindow, spellsWindow)
   }
 }

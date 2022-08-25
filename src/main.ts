@@ -11,6 +11,14 @@ import 'virtual:windi.css'
 import '@arco-themes/vue-gi-demo/css/arco.css';
 import 'animate.css'
 
+/* 路由发生变化修改页面title */
+router.beforeEach((to, _from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title as string
+  }
+  next()
+})
+
 createApp(App)
   .use(ArcoVue, {})
   .use(router)

@@ -11,6 +11,7 @@ const up = {
   SUPPORT: support,
   TOP: top, 
   mid: middle,
+  MIDDLE: middle,
   ADC: bottom
 }
 

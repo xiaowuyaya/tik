@@ -3,8 +3,12 @@
     <!-- 可拖动部分 -->
     <div class="absolute top-0 left-0 w-[70%] h-[60px] user-drag"></div>
     <!-- 关闭按钮 -->
-    <div class="absolute no-drag top-1 right-1 z-20 text-[36px]" @click="hideWin">
-      <IconClose class="!text-light-50" />
+    <div class="absolute no-drag top-1 right-1 z-20 text-[36px]" >
+      <a-button class="!p-1 !mr-1 !ml-4" type="text" @click="hideWin">
+        <template #icon>
+          <icon-close class="!text-2xl" />
+        </template>
+      </a-button>
     </div>
     <!-- 英雄信息 -->
     <div class="relative z-10">

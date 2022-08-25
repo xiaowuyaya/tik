@@ -81,7 +81,18 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/champ-tool/rune',
     name:'champ-tool-rune',
+    meta: {
+      title: 'TIK RUNE'
+    },
     component: () => import('../views/championTool/rune.vue')
+  },
+  {
+    path: '/champ-tool/spells',
+    name:'champ-tool-spells',
+    meta: {
+      title: 'TIK SPELLS'
+    },
+    component: () => import('../views/championTool/spells.vue')
   }
 ]
 

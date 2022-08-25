@@ -1,5 +1,4 @@
-// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
+import { createSpellsWindow } from './browser/championTool';
 import { app, BrowserWindow } from 'electron'
 import { release } from 'os'
 import { createMainWindow } from './browser/main'
@@ -7,6 +6,7 @@ import { join } from 'path'
 import ElectronStore from 'electron-store';
 import { createCredentialsService } from '../service/core/credentials';
 import { createChampionRuneWindow } from './browser/championTool';
+import { createShortcutKeyListen } from '../service/core/shortcutKey';
 
 ElectronStore.initRenderer();
 
@@ -30,11 +30,14 @@ const preload = join(__dirname, '../preload/index.js')
 
 let mainWindow: BrowserWindow | null = null
 let championRuneWindow: BrowserWindow | null = null
+let spellsWindow: BrowserWindow | null = null
 
 const initApp = async () => {
   mainWindow = await createMainWindow(preload)
   championRuneWindow = await createChampionRuneWindow(preload)
-  await createCredentialsService(mainWindow)
+  spellsWindow = await createSpellsWindow(preload)
+  await createCredentialsService(mainWindow, spellsWindow)
+  await createShortcutKeyListen(spellsWindow)
 }
 
 app.whenReady().then(async () => {
@@ -43,6 +46,7 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       mainWindow = await createMainWindow(preload)
       championRuneWindow = await createChampionRuneWindow(preload)
+      spellsWindow = await createSpellsWindow(preload)
     }
   })
 })

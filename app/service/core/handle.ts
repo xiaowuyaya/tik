@@ -2,7 +2,7 @@ import * as api from './api'
 import { translate } from '../utils/translate'
 import { panelData, appConfig, blacklist } from '../utils/config'
 import _ from 'loadsh'
-import { getChampionAvatarByCnName, getProfileIcon } from '../utils'
+import { getChampionAvatarByCnName, getProfileIcon,getSpellInfoByName } from '../utils'
 
 export const lcuApi = api
 
@@ -594,14 +594,16 @@ const sortAndSetDesignation = (list: any[]) => {
 }
 
 
-export const changeTier = async (tiger: string) => {
+export const changeTiger = async (tiger: string) => {
   try {
     let r = await api.getPlayerChatInfo();
+    
     r.lol.rankedLeagueDivision = 'I';
     r.lol.rankedLeagueQueue = 'RANKED_SOLO_5x5';
     r.lol.rankedLeagueTier = tiger;
     r.lol.rankedPrevSeasonDivision = 'I';
-    return await api.putPlayerChatInfo(r);
+    return  await api.putPlayerChatInfo(r);
+    
   } catch (err) {
     return null;
   }
@@ -639,4 +641,56 @@ export const useRunePage = async (data: any) => {
     };
     return parm;
   }
+}
+
+export const getPlayerSpells = async() => {
+  let playerList;
+    while (true) {
+      try {
+        /**
+         * getPlayerListInGame这个接口在刚进入游戏时可能获取不到数据，直接走个死循环，有时候获取到了还是空数组
+         */
+        playerList = await api.getPlayerListInGame();
+        if (playerList.length > 0) break;
+      } catch (err) {}
+    }
+    let r = [];
+    const summoner = await api.getCurrentSummoner();
+    let team;
+    for (let j = 0; j < playerList.length; j++) {
+      if (summoner.displayName == playerList[j].summonerName) {
+        if (playerList[j].team == 'ORDER') {
+          team = 'CHAOS';
+        } else {
+          team = 'ORDER';
+        }
+        break;
+      }
+    }
+    for (let i = 0; i < playerList.length; i++) {
+      if (playerList[i].team == team) {
+        let temp:any = {};
+        const spellOne =  getSpellInfoByName(playerList[i].summonerSpells.summonerSpellOne.displayName);
+        const spellOneImg = spellOne.img;
+        const spellOneCooldownBurn = spellOne.cooldownBurn;
+        const spellTwo =  getSpellInfoByName(playerList[i].summonerSpells.summonerSpellTwo.displayName);
+        const spellTwoImg = spellTwo.img;
+        const spellTwoCooldownBurn = spellTwo.cooldownBurn;
+        temp.championName = playerList[i].championName;
+        temp.championImg = getChampionAvatarByCnName(playerList[i].championName);
+        temp.summonerName = playerList[i].summonerName;
+        temp.summonerSpellOne = {
+          name: playerList[i].summonerSpells.summonerSpellOne.displayName,
+          img: spellOneImg,
+          cooldownBurn: Number(spellOneCooldownBurn),
+        };
+        temp.summonerSpellTwo = {
+          name: playerList[i].summonerSpells.summonerSpellTwo.displayName,
+          img: spellTwoImg,
+          cooldownBurn: Number(spellTwoCooldownBurn),
+        };
+        r.push(temp);
+      }
+    }
+    return r;
 }
