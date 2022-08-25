@@ -4,6 +4,7 @@ export const appConfig = new Store({
   defaults: {
     /* lcu链接凭证 */
     credentials: '',
+    quitMethod: 0,
     /* 显示符文小窗 */
     showChampTool: '',
     /* 自动接收对局 */

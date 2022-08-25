@@ -78,6 +78,11 @@ const routes: Array<RouteRecordRaw> = [
       },
     ]
   },
+  {
+    path: '/champ-tool/rune',
+    name:'champ-tool-rune',
+    component: () => import('../views/championTool/rune.vue')
+  }
 ]
 
 const router = createRouter({

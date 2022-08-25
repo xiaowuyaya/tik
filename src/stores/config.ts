@@ -1,8 +1,10 @@
+import { Message } from "@arco-design/web-vue";
 import { defineStore } from "pinia";
 
 const appStore = window.appStore
 
 interface ConfigType {
+  quitMethod: number | undefined
   autoAccept: boolean | undefined
   showChampTool: boolean | undefined
   confirmSelect: boolean | undefined
@@ -51,6 +53,7 @@ export const useConfigStore = defineStore({
   id: 'config',
   state: (): ConfigType => {
     return {
+      quitMethod: undefined,
       autoAccept: undefined,
       showChampTool: undefined,
       confirmSelect: undefined,
@@ -97,6 +100,7 @@ export const useConfigStore = defineStore({
   },
   actions: {
     init() {
+      this.quitMethod = appStore.get('quitMethod')
       this.autoAccept = appStore.get('autoAccept')
       this.confirmSelect = appStore.get('confirmSelect')
       this.showChampTool = appStore.get('showChampTool')
@@ -130,6 +134,7 @@ export const useConfigStore = defineStore({
     },
     changeConfig() {
       appStore.set(this.$state)
+      
     }
   }
 })

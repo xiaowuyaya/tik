@@ -8,12 +8,15 @@ const configStore = useConfigStore()
 configStore.init()
 
 /* 判断是否已经登入 */
-const token = getToken();
-if (token) {
-  router.push({ name: 'home' });
-} else {
-  router.push({ name: 'login' });
+if (window.location.href.indexOf('/champ-tool/rune') === -1 && window.location.href.indexOf('/champ-tool/spells') === -1) {
+  const token = getToken();
+  if (token) {
+    router.push({ name: 'home' });
+  } else {
+    router.push({ name: 'login' });
+  }
 }
+
 
 </script>
 

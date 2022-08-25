@@ -119,6 +119,42 @@
     </div>
     <a-card class="flex flex-col flex-auto h-full !ml-1" :hoverable="true" :header-style="{ border: 'none' }">
       <div class="text-base font-medium text-gray-500 !mb-4">应用设置</div>
+      <a-row class="py-2" :gutter="12" align="center" justify="center">
+        <a-col :span="6" class="font-medium">关闭按钮</a-col>
+        <a-col :span="16">
+          <a-radio-group v-model="configStore.quitMethod" type="button" @change="configStore.changeConfig">
+            <a-radio value="1">最小化到托盘</a-radio>
+            <a-radio value="0">退出应用程序</a-radio>
+          </a-radio-group>
+        </a-col>
+      </a-row>
+      <a-row class="py-2" :gutter="12" align="center" justify="center">
+        <a-col :span="6" class="">当前版本</a-col>
+        <a-col :span="8">
+          <span>{{ appPinaStore.version }}</span>
+        </a-col>
+        <a-col :span="8">
+          <!-- <a-button type="text" @click="handleUpdate">检查更新</a-button> -->
+        </a-col>
+      </a-row>
+      <a-row class="py-2" :gutter="12" align="center" justify="center">
+        <a-col :span="6" class="">设备编码</a-col>
+        <a-col :span="8">
+          <span>{{ appPinaStore.mac }}</span>
+        </a-col>
+        <a-col :span="8">
+          <a-button type="text" @click="copyToClipboard(appPinaStore.mac)">点击复制</a-button>
+        </a-col>
+      </a-row>
+      <a-row class="py-2" :gutter="12" align="center" justify="center">
+        <a-col :span="6" class="">交流反馈</a-col>
+        <a-col :span="8">
+          <span>914241626</span>
+        </a-col>
+        <a-col :span="8">
+          <a-button type="text" @click="shell.openExternal(qGroupLink);">点击加群</a-button>
+        </a-col>
+      </a-row>
     </a-card>
   </div>
 </template>
@@ -126,10 +162,16 @@
 <script setup lang="ts">
 import { keyCodeOptions, keyCodeMap } from '@/utils/options';
 import { useConfigStore } from '@/stores/config';
+import { copyToClipboard } from '@/utils/tools'
 import { onBeforeMount, reactive } from 'vue';
+import { useAppStore } from '@/stores/app';
+import { shell } from 'electron';
 
 const configStore = useConfigStore();
+const appPinaStore = useAppStore();
 const appStore = window.appStore
+
+const qGroupLink = 'https://qm.qq.com/cgi-bin/qm/qr?k=9HNfbMmM3ISfaX2YBjyJrD5r_Xgt8Bio&jump_from=webapi'
 
 const hotKeyNotice = reactive({
   spellsWin: '',

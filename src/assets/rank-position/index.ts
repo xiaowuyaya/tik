@@ -4,12 +4,22 @@ import middle from './mid.svg'
 import support from './support.svg'
 import top from './top.svg'
 
+const up = {
+  BOTTOM: bottom,
+  JUNGLE: jungle,
+  MID: middle,
+  SUPPORT: support,
+  TOP: top, 
+  mid: middle,
+  ADC: bottom
+}
+
 export const positionIcon: any = {
+  ...up,
   bottom, jungle, middle, support, top
 }
 
-export const positionIconByName = (name: any) => {
-  
+export const positionIconByName = (name: string) => {
   return positionIcon[name]
 }
 

@@ -11,14 +11,11 @@
         <a-layout-content class="layout-content p-2">
           <router-view v-slot="{ Component }">
             <keep-alive>
-              <transition mode="out-in" :duration="300" enter-active-class="animate__animated animate__fadeIn"
-                leave-active-class="animate__animated animate__fadeOut" v-if="$route.meta.keepAlive">
-                <component :is="Component" :key="$route.name"  />
-              </transition>
+                <component :is="Component" :key="$route.name" v-if="$route.meta.keepAlive"/>
             </keep-alive>
             <transition mode="out-in" :duration="300" enter-active-class="animate__animated animate__fadeIn"
               leave-active-class="animate__animated animate__fadeOut" v-if="!$route.meta.keepAlive">
-              <component :is="Component" :key="$route.name"  />
+              <component :is="Component" :key="$route.name" />
             </transition>
           </router-view>
         </a-layout-content>

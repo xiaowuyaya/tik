@@ -616,3 +616,27 @@ export const changeStatus = async (status: string) => {
     return null;
   }
 }
+
+export const useRunePage = async (data: any) => {
+  try {
+    // 获取所有符文
+    let RunesPage = await api.getAllRunePage();
+    // 删除最近的一个符文
+    let del = await api.delRunePage(RunesPage[0].id);
+    // 应用符文
+    let r = await api.postRunePage(data);
+    // 发送信息
+    await api.sendMsgInChampSelect('all', `${data.name} OPGG符文应用成功！`);
+    const parm = {
+      code: 200,
+      msg: r,
+    };
+    return parm;
+  } catch (err: any) {
+    const parm = {
+      code: 500,
+      msg: err.message,
+    };
+    return parm;
+  }
+}

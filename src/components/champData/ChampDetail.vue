@@ -6,7 +6,7 @@
         <div class="flex justify-between">
           <div class="flex">
             <a-popover position="bottom" content="双击可在导入天赋窗口打开">
-              <img class="h-[82px] w-[82px]" @click="showChampionToolWindow"
+              <img class="h-[82px] w-[82px] cursor-pointer" @click="showChampionToolWindow"
                 :src="champion.data.summary.meta.image_url + '?image=c_crop,h_103,w_103,x_9,y_9/q_auto,f_webp,w_264&v=1651762875503'" />
             </a-popover>
             <div class="ml-4 flex flex-col justify-end">
@@ -279,6 +279,7 @@ import { onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import positionTigerSvg from '@/assets/champ-tiger'
 import { getOpggChampionDetail, getOpggChampionAramByName } from '@/api/common'
+import { ipcRenderer } from 'electron';
 
 const route = useRoute();
 
@@ -292,16 +293,16 @@ const levelList = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
 const isLoading = ref(false);
 
 onBeforeMount(async () => {
-  let championResp :any
+  let championResp: any
   isLoading.value = true;
-  if(mode == 0){
+  if (mode == 0) {
 
-     championResp = await getOpggChampionDetail(championName, position)
-  }else if(mode == 1){
+    championResp = await getOpggChampionDetail(championName, position)
+  } else if (mode == 1) {
     championResp = await getOpggChampionAramByName(championName)
   }
   console.log(championResp);
-  
+
   isLoading.value = false;
   champion.value = championResp.data;
 });
@@ -324,11 +325,12 @@ const findDetailObj = (type: any, id: any) => {
  * 显示英雄数据工具窗口
  */
 const showChampionToolWindow = async () => {
-  // await ipcRenderer.invoke('controller.opgg.showChampionToolWindow', {
-  //   show: true,
-  //   championName: champion.value.champion,
-  //   position: champion.value.position,
-  // });
+  ipcRenderer.send('championRuneWindow.change', {
+    mode: mode,
+    championName: champion.value.champion,
+    position: champion.value.position,
+  })
+  ipcRenderer.send('championRuneWindow.show')
 };
 
 function getPositionTigerImg(tiger: any) {

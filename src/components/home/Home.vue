@@ -87,7 +87,7 @@
             <div class="flex items-center justify-around">
               <div class="mt-2 flex flex-col items-center justify-center"
                 v-for="(obj, key, index) in (currentSummoner.rencentlyPosition as any)" :key="index">
-                <img class="w-12" :src="positionIcon[key.toLowerCase()]" />
+                <img class="w-12" :src="positionIcon[key]" />
                 <div :class="obj.wins / obj.total >= 0.5 ? '!bg-green-500' : '!bg-red-400'"
                   class="mt-1  px-2 rounded  text-white">{{ obj.wins }}胜 {{ obj.total - obj.wins }}负
                 </div>

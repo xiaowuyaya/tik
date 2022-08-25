@@ -25,7 +25,7 @@
         </a-button>
         <template #content>
           <a-doption value="0"><span class="mx-2">账号信息</span></a-doption>
-          <a-doption class="1"><span class="text-red-500 mx-2">退出登入</span></a-doption>
+          <a-doption value="1"><span class="text-red-500 mx-2">退出登入</span></a-doption>
         </template>
       </a-dropdown>
 
@@ -61,6 +61,7 @@ const handleSelectDropdown = (select: any) => {
     router.push({name: 'account'})
   }
   if(select == '1'){
+
     userStore.logout()
   }
 }

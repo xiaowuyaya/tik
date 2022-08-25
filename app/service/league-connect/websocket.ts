@@ -27,7 +27,7 @@ export type EventCallback<T = any> = (data: T | null, event: EventResponse<T>) =
 export class LeagueWebSocket extends WebSocket {
   subscriptions: Map<string, EventCallback[]> = new Map()
 
-  constructor(address: string, options: ClientOptions) {
+  constructor(address: string, options: any) {
     super(address, options)
 
     // Subscribe to Json API

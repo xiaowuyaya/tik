@@ -30,27 +30,31 @@ export const createMainWindow = async (preload: string) => {
     if (url.startsWith('https:')) shell.openExternal(url)
     return { action: 'deny' }
   })
-  
-  const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
 
-  if (app.isPackaged) {
-    win.loadFile(path.join(__dirname, 'index.html'))
-  } else {
-    win.loadURL(url)
+
+  const dist = path.join(__dirname, '../..')
+
+  const url = app.isPackaged ? `file://${path.join(dist, 'index.html')}` : `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
+
+  win.loadURL(url)
+
+  if (!app.isPackaged) {
     win.webContents.openDevTools()
   }
-  
+
+  createMainWindowIpcListen(win)
+
   return win
 }
 
-export const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
+const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
   // 关闭窗口
-  ipcMain.on('mainWin.close', ()=> {
+  ipcMain.on('mainWin.close', () => {
     app.quit()
   })
 
   // 最小化窗口
-  ipcMain.on('mainWin.minisize', ()=> {
+  ipcMain.on('mainWin.minisize', () => {
     mainWindow.minimize()
   })
 }

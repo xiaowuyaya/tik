@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex">
-    <a-form :model="configStore" auto-label-width>
+    <a-form class="flex flex-col h-full" :model="configStore" auto-label-width>
       <a-card :hoverable="true" :header-style="{ border: 'none' }">
         <a-row :gutter="12" align="center" justify-content="space-between">
           <!-- 自动接受对局 -->
@@ -45,7 +45,7 @@
         </a-row>
       </a-card>
 
-      <a-card class="mt-2" :hoverable="true" :header-style="{ border: 'none' }">
+      <a-card class="mt-2 flex-auto" :hoverable="true" :header-style="{ border: 'none' }">
         <a-row :gutter="42" align="center" justify-content="space-between">
           <!-- 段位伪造 -->
           <a-col :span="12">

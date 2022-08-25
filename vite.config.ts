@@ -55,7 +55,7 @@ export default defineConfig({
       },
       renderer: {
         resolve() {
-          return ['electron-store', 'league-connect']
+          return ['getmac','electron-store', 'league-connect']
         },
       },
     }),

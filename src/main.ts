@@ -8,6 +8,7 @@ import ArcoVue from '@arco-design/web-vue';
 import App from './App.vue'
 
 import 'virtual:windi.css'
+import '@arco-themes/vue-gi-demo/css/arco.css';
 import 'animate.css'
 
 createApp(App)

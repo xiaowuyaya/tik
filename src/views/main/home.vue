@@ -7,6 +7,7 @@ import Home from '@/components/Home/Home.vue';
 import ElectronStore from 'electron-store';
 import { type Component, onMounted, ref, reactive } from 'vue';
 
+
 const currentTabComponent = ref<Component>(NoGameStart)
 
 const appStore: ElectronStore = window.appStore
