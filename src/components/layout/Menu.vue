@@ -1,6 +1,6 @@
 <template>
-  <a-menu :style="{ height: '100%', 'padding-top': '8px' }" :collapsed="false" :default-selected-keys="selectedKey"
-    :selected-keys="selectedKey" :accordion="true" @menu-item-click="changePath">
+  <a-menu :style="{ height: '100%', 'padding-top': '8px' }" :collapsed="false" default-selected-keys="home"
+    :accordion="true" @menu-item-click="changePath">
     <a-menu-item key="home">
       <icon-dashboard />
       账号信息
@@ -42,15 +42,6 @@ import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
 const router = useRouter()
-const selectedKey = ref<string[]>(['home']);
-
-// 监听路由变化 更改菜单选中
-watch(
-  () => route.name,
-  (newRoute) => {
-    selectedKey.value[0] = newRoute as any;
-  },
-);
 
 const changePath = (name: string) => {
   router.push({ name });

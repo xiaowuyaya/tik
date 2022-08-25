@@ -192,6 +192,14 @@ export const mode: any = {
     2010: 'Tutorial 2',
     2020: 'Tutorial 3',
   },
+
+  opggPosition: {
+    TOP: "上单",
+    JUNGLE: "打野",
+    MID: "中单",
+    ADC: 'ad',
+    SUPPORT: "辅助",
+  },
 };
 
 export const translate = (type: string, key: string) => {

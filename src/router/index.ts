@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/setting',
         name: 'setting',
-        component: () => import('../views/main/Setting.vue')
+        component: () => import('../views/main/setting.vue')
       },
       {
         path: '/blacklist',
