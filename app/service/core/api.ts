@@ -249,7 +249,7 @@ export const spectatorLaunchByName = async (summonerName: string, gameQueueType:
 /**
  * 在选择英雄界面，选择并确定英雄
  */
-export const selectChampionById = async (championId: string, cellId: string, confirm: boolean) => {
+export const selectChampionById = async (championId: number, cellId: string, confirm: boolean) => {
   const req = {
     championId: championId,
     completed: confirm,
