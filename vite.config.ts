@@ -55,13 +55,13 @@ export default defineConfig({
       },
       renderer: {
         resolve() {
-          return ['getmac','electron-store', 'league-connect']
+          return ['electron','getmac','electron-store', 'league-connect']
         },
       },
     }),
     renderer({
       resolve() {
-        return ['getmac', 'league-connect']
+        return ['electron','getmac', 'league-connect']
       }
     })
   ],

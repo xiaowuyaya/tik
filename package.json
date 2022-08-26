@@ -7,7 +7,7 @@
   "email": "liaolingwei605@163.com",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "chcp 65001 && vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder",
     "cp-iohook": "xcopy .\\lib\\iohook\\ .\\node_modules\\iohook\\builds\\ /E/H/C/I"
   },
@@ -17,13 +17,15 @@
   "dependencies": {
     "@arco-design/web-vue": "^2.35.1",
     "animate.css": "^4.1.1",
+    "electron-log": "^4.4.8",
+    "electron-updater": "^5.2.1",
+    "iohook": "^0.9.3",
     "getmac": "^5.20.0",
     "node-fetch": "^3.2.10",
     "superagent": "^8.0.0",
     "vue-clipboard3": "^2.0.0",
     "winax": "^3.3.4",
-    "ws": "^8.8.1",
-    "iohook": "^0.9.3"
+    "ws": "^8.8.1"
   },
   "devDependencies": {
     "@arco-themes/vue-gi-demo": "^0.0.21",

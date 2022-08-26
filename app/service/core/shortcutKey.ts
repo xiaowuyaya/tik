@@ -3,7 +3,9 @@ import iohook from 'iohook'
 import * as api from './api'
 import { BrowserWindow, Notification } from 'electron'
 import { sendStringInProgress, windowKeepTop } from '../utils/win32_hook';
-import { translate } from '../utils/translate';
+import log from '../utils/log';
+
+const logger = log.scope('shortcutkey')
 
 
 export const createShortcutKeyListen = async (spellsWindow: BrowserWindow) => {
@@ -16,8 +18,6 @@ export const createShortcutKeyListen = async (spellsWindow: BrowserWindow) => {
 const panelDataEvent = async () => {
   const orderKey: number[] = appConfig.get('keys.order')
   const order = iohook.registerShortcut(orderKey, async (keys) => {
-    console.log(keys);
-    
     try {
       const gameStatus = await api.getGameStatus();
       if (gameStatus == 'ChampSelect' || gameStatus == 'InProgress') {
@@ -55,8 +55,10 @@ const panelDataEvent = async () => {
       }
     } catch (err) {
       new Notification({ title: '快捷发送失败', body: `${err}`, silent: true }).show();
+      logger.info(`panel for order hot key throw an error:${err}`)
     }
   })
+  logger.info('panel for order hot key is register')
 
   const chaosKey: number[] = appConfig.get('keys.chaos')
   const chaos = iohook.registerShortcut(chaosKey, async (keys) => {
@@ -89,9 +91,12 @@ const panelDataEvent = async () => {
         sendStringInProgress(msg);
       }
     } catch (err) {
+
       new Notification({ title: '快捷发送失败', body: `${err}`, silent: true }).show();
+      logger.info(`panel for chaos hot key throw an error:${err}`)
     }
   })
+  logger.info('panel for chaos hot key is register')
 }
 
 const muteAllEvent = async () => { 
@@ -106,8 +111,11 @@ const muteAllEvent = async () => {
       sendStringInProgress('/mute all');
     }catch(err){
       new Notification({ title: '快捷发送失败', body: `${err}`, silent: true }).show();
+      logger.info(`muteAll hot key throw an error:${err}`)
     }
   })
+
+  logger.info(' muteAll hot key is register')
 }
 
 const spellsWindowEvent = async (spellsWindow: BrowserWindow) => {
@@ -124,4 +132,6 @@ const spellsWindowEvent = async (spellsWindow: BrowserWindow) => {
       spellsWindow.hide()
     }
   })
+
+  logger.info('handle spells window hot key is register')
 }

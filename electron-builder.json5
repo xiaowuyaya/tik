@@ -5,6 +5,12 @@
   "appId": "com.lol-tool.eko.app",
   "copyright": "Copyright © 2022 ${author}",
   "asar": true,
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "http://qiniu.lol-tool.com/latest"
+    }
+  ],
   "directories": {
     "output": "release/${version}"
   },

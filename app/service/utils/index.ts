@@ -1,8 +1,14 @@
 import _ from 'loadsh'
 import { ddragonConfig } from './config'
+import { app } from 'electron'
+import path from 'path'
 
 
 export { translate } from './translate'
+
+export const getLogPath = () => {
+  return path.join(app.getPath('userData'), 'logs')
+}
 
 export const getProfileIcon = (profileIcon: string) => {
   return `https://wegame.gtimg.com/g.26-r.c2d3c/helper/lol/assis/images/resources/usericon/${profileIcon}.png`

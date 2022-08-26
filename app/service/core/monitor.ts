@@ -5,7 +5,9 @@ import * as lcuApi from './api'
 import { confirmChampionById } from './handle'
 import { app, BrowserWindow } from 'electron'
 import _ from 'lodash';
+import log from '../utils/log';
 
+const logger = log.scope('monitor')
 
 
 export const createClientListen = () => {
@@ -14,15 +16,17 @@ export const createClientListen = () => {
     return
   }
   client.on('disconnect', () => {
+    logger.info('check for game client is quit, application will be quit now.')
     app.quit()
   })
   client.start()
+  logger.info('create game client listen success')
 }
 
 export const createWebsocketListen = async (mainWindow: BrowserWindow, championRuneWindow: BrowserWindow, spellsWindow: BrowserWindow) => {
   const ws = await createWebSocket();
   if (!ws) return
-
+  logger.info('create websocket listen success')
   const summonerInfo = await lcuApi.getCurrentSummoner()
   const { summonerId, displayName } = summonerInfo
 
@@ -126,7 +130,7 @@ const statusHandle = async (status: string, summonerName: string, spellsWindow: 
   }
   if (status == 'ChampSelect') {
     if (appConfig.get('normalAutoPB.enablePick')) {
-      const pickList: string[] = appConfig.get('normalAutoPB.pickSelect')
+      const pickList: number[] = appConfig.get('normalAutoPB.pickSelect')
       for (let i = 0; i < pickList.length; i++) {
         const res = await confirmChampionById(pickList[i], appConfig.get('confirmSelect'))
         if (res.errorCode != 'RPC_ERROR') {
@@ -136,7 +140,7 @@ const statusHandle = async (status: string, summonerName: string, spellsWindow: 
     }
 
     if (appConfig.get('normalAutoPB.enableBan')) {
-      const banList: string[] = appConfig.get('normalAutoPB.banSelect')
+      const banList: number[] = appConfig.get('normalAutoPB.banSelect')
       for (let i = 0; i < banList.length; i++) {
         const res = await confirmChampionById(banList[i], appConfig.get('confirmSelect'))
         if (res.errorCode != 'RPC_ERROR') {

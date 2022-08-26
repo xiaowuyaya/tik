@@ -5,6 +5,9 @@ import path from 'path'
 import fs from 'fs'
 import { dialog, shell, screen, app } from 'electron'
 import dayjs from 'dayjs'
+import log from './log';
+
+const logger = log.scope('win32')
 
 const registerDm = () => {
   let filePath: string 
@@ -13,7 +16,6 @@ const registerDm = () => {
   }else{
     filePath = path.join(__dirname, '../../../', 'resources', 'dll', 'dm.dll')
   }
-  console.log(filePath);
   
   // 判断文件是否存在
   const exists = fsExistsSync(filePath);
@@ -25,6 +27,7 @@ const registerDm = () => {
       return new winax.Object('dm.dmsoft');
     }
   } else {
+    logger.error('dm.dll is not exists')
     dialog
       .showMessageBox({
         type: 'error',
@@ -57,7 +60,7 @@ export const sendStringInProgress = (msg: string) => {
     dm.sendString(hwnd1, `${msg} 来自：Tik对局助手`);
     dm.keyPress(13);
   } catch (err) {
-    console.log(err);
+    logger.error(`send string in progress throw an error: ${err}`)
   }
 };
 
@@ -73,7 +76,7 @@ export const screenshot = (fileName: string) => {
     dm.capturePng(0, 0, size.width, size.height, file);
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(`screenshot throw an error: ${err}`)
   }
 }
 

@@ -8,6 +8,7 @@ import { createCredentialsService } from '../service/core/credentials';
 import { createChampionRuneWindow } from './browser/championTool';
 import { createShortcutKeyListen } from '../service/core/shortcutKey';
 import { createTray } from './tary';
+import { checkUpdater } from './autoUpdater'
 
 ElectronStore.initRenderer();
 
@@ -26,7 +27,6 @@ if (!app.requestSingleInstanceLock()) {
 
 const preload = join(__dirname, '../preload/index.js')
 
-
 // ------------------ MAIN BEGIN ------------------
 
 let tray: Tray | null = null
@@ -40,11 +40,13 @@ const initApp = async () => {
   spellsWindow = await createSpellsWindow(preload)
   await createCredentialsService(mainWindow, championRuneWindow, spellsWindow)
   await createShortcutKeyListen(spellsWindow)
+
 }
 
 app.whenReady().then(async () => {
   await initApp()
   tray = createTray(mainWindow, championRuneWindow, spellsWindow)
+  checkUpdater(mainWindow)
 
   app.on('activate', async () => {
     if (BrowserWindow.getAllWindows().length === 0) {

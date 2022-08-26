@@ -289,7 +289,7 @@ export const matchesDetail = async (gameId: string) => {
   return res;
 }
 
-export const confirmChampionById = async (championId: string, confirm: boolean) => {
+export const confirmChampionById = async (championId: number, confirm: boolean) => {
   const player = await api.getCurrentSummoner();
   const session = await api.getSessionInfo();
   const actions = session.actions[0];

@@ -179,6 +179,15 @@
           <a-button type="text" @click="shell.openExternal(qGroupLink);">点击加群</a-button>
         </a-col>
       </a-row>
+      <!-- <a-row class="py-2" :gutter="12" align="center" justify="center">
+        <a-col :span="6" class="">日志路径</a-col>
+        <a-col :span="8">
+         <div class="truncate w-full">{{ logDir }}</div>
+        </a-col>
+        <a-col :span="8">
+          <a-button type="text" @click="shell.openPath(logDir)">打开路径</a-button>
+        </a-col>
+      </a-row> -->
     </a-card>
   </div>
 </template>
@@ -189,7 +198,7 @@ import { useConfigStore } from '@/stores/config';
 import { copyToClipboard } from '@/utils/tools'
 import { onBeforeMount, reactive } from 'vue';
 import { useAppStore } from '@/stores/app';
-import { shell } from 'electron';
+import {  shell } from 'electron';
 
 const configStore = useConfigStore();
 const appPinaStore = useAppStore();

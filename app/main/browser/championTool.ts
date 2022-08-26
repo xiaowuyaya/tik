@@ -32,7 +32,7 @@ export const createChampionRuneWindow = async (preload: string) => {
   if (!app.isPackaged) {
     championRuneWindow.webContents.openDevTools()
   }
-
+  
   createChampionRuneWindowIpcListen(championRuneWindow)
 
   return championRuneWindow

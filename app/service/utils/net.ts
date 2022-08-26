@@ -1,14 +1,18 @@
 import { createHttp2Request, createHttpSession, createWebSocketConnection, LeagueClient } from '../league-connect'
 import request from 'superagent'
 import { appConfig } from './config'
+import log from './log'
 
+const logger = log.scope('net')
 
 /* websocket */
 export const createWebSocket = async () => {
   try {
     const credentials = appConfig.get<any>('credentials');
     return await createWebSocketConnection(credentials);
-  } catch (err) { }
+  } catch (err) {
+    logger.error(`create websocket throw an error: ${err}`)
+   }
 };
 
 
@@ -20,7 +24,9 @@ export const createClient = () => {
     return new LeagueClient(credentials, {
       pollInterval: 1000, // Check every second
     });
-  } catch (err) { }
+  } catch (err) { 
+    logger.error(`create game client listen throw an error: ${err}`)
+  }
 };
 
 // lcu http2 request
@@ -36,7 +42,9 @@ export const http2Request = async (url: string, method: 'GET' | 'POST' | 'PUT' |
     // Remember to close the session when done
     session.close()
     return response.json<any>()
-  } catch (err) { return null }
+  } catch (err) { 
+    return null
+   }
 };
 
 // superagent request

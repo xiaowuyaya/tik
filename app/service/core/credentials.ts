@@ -3,6 +3,9 @@ import { authenticate, AuthenticationOptions, Credentials } from "../league-conn
 import { createClientListen, createWebsocketListen } from "./monitor";
 import { appConfig } from "../utils/config";
 import * as api from './api'
+import log from '../utils/log';
+
+const logger = log.scope('credentials')
 
 export const createCredentialsService = async (mainWindow: BrowserWindow, championRuneWindow: BrowserWindow, spellsWindow: BrowserWindow) => {
   let credentials: Credentials | null = null;
@@ -24,9 +27,11 @@ export const createCredentialsService = async (mainWindow: BrowserWindow, champi
       // 部分win7以上电脑没有wimc，采用pws方式获取凭证
       credentials = await authenticate(authenticationOptions[1]);
     }
-    console.log(credentials);
+    logger.info(`get credentials success, addr: https://riot:${credentials.password}@127.0.0.1:${credentials.port}`)
 
-  } catch (err) { }
+  } catch (err) {
+    logger.error(`get credentials throw an error: ${err}`)
+   }
 
   appConfig.set('credentials', credentials)
 
