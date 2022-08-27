@@ -3,7 +3,7 @@ import winax from 'winax'
 import { execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
-import { dialog, shell, screen, app } from 'electron'
+import {  screen, app } from 'electron'
 import dayjs from 'dayjs'
 import log from './log';
 
@@ -12,7 +12,7 @@ const logger = log.scope('win32')
 const registerDm = () => {
   let filePath: string 
   if(app.isPackaged){
-    filePath = path.join(app.getPath('exe'), 'resources', 'extraResources', 'dll', 'dm.dll')
+    filePath = path.join(app.getPath('exe'), '../', 'resources', 'dll', 'dm.dll')
   }else{
     filePath = path.join(__dirname, '../../../', 'resources', 'dll', 'dm.dll')
   }
@@ -28,18 +28,18 @@ const registerDm = () => {
     }
   } else {
     logger.error('dm.dll is not exists')
-    dialog
-      .showMessageBox({
-        type: 'error',
-        title: '检测到dm.dll文件不存在',
-        message: `请检查 ${filePath} 是否存在？\n 您可以无视这个警告，但是您将无法正常使用完整功能`,
-        buttons: ['无视', '如何解决'],
-      })
-      .then((buttonIndex) => {
-        if (buttonIndex.response === 1) {
-          shell.openExternal('https://www.yuque.com/xiaowuyaya/serendipity/na2ceo');
-        }
-      });
+    // dialog
+    //   .showMessageBox({
+    //     type: 'error',
+    //     title: '检测到dm.dll文件不存在',
+    //     message: `请检查 ${filePath} 是否存在？\n 您可以无视这个警告，但是您将无法正常使用完整功能`,
+    //     buttons: ['无视', '如何解决'],
+    //   })
+    //   .then((buttonIndex) => {
+    //     if (buttonIndex.response === 1) {
+    //       shell.openExternal('https://www.yuque.com/xiaowuyaya/serendipity/na2ceo');
+    //     }
+    //   });
   }
 }
 
@@ -86,7 +86,7 @@ export const windowKeepTop = (windowTitle: string) => {
   dm.setWindowState(hwnd1, 8);
 }
 
-export const sendSpellsInfo = (spellWindow:BrowserWindow,championName: string, summonerName: string, spellName: string, cooldownBurn: number, curTime: number) => {
+export const sendSpellsInfo = (spellWindow:BrowserWindow,championName: string, summonerName: string, spellName: string, cooldownBurn: number, curTime: string) => {
   const hwnd1 = dm.findWindow('', 'TIK SPELLS');
   if (!hwnd1) return
   dm.setWindowState(hwnd1, 9);

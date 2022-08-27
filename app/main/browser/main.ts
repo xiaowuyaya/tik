@@ -1,3 +1,4 @@
+import { appConfig, windowList } from '../../service/utils/config'
 import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import path from 'path'
 
@@ -44,13 +45,21 @@ export const createMainWindow = async (preload: string) => {
 
   createMainWindowIpcListen(win)
 
+  windowList.set('windowList.mainWindow', win.id)
+
   return win
 }
 
 const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
   // 关闭窗口
   ipcMain.on('mainWin.close', () => {
-    app.quit()
+    const type = appConfig.get('quitMethod')
+    if(type == 0){
+      app.quit()
+    }else if(type == 1){
+      mainWindow.hide()
+    }
+
   })
 
   // 最小化窗口

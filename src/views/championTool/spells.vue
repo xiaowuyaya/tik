@@ -74,7 +74,6 @@ async function getSpellData(status: string) {
 }
 
 async function spellTimeRecord(championName: string, summonerName: string, spellName: string, cooldownBurn: number) {
-  // const r = await ipcRenderer.invoke('controller.lcu.handleSpellsTime', { championName, summonerName, spellName, cooldownBurn });
-  // console.log(r);
+  ipcRenderer.send('spellsWindow.handleSpellsTime', {championName, summonerName, spellName, cooldownBurn})
 }
 </script>

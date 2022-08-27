@@ -254,7 +254,7 @@ export const selectChampionById = async (championId: number, cellId: string, con
     championId: championId,
     completed: confirm,
   };
-  return await http2Request(`/lol-champ-select/v1/session/actions/${cellId}`, 'PATCH', req);
+  return await superagentHttp2Request(`/lol-champ-select/v1/session/actions/${cellId}`, 'PATCH', req);
 };
 
 /**

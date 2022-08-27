@@ -46,7 +46,15 @@
         <a-card class="h-full flex-1 !mr-1" :hoverable="true" :header-style="{ border: 'none' }">
           <div class="flex items-center justify-between">
             <div class="flex flex-col">
-              <div class="text-base font-medium text-gray-500">近期20把对局</div>
+              <div class="text-base font-medium text-gray-500">
+                近期20把对局
+                <a-popover>
+                  <icon-question-circle-fill class="mx-1" size="14px" />
+                  <template #content>
+                    <span>算法依照WeGame的KDA计算方式：(K + A) / D * 3</span>
+                  </template>
+                </a-popover>
+              </div>
               <div class="mt-4 flex items-end">
                 <span class="text-lg font-semibold text-gray-700">KDA</span>
                 <span class="ml-3 text-4xl font-semibold text-black">{{ currentSummoner.showData.kda }}</span>

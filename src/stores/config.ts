@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 const appStore = window.appStore
 
 interface ConfigType {
+  rememberQuit: boolean | undefined
   quitMethod: number | undefined
   autoAccept: boolean | undefined
   showChampTool: boolean | undefined
@@ -53,6 +54,7 @@ export const useConfigStore = defineStore({
   id: 'config',
   state: (): ConfigType => {
     return {
+      rememberQuit: undefined,
       quitMethod: undefined,
       autoAccept: undefined,
       showChampTool: undefined,
@@ -100,6 +102,7 @@ export const useConfigStore = defineStore({
   },
   actions: {
     init() {
+      this.rememberQuit = appStore.get('rememberQuit')
       this.quitMethod = appStore.get('quitMethod')
       this.autoAccept = appStore.get('autoAccept')
       this.confirmSelect = appStore.get('confirmSelect')
@@ -134,7 +137,6 @@ export const useConfigStore = defineStore({
     },
     changeConfig() {
       appStore.set(this.$state)
-      
     }
   }
 })

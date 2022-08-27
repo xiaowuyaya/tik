@@ -129,10 +129,15 @@ const statusHandle = async (status: string, summonerName: string, spellsWindow: 
     return;
   }
   if (status == 'ChampSelect') {
+    console.log(appConfig.get('normalAutoPB.enablePick'));
+    console.log(appConfig.get('normalAutoPB.pickSelect'));
+    
     if (appConfig.get('normalAutoPB.enablePick')) {
       const pickList: number[] = appConfig.get('normalAutoPB.pickSelect')
       for (let i = 0; i < pickList.length; i++) {
         const res = await confirmChampionById(pickList[i], appConfig.get('confirmSelect'))
+        console.log(res);
+        
         if (res.errorCode != 'RPC_ERROR') {
           break;
         }

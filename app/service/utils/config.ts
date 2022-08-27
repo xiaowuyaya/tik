@@ -4,6 +4,7 @@ export const appConfig = new Store({
   defaults: {
     /* lcu链接凭证 */
     credentials: '',
+    rememberQuit: false,
     quitMethod: 0,
     /* 显示符文小窗 */
     showChampTool: '',
@@ -871,5 +872,15 @@ export const panelData = new Store({
 export const blacklist = new Store({
   defaults: {
     blacklist: []
+  }
+})
+
+export const windowList = new Store({
+  defaults: {
+    windowList: {
+      mainWindow: '',
+      championRuneWindow: '',
+      spellsWindow: '',
+    }
   }
 })

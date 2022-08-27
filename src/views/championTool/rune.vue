@@ -210,7 +210,7 @@ onBeforeMount(async () => {
 ipcRenderer.on('championRuneWindow.changeData', async (event, data) => {
 
   mode.value = data.mode
-  console.log(mode.value);
+  console.log(data);
   await getChampionData(data.mode, data.championName, data.position);
 })
 

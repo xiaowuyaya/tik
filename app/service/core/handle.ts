@@ -1,8 +1,8 @@
 import * as api from './api'
 import { translate } from '../utils/translate'
-import { panelData, appConfig, blacklist } from '../utils/config'
+import { panelData, appConfig, blacklist, windowList } from '../utils/config'
 import _ from 'loadsh'
-import { getChampionAvatarByCnName, getProfileIcon,getSpellInfoByName } from '../utils'
+import { getChampionAvatarByCnName, getProfileIcon,getSpellInfoByName, setHis } from '../utils'
 
 export const lcuApi = api
 

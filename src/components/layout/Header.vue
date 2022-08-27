@@ -34,16 +34,24 @@
           <icon-minus />
         </template>
       </a-button>
-      <a-button class="!p-1 !mx-1" type="text" @click="ipcRenderer.send('mainWin.close')">
+      <a-button class="!p-1 !mx-1" type="text" @click="handleQuitModal">
         <template #icon>
           <icon-close />
         </template>
       </a-button>
     </div>
+     <!-- 退出确认框 -->
+    <a-modal v-model:visible="showQuitModal" width="40%" title="关闭窗口方式（设置中可更改）" draggable okText="确定并记住选择" @ok="handleQuit">
+      <a-radio-group v-model="configStore.quitMethod" direction="vertical">
+        <a-radio value="1">关闭窗口至系统托盘</a-radio>
+        <a-radio value="0">退出应用程序</a-radio>
+      </a-radio-group>
+    </a-modal>
   </header>
 </template>
 
 <script setup lang="ts">
+import { useConfigStore } from '@/stores/config';
 import { ipcRenderer } from 'electron';
 import _ from 'lodash';
 import { ref } from 'vue';
@@ -51,8 +59,10 @@ import { useRouter } from 'vue-router';
 import { useUserStore } from '../../stores/user'
 
 const userStore = useUserStore()
+const configStore = useConfigStore()
 const router = useRouter()
 
+const showQuitModal = ref(false);
 const summonerSearch = ref('')
 
 
@@ -79,7 +89,19 @@ const saveRencentlySearchList = (summonerName: string) => {
   localStorage.setItem('rencently:summoner:search', JSON.stringify(data))
 }
 
+const handleQuitModal = () => {
+  if ( configStore.rememberQuit ){
+    ipcRenderer.send('mainWin.close')
+  }else{
+    showQuitModal.value = true
+  }
+}
 
+const handleQuit = () => {
+  configStore.rememberQuit = true;
+  configStore.changeConfig()
+  ipcRenderer.send('mainWin.close')
+};
 
 </script>
 <style lang="less">

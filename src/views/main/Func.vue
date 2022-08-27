@@ -5,8 +5,21 @@
         <a-row :gutter="12" align="center" justify-content="space-between">
           <!-- 自动接受对局 -->
           <a-col :span="6">
-            <a-form-item class="!mb-0" field="configStore.app.accept" label="自动接收对局">
+            <a-form-item class="!mb-0" label="自动接收对局">
               <a-switch v-model="configStore.autoAccept" @change="configStore.changeConfig">
+                <template #checked-icon>
+                  <icon-check />
+                </template>
+                <template #unchecked-icon>
+                  <icon-close />
+                </template>
+              </a-switch>
+            </a-form-item>
+          </a-col>
+          <!--  -->
+          <a-col :span="6">
+            <a-form-item class="!mb-0" label="手动技能计时">
+              <a-switch v-model="configStore.spellsWin.enable" @change="configStore.changeConfig">
                 <template #checked-icon>
                   <icon-check />
                 </template>
@@ -18,7 +31,7 @@
           </a-col>
           <!-- 自动锁定英雄 -->
           <a-col :span="6">
-            <a-form-item class="!mb-0" field="configStore.app.confirm" label="自动锁定英雄">
+            <a-form-item class="!mb-0" label="自动锁定英雄">
               <a-switch v-model="configStore.confirmSelect" @change="configStore.changeConfig">
                 <template #checked-icon>
                   <icon-check />
@@ -31,7 +44,7 @@
           </a-col>
           <!-- 开局禁言 -->
           <a-col :span="6">
-            <a-form-item class="!mb-0" field="configStore.app.muteAll" label="开局禁言">
+            <a-form-item class="!mb-0" label="开局禁言">
               <a-switch v-model="configStore.autoMuteAll" @change="configStore.changeConfig">
                 <template #checked-icon>
                   <icon-check />
@@ -49,7 +62,7 @@
         <a-row :gutter="42" align="center" justify-content="space-between">
           <!-- 段位伪造 -->
           <a-col :span="12">
-            <a-form-item class="" field="useForm.ranked" label="段位伪造">
+            <a-form-item class="" label="段位伪造">
               <a-select v-model="useForm.ranked" @change="handleChange('ranked', $event)" placeholder="请选择需要更改的段位"
                 allow-clear allow-search>
                 <a-option v-for="(item, idx) in rankOptions" :key="idx" :value="item.value">{{ item.label }}</a-option>
@@ -60,7 +73,7 @@
         <!-- 状态更改 -->
         <a-row :gutter="42" align="center" justify-content="space-between">
           <a-col :span="12">
-            <a-form-item class="" field="useForm.status" label="状态更改">
+            <a-form-item class="" label="状态更改">
               <a-select v-model="useForm.status" @change="handleChange('status', $event)" placeholder="请选择需要更改的状态"
                 allow-clear allow-search>
                 <a-option v-for="(item, idx) in statusOptions" :key="idx" :value="item.value">{{ item.label }}
@@ -72,7 +85,7 @@
         <!-- 拉起观战 -->
         <a-row :gutter="42" align="center" justify-content="space-between">
           <a-col :span="12">
-            <a-form-item class="" field="useForm.spectator" label="拉起观战">
+            <a-form-item class="" label="拉起观战">
               <a-input-search @search="handleSpectator" search-button placeholder="请输入需要观战的玩家游戏名" />
             </a-form-item>
           </a-col>
@@ -95,6 +108,12 @@
           <a-col :span="12">
             <a-form-item label="隐藏分查询">
               <a-input placeholder="请前往小程序查看" :disabled="true"></a-input>
+              <a-popover>
+                <icon-question-circle-fill class="mx-1" size="20px" />
+                <template #content>
+                    <img width="200" src="@/assets/QrCode.jpg" alt="">
+                </template>
+              </a-popover>
             </a-form-item>
           </a-col>
         </a-row>
@@ -102,6 +121,12 @@
           <a-col :span="12">
             <a-form-item class="!mb-0" label="本命英雄查询">
               <a-input placeholder="请前往小程序查看" :disabled="true"></a-input>
+              <a-popover>
+                <icon-question-circle-fill class="mx-1" size="20px" />
+                <template #content>
+                    <img width="200" src="@/assets/QrCode.jpg" alt="">
+                </template>
+              </a-popover>
             </a-form-item>
           </a-col>
         </a-row>
@@ -172,18 +197,18 @@ const handleChange = async (type: string, event: any) => {
   } else if (type == 'status') {
     r = await handle.changeStatus(event)
   }
-  showMessage(r,'操作成功', '操作异常，请检查客户端是否已正常启动')
+  showMessage(r, '操作成功', '操作异常，请检查客户端是否已正常启动')
 };
 
 
 const handleSpectator = async (summonerName: string) => {
   const r = await handle.lcuApi.spectatorLaunchByName(summonerName, 'RANKED_SOLO_5x5')
-  showMessage(r,'拉起观战成功，等待客户端响应', '拉起观战发生异常，客户端未启动或对方不在召唤师峡谷地图游戏中')
+  showMessage(r, '拉起观战成功，等待客户端响应', '拉起观战发生异常，客户端未启动或对方不在召唤师峡谷地图游戏中')
 }
 
 const handleCreatePracticeToolMode = async () => {
   const r = await handle.lcuApi.createCustomLobby('PRACTICETOOL', 11, 'Tik对局助手5V5训练模式' + Math.random() * 100)
-  showMessage(r,'创建成功', '创建失败，请检查客户端是否启动')
+  showMessage(r, '创建成功', '创建失败，请检查客户端是否启动')
 }
 
 const handleSummonerBackground = async (type: 'champions' | 'skins') => {

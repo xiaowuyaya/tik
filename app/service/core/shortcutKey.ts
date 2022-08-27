@@ -32,7 +32,7 @@ const panelDataEvent = async () => {
           if (player.matches.data) {
             for (var j = 0; j < count; j++) {
               let historyMatche = player.matches.data[j];
-              const temp = `${historyMatche.kills}.${historyMatche.deaths}.${historyMatche.assists} `;
+              const temp = `[${historyMatche.kills},${historyMatche.deaths},${historyMatche.assists}] `;
               matchHistoryStr += temp;
             }
           }
@@ -43,10 +43,12 @@ const panelDataEvent = async () => {
           if (gameStatus === 'ChampSelect') {
             // 通过api发送
             api.sendMsgInChampSelect('all', msg);
+            logger.info('msg')
           }
           if (gameStatus === 'InProgress') {
             // 通过hook模拟发送
             sendStringInProgress(msg);
+            
           }
         }
       } else {

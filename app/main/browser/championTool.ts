@@ -1,5 +1,9 @@
+import { windowList } from "../../service/utils/config";
 import { BrowserWindow, screen, app, ipcMain } from "electron";
 import path from 'path'
+import { sendSpellsInfo } from "../../service/utils/win32_hook";
+import { setHis } from "../../service/utils";
+import * as api from '../../service/core/api'
 
 export const createChampionRuneWindow = async (preload: string) => {
   let championRuneWindow = new BrowserWindow({
@@ -34,6 +38,8 @@ export const createChampionRuneWindow = async (preload: string) => {
   }
   
   createChampionRuneWindowIpcListen(championRuneWindow)
+
+  windowList.set('windowList.championRuneWindow', championRuneWindow.id)
 
   return championRuneWindow
 }
@@ -70,6 +76,7 @@ export const createSpellsWindow = async(preload: string) => {
     spellsWindow.webContents.openDevTools()
   }
 
+  windowList.set('windowList.spellsWindow', spellsWindow.id)
 
   return spellsWindow
 }
@@ -96,5 +103,13 @@ export const createSpellsWindowIpcListen = (spellsWindow: BrowserWindow) => {
   ipcMain.on('spellsWindow.hide', () => {
     spellsWindow.hide()
   })
+
+  ipcMain.on('spellsWindow.handleSpellsTime', async(event, data:any) => {
+    const {cooldownBurn, championName, summonerName, spellName} = data
+    const status = await api.getGameStatusInfo();
+    const curTime = setHis(parseInt(status.gameTime) + cooldownBurn);
+    await sendSpellsInfo(spellsWindow, championName, summonerName, spellName, cooldownBurn, curTime);
+  })
+
 
 }

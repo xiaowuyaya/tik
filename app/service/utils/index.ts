@@ -40,3 +40,21 @@ export const getSpellInfoByName = (spellName: string) => {
   const key = _.findKey(data, { name: `${spellName}` })
   return data[key]
 }
+
+export const  setHis = (times: number | string = 0) => {
+  if (typeof times === 'number') {
+    if (times <= 0) {
+      return '00:00:00';
+    } else {
+      // @ts-ignore
+      let hh = parseInt(times / 3600); //小时
+      let shh = times - hh * 3600;
+      // @ts-ignore
+      let ii = parseInt(shh / 60);
+      let ss = shh - ii * 60;
+      return (hh < 10 ? '0' + hh : hh) + ':' + (ii < 10 ? '0' + ii : ii) + ':' + (ss < 10 ? '0' + ss : ss);
+    }
+  } else {
+    return '00:00:00';
+  }
+}
