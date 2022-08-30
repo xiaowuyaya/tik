@@ -1,6 +1,7 @@
 import { appConfig, windowList } from '../../service/utils/config'
 import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import path from 'path'
+import {changeSkinConfig, injectSkin} from "../inject";
 
 
 /* 主进程窗口 */
@@ -66,5 +67,13 @@ const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
   // 最小化窗口
   ipcMain.on('mainWin.minisize', () => {
     mainWindow.minimize()
+  })
+
+  ipcMain.handle('injectSkin', async () => {
+    injectSkin()
+  })
+
+  ipcMain.on('changeSkinConfig', (event, data:any)=> {
+    changeSkinConfig(data)
   })
 }

@@ -45,7 +45,7 @@ export const createWebsocketListen = async (mainWindow: BrowserWindow, championR
   ws.subscribe('/lol-champ-select/v1/session', async (data, event) => {
     // 当session变化时发生数据变化,英雄数据展示
     showDataInChampionToolRune(data, summonerId, championRuneWindow);
-
+    
     if (!appConfig.get('rankAutoBP.pick.enable') && !appConfig.get('rankAutoBP.ban.enable')) return
 
     let cellId: string
@@ -60,9 +60,11 @@ export const createWebsocketListen = async (mainWindow: BrowserWindow, championR
       }
     }
 
-    if (!_.isEmpty(position)) return;
+
+    if (_.isEmpty(position)) return;
 
     const actions = data.actions;
+
 
     if (data.timer.phase == 'PLANNING') return;
 

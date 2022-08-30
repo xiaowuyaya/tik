@@ -1,5 +1,7 @@
+import { changeSkinConfig, injectSkin } from './../../app/main/inject';
 import { Message } from "@arco-design/web-vue";
 import { defineStore } from "pinia";
+import { ipcRenderer } from 'electron';
 
 const appStore = window.appStore
 
@@ -16,7 +18,7 @@ interface ConfigType {
   },
   specialFunc: {
     enableSkin: boolean | undefined
-    enableSightDistance: undefined | undefined
+    enableSightDistance: boolean | undefined
   },
   normalAutoPB: {
     enablePick: boolean | undefined
@@ -146,7 +148,27 @@ export const useConfigStore = defineStore({
       this.keys.muteAll = appStore.get('keys.muteAll')
     },
     changeConfig() {
+      console.log(this.specialFunc);
+      
       appStore.set(this.$state)
+    },
+    changeSkinConfig() {
+      let json = {
+        "Func": {
+          "无限视距": "false",
+        },
+        "Skin": {
+          "UpKey": "45",
+          "DnKey": "46",
+        }
+      }
+      if ( this.specialFunc.enableSightDistance ) {
+        json.Func.无限视距 = "true"
+      }else {
+        json.Func.无限视距 = "false"
+      }
+
+      ipcRenderer.send('changeSkinConfig', json)
     }
   }
 })

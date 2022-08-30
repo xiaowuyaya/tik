@@ -176,8 +176,10 @@ import { positionIcon } from '@/assets/rank-position'
 import { onMounted, ref } from 'vue';
 import _ from 'lodash';
 import { useRouter } from 'vue-router';
+import {useUserStore} from "@/stores/user";
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const handle = window.handle
 const utils = window.utils
@@ -217,6 +219,9 @@ onMounted(async () => {
   loading.value = true
   currentSummoner.value = await handle.currentSummonerInfo()
   loading.value = false
+
+  await userStore.registerEnvironment();
+
 })
 
 ipcRenderer.on('playerStatus', (event, data) => {

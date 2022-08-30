@@ -1,8 +1,13 @@
+import { useConfigStore } from './config';
 import { getMyInfo, login, LoginClientUserDto, MyInfoDto, updateUserInfo } from "@/api/user";
 import { add, CreateEnvironmentDto } from '@/api/environment'
 import { removeToken, setToken } from "@/utils/auth";
 import { Message, Modal } from '@arco-design/web-vue';
 import { defineStore } from "pinia";
+import {vipCheck} from "@/api/vip";
+import dayjs from "dayjs";
+
+const configStore = useConfigStore()
 
 interface UserInfo {
   username: string;
@@ -14,6 +19,7 @@ interface UserInfo {
   summonerId: string;
   summonerName: string;
   wxOpenId: string
+  expiration: string
 }
 
 export const useUserStore = defineStore({
@@ -28,7 +34,8 @@ export const useUserStore = defineStore({
       environment: "",
       summonerId: "",
       summonerName: "",
-      wxOpenId: ""
+      wxOpenId: "",
+      expiration: "",
     }
   },
   getters: {},
@@ -92,6 +99,17 @@ export const useUserStore = defineStore({
         email: this.email,
         phone: this.phone,
       })
+    },
+    async vipCheck() {
+      try {
+        const res = await vipCheck()
+        this.expiration = dayjs(res.data).format('YYYY-MM-DD HH:mm:ss')
+        return true
+      } catch (err) {
+        this.expiration = ''
+        configStore.specialFunc.enableSkin = false
+        return false
+      }
     }
   }
 })

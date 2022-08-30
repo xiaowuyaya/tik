@@ -84,3 +84,11 @@ export function updateUserInfo(data: updateClientUserInfoDto){
     data
   })
 }
+
+
+export function keepLoginStatus() {
+  return http.request({
+    url: '/user/keepLoginStatus',
+    method: 'POST',
+  })
+}
