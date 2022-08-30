@@ -38,7 +38,7 @@ export const createWebsocketListen = async (mainWindow: BrowserWindow, championR
     mainWindow.webContents.send('playerStatus', data);
     spellsWindow.webContents.send('playerStatus', data);
 
-    statusHandle(data, displayName, spellsWindow)
+    await statusHandle(data, displayName, spellsWindow)
   });
 
   // 玩家actions订阅

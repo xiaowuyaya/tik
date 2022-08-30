@@ -6,6 +6,10 @@ export const appConfig = new Store({
     credentials: '',
     rememberQuit: false,
     quitMethod: 0,
+    specialFunc: {
+      enableSkin: false,
+      enableSightDistance: false
+    },
     /* 显示符文小窗 */
     showChampTool: '',
     /* 自动接收对局 */

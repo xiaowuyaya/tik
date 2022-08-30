@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/autobp',
         name: 'autobp',
         meta: { keepAlive: true },
-        component: () => import('../views/main/autobp.vue')
+        component: () => import('../views/main/autoBP.vue')
       },
       {
         path: '/func',

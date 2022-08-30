@@ -14,6 +14,10 @@ interface ConfigType {
     enable: boolean | undefined
     key: number[] | undefined
   },
+  specialFunc: {
+    enableSkin: boolean | undefined
+    enableSightDistance: undefined | undefined
+  },
   normalAutoPB: {
     enablePick: boolean | undefined
     pickSelect: number[] | undefined
@@ -64,6 +68,10 @@ export const useConfigStore = defineStore({
         enable: undefined,
         key: undefined,
       },
+      specialFunc: {
+        enableSkin: undefined,
+        enableSightDistance: undefined,
+      },
       normalAutoPB: {
         enablePick: undefined,
         pickSelect: undefined,
@@ -108,6 +116,8 @@ export const useConfigStore = defineStore({
       this.confirmSelect = appStore.get('confirmSelect')
       this.showChampTool = appStore.get('showChampTool')
       this.autoMuteAll = appStore.get('autoMuteAll')
+      this.specialFunc.enableSkin = appStore.get('specialFunc.enableSkin')
+      this.specialFunc.enableSightDistance = appStore.get('specialFunc.enableSightDistance')
       this.spellsWin.enable = appStore.get('spellsWin.enable')
       this.spellsWin.key = appStore.get('spellsWin.key')
       this.normalAutoPB.enablePick = appStore.get('normalAutoPB.enablePick')
