@@ -76,6 +76,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'champ-datail',
         component: () => import('../components/champData/ChampDetail.vue')
       },
+      {
+        path: '/skin',
+        name: 'skin',
+        component: () => import('../views/main/skin.vue')
+      },
     ]
   },
   {

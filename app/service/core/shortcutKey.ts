@@ -19,6 +19,8 @@ const panelDataEvent = async () => {
   const orderKey: number[] = appConfig.get('keys.order')
   const order = iohook.registerShortcut(orderKey, async (keys) => {
     try {
+      const enableSendHourse: boolean = appConfig.get('enableSendHourse')
+      if(!enableSendHourse) return
       const gameStatus = await api.getGameStatus();
       if (gameStatus == 'ChampSelect' || gameStatus == 'InProgress') {
         const data = panelData.get('panelData')
@@ -65,6 +67,8 @@ const panelDataEvent = async () => {
   const chaosKey: number[] = appConfig.get('keys.chaos')
   const chaos = iohook.registerShortcut(chaosKey, async (keys) => {
     try {
+      const enableSendHourse: boolean = appConfig.get('enableSendHourse')
+      if(!enableSendHourse) return
       const gameStatus = await api.getGameStatus();
       if (gameStatus != 'InProgress') {
         new Notification({ title: '面板数据发送失败', body: `当前暂未进入游戏对局,不支持发送敌军面板信息`, silent: true }).show();

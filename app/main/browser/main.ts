@@ -6,7 +6,7 @@ import path from 'path'
 /* 主进程窗口 */
 export const createMainWindow = async (preload: string) => {
   const win = new BrowserWindow({
-    title: 'Eko 英雄联盟工具箱',
+    title: 'Tik 英雄联盟对局助手',
     center: true,
     show: false,
     frame: false,
@@ -56,6 +56,7 @@ const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
     const type = appConfig.get('quitMethod')
     if(type == 0){
       app.quit()
+      app.exit()
     }else if(type == 1){
       mainWindow.hide()
     }

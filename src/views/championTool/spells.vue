@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full flex flex-col">
     <div class="text-base text-center text-white user-drag">
-      <span class="bg-sky-600 px-4 ">Tik 对局助手 手动技能提醒 (可拖动区)</span>
+      <span class="bg-sky-600 px-4 ">Tik 英雄联盟对局助手 手动技能提醒 (可拖动区)</span>
     </div>
     <div class="mt-2">
       <!-- 无数据 -->

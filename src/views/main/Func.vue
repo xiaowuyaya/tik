@@ -207,7 +207,7 @@ const handleSpectator = async (summonerName: string) => {
 }
 
 const handleCreatePracticeToolMode = async () => {
-  const r = await handle.lcuApi.createCustomLobby('PRACTICETOOL', 11, 'Tik对局助手5V5训练模式' + Math.random() * 100)
+  const r = await handle.lcuApi.createCustomLobby('PRACTICETOOL', 11, 'Tik 英雄联盟对局助手5V5训练模式' + Math.random() * 100)
   showMessage(r, '创建成功', '创建失败，请检查客户端是否启动')
 }
 

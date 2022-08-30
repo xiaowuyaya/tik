@@ -13,4 +13,3 @@ _.forIn(data.data, (value, key) => {
 
 fs.writeFileSync('./data.json', JSON.stringify(res), { encoding: 'utf-8' })
 
-console.log(res)

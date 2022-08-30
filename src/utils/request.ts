@@ -42,8 +42,8 @@ class AxiosHttpRequest implements BaseType {
   timeout: number
 
   constructor() {
-    // this.baseURL = "https://tik.lol-tool.com"
-    this.baseURL = "http://localhost:3000"
+    this.baseURL = "https://tik.lol-tool.com"
+    // this.baseURL = "http://localhost:3000"
     this.timeout = 15000
   }
 

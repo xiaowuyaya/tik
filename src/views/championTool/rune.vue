@@ -267,7 +267,7 @@ const useSelectRune = async (item: any) => {
   const perkIds = item.primary_rune_ids.concat(item.secondary_rune_ids).concat(item.stat_mod_ids);
 
   const data = {
-    name: `Tik对局助手：${champion.value.data.summary.meta.name} `,
+    name: `Tik 英雄联盟对局助手：${champion.value.data.summary.meta.name} `,
     order: item.id,
     primaryStyleId: item.primary_page_id,
     subStyleId: item.secondary_page_id,

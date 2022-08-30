@@ -4,7 +4,7 @@
       <!-- LOGO -->
       <img class="w-10" src="@/assets/logo.png" />
       <!-- TITLE -->
-      <div class="font-title text-[1.4rem] text-black ml-2">英雄联盟工具箱</div>
+      <div class="font-title text-[1.4rem] text-black ml-2">英雄联盟对局助手</div>
       <!-- HISTORY SEARCH -->
       <div class="w-[200px] ml-[6rem] no-drag">
         <a-input-search v-model="summonerSearch" placeholder="快速搜索玩家战绩" @search="searchSummoner"

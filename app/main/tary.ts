@@ -42,6 +42,7 @@ export const createTray = (mainWindow: BrowserWindow, championRuneWindow: Browse
       label: `退出`,
       click() {
         app.quit()
+        app.exit()
       },
     },
   ])

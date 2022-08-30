@@ -57,7 +57,7 @@ export const sendStringInProgress = (msg: string) => {
     dm.setWindowState(hwnd1, 1)
     dm.setKeypadDelay('normal', 100);
     dm.keyPress(13);
-    dm.sendString(hwnd1, `${msg} 来自：Tik对局助手`);
+    dm.sendString(hwnd1, `${msg} 来自：Tik 英雄联盟对局助手`);
     dm.keyPress(13);
   } catch (err) {
     logger.error(`send string in progress throw an error: ${err}`)

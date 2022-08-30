@@ -6,6 +6,7 @@ import { confirmChampionById } from './handle'
 import { app, BrowserWindow } from 'electron'
 import _ from 'lodash';
 import log from '../utils/log';
+import { sendStringInProgress } from '../utils/win32_hook';
 
 const logger = log.scope('monitor')
 
@@ -18,6 +19,7 @@ export const createClientListen = () => {
   client.on('disconnect', () => {
     logger.info('check for game client is quit, application will be quit now.')
     app.quit()
+    app.exit()
   })
   client.start()
   logger.info('create game client listen success')
@@ -129,14 +131,11 @@ const statusHandle = async (status: string, summonerName: string, spellsWindow: 
     return;
   }
   if (status == 'ChampSelect') {
-    console.log(appConfig.get('normalAutoPB.enablePick'));
-    console.log(appConfig.get('normalAutoPB.pickSelect'));
     
     if (appConfig.get('normalAutoPB.enablePick')) {
       const pickList: number[] = appConfig.get('normalAutoPB.pickSelect')
       for (let i = 0; i < pickList.length; i++) {
         const res = await confirmChampionById(pickList[i], appConfig.get('confirmSelect'))
-        console.log(res);
         
         if (res.errorCode != 'RPC_ERROR') {
           break;
@@ -159,6 +158,13 @@ const statusHandle = async (status: string, summonerName: string, spellsWindow: 
   if (status == 'InProgress') {
     // 隐藏符文导入窗口
     spellsWindow.hide()
+    // 开局禁言
+    const autoMuteAll = appConfig.get('autoMuteAll')
+    if(autoMuteAll){
+      setTimeout(()=>{
+        sendStringInProgress('/mute all')
+      }, 30000)
+    }
   }
 
   if (status == 'PreEndOfGame') { }

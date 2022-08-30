@@ -147,7 +147,6 @@ export const searchSummonerInfo = async (summonerName: string) => {
     rencentlyPosition: []
   }
   const summoner = await api.getSummonerInfoBySummonerName(summonerName)
-  console.log(summoner);
 
   currentSummoner.displayName = summoner.displayName
   currentSummoner.summonerId = summoner.summonerId
@@ -396,7 +395,7 @@ const getPanelDataInChampSelect = async () => {
     for (let j = 0; j < res.length; j++) {
       const player = res[j];
       if (player.summonerName == ban.banName) {
-        await api.sendMsgInChampSelect(blackNoticeToAll ? 'all' : 'self', `[Tik对局助手]：玩家 ${ban.banName} 在你的黑名单中, 原因：${ban.reason}`);
+        await api.sendMsgInChampSelect(blackNoticeToAll ? 'all' : 'self', `[Tik 英雄联盟对局助手]：玩家 ${ban.banName} 在你的黑名单中, 原因：${ban.reason}`);
         break;
       }
     }

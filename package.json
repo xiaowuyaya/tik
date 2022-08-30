@@ -1,6 +1,6 @@
 {
-  "name": "eko",
-  "version": "1.1.1",
+  "name": "tik",
+  "version": "3.5.1",
   "main": "dist/app/main/index.js",
   "description": "英雄联盟进阶辅助工具，通过数据分析提升竞技体验，以及一系列基础工具",
   "author": "xiaowuyaya, Inc <liaolingwei605@163.com>",
