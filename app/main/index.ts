@@ -21,8 +21,7 @@ if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 
 // 单例启动
 if (!app.requestSingleInstanceLock()) {
-  app.quit()
-  process.exit(0)
+  app.exit(0)
 }
 
 const preload = join(__dirname, '../preload/index.js')

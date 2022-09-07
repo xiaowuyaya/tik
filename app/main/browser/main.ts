@@ -56,8 +56,7 @@ const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
   ipcMain.on('mainWin.close', () => {
     const type = appConfig.get('quitMethod')
     if(type == 0){
-      app.quit()
-      app.exit()
+      app.exit(0)
     }else if(type == 1){
       mainWindow.hide()
     }

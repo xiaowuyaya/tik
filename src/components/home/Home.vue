@@ -186,6 +186,8 @@ const utils = window.utils
 
 const loading = ref(false)
 
+const userStore = useUserStore()
+
 const currentSummoner = ref({
   gameStatus: '',
   avatar: '',
@@ -218,6 +220,7 @@ const currentSummoner = ref({
 onMounted(async () => {
   loading.value = true
   currentSummoner.value = await handle.currentSummonerInfo()
+  await userStore.registerEnvironment()
   loading.value = false
 
   await userStore.registerEnvironment();

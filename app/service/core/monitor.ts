@@ -18,8 +18,7 @@ export const createClientListen = () => {
   }
   client.on('disconnect', () => {
     logger.info('check for game client is quit, application will be quit now.')
-    app.quit()
-    app.exit()
+    app.exit(0)
   })
   client.start()
   logger.info('create game client listen success')
