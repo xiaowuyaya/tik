@@ -66,7 +66,7 @@
       </a-table>
     </a-card>
     <!-- 备份文件导入提醒 -->
-    <!-- <a-modal v-model:visible="showImportBak" @ok="inputData" ok-text="开始导入">
+    <a-modal v-model:visible="showImportBak" @ok="inputData" ok-text="开始导入">
     <template #title>
       serendipity 黑名单备份文件导入
     </template>
@@ -77,7 +77,7 @@
       <p class="text-red-500">注意：仅导入当前账号所登入过大区的黑名单信息，如果当前账号下从未登入过黑名单中存在的大区将会导入失败！</p>
       <p class="text-red-500">例如：如果当前账号{{userStore.username}}从未在 艾欧尼亚 玩过，而黑名单中有 艾欧尼亚 的数据，此条数据将导入失败</p>
     </div>
-  </a-modal> -->
+  </a-modal>
   </div>
 </template>
 
@@ -89,6 +89,7 @@ import { environmentOption } from '@/utils/options';
 import { IconSearch } from '@arco-design/web-vue/es/icon';
 import { onBeforeMount, reactive, ref, h } from 'vue';
 import { Message, Modal, TableColumnData } from '@arco-design/web-vue';
+import { ipcRenderer } from 'electron'
 
 const blacklistStore = useBlacklistStore();
 const userStore = useUserStore();
@@ -185,22 +186,31 @@ const handleDeleteBlacklist = async (record: any) => {
   });
 };
 
-// const inputData = async () => {
-//   const resp = await ipcRenderer.invoke('controller.common.importBlacklistData', '');
-//   useMessage(resp, '读取黑名单备份文件成功', async () => {
-//     for (var i = 0; i < resp.data.length; i++) {
-//       await blacklistStore.add({
-//         environment: resp.data[i].environment,
-//         summonerId: '',
-//         summonerName: resp.data[i].summonerName,
-//         banName: resp.data[i].blackName,
-//         reason: resp.data[i].reason,
-//       });
-//     }
-//   });
-
-//   console.log(resp);
-// };
+const inputData = async () => {
+  ipcRenderer.send('mainWin.importBlacklistData');
+  ipcRenderer.on('importBlacklistData.reply', async (event, message)=>{
+    if(message.code == 200) {
+      for (var i = 0; i < message.data.length; i++) {
+        await blacklistStore.add({
+          environment: message.data[i].environment,
+          summonerId: '',
+          summonerName: message.data[i].summonerName,
+          banName: message.data[i].blackName,
+          reason: message.data[i].reason,
+        });
+      }
+      Message.success({
+        content: `读取黑名单备份文件成功`,
+        duration: 3 * 1000,
+      });
+    }else {
+      Message.success({
+        content: `读取黑名单备份文件失败:${message.msg}`,
+        duration: 3 * 1000,
+      });
+    }
+  })
+};
 </script>
 <style scoped>
 .custom-filter {

@@ -1,7 +1,9 @@
-import { appConfig, windowList } from '../../service/utils/config'
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import {appConfig, blacklist, windowList} from '../../service/utils/config'
+import {app, BrowserWindow, shell, ipcMain, dialog} from 'electron'
 import path from 'path'
 import {changeSkinConfig, injectSkin} from "../inject";
+import fs from 'fs'
+import _ from 'loadsh'
 
 
 /* 主进程窗口 */
@@ -66,6 +68,61 @@ const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
   // 最小化窗口
   ipcMain.on('mainWin.minisize', () => {
     mainWindow.minimize()
+  })
+
+  ipcMain.on('mainWin.importBlacklistData', (event, data:any) => {
+    try {
+      const file = dialog.showOpenDialogSync({
+        title: '读取旧版黑名单备份文件',
+        buttonLabel: '确定',
+        filters: [
+          {
+            // 只读取js文件
+            name: 'bans.bak',
+            extensions: ['json'],
+          },
+        ],
+      });
+      const res = fs.readFileSync(file[0], 'utf-8');
+      const bakData = JSON.parse(res)
+      let bakList = []
+      _.forOwn(bakData, (list, key) => {
+        for (let i = 0; i < list.length; i++) {
+
+          if(!list[i].summonerName || !list[i].environment) {
+            continue
+          }
+
+          let flag = false
+          if(bakList.length == 0) {
+            bakList.push(list[i])
+            continue
+          }
+
+          for (let j = 0; j < bakList.length; j++) {
+            const element = bakList[j];
+            if(element.blackName == list[i].blackName){
+              flag = true
+              break
+            }
+          }
+          if (flag) {
+            break
+          }else{
+            bakList.push(list[i])
+          }
+        }
+      })
+      for (let k = 0; k < bakList.length; k++) {
+        const item = bakList[k];
+        if(!item.blackName){
+          throw new Error('备份文件格式有误')
+        }
+      }
+      event.reply('importBlacklistData.reply', {code: 200, msg: null, data: bakList})
+    } catch (err) {
+      event.reply('importBlacklistData.reply', {code: 500, msg: err, data: null})
+    }
   })
 
   ipcMain.handle('injectSkin', async () => {
