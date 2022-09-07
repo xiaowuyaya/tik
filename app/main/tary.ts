@@ -1,15 +1,16 @@
-import { BrowserWindow, nativeImage, app, Tray, Menu } from 'electron';
+import {BrowserWindow, nativeImage, app, Tray, Menu} from 'electron';
 import path from 'path';
 
-export const createTray = (mainWindow: BrowserWindow, championRuneWindow: BrowserWindow, spellsWindow: BrowserWindow) => {
-  const iconPath = app.isPackaged ? path.join(app.getPath('exe'), 'resources', 'extraResources', 'img', 'icon.ico') : path.join(__dirname, '../../../', 'resources', 'img', 'icon.ico')
+export const createTray = async (mainWindow: BrowserWindow, championRuneWindow: BrowserWindow, spellsWindow: BrowserWindow) => {
+  const iconPath = app.isPackaged ? path.join(app.getPath('exe'), '../', 'resources', 'img', 'icon.ico') : path.join(__dirname, '../../../', 'resources', 'img', 'icon.ico')
 
-  const icon = nativeImage.createFromPath(iconPath).resize({ width: 24, height: 24 })
+  const icon = nativeImage.createFromPath(iconPath).resize({width: 24, height: 24})
   const tray = new Tray(icon)
-
   tray.setToolTip('Tik 英雄联盟对局助手')
 
-  tray.on('click', () => { showWindow(mainWindow) })
+  tray.on('click', () => {
+    showWindow(mainWindow)
+  })
 
   const contextMenu = Menu.buildFromTemplate([
     {

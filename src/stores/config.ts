@@ -1,4 +1,3 @@
-import { changeSkinConfig, injectSkin } from './../../app/main/inject';
 import { Message } from "@arco-design/web-vue";
 import { defineStore } from "pinia";
 import { ipcRenderer } from 'electron';
@@ -15,10 +14,6 @@ interface ConfigType {
   spellsWin: {
     enable: boolean | undefined
     key: number[] | undefined
-  },
-  specialFunc: {
-    enableSkin: boolean | undefined
-    enableSightDistance: boolean | undefined
   },
   normalAutoPB: {
     enablePick: boolean | undefined
@@ -70,10 +65,6 @@ export const useConfigStore = defineStore({
         enable: undefined,
         key: undefined,
       },
-      specialFunc: {
-        enableSkin: undefined,
-        enableSightDistance: undefined,
-      },
       normalAutoPB: {
         enablePick: undefined,
         pickSelect: undefined,
@@ -118,8 +109,6 @@ export const useConfigStore = defineStore({
       this.confirmSelect = appStore.get('confirmSelect')
       this.showChampTool = appStore.get('showChampTool')
       this.autoMuteAll = appStore.get('autoMuteAll')
-      this.specialFunc.enableSkin = appStore.get('specialFunc.enableSkin')
-      this.specialFunc.enableSightDistance = appStore.get('specialFunc.enableSightDistance')
       this.spellsWin.enable = appStore.get('spellsWin.enable')
       this.spellsWin.key = appStore.get('spellsWin.key')
       this.normalAutoPB.enablePick = appStore.get('normalAutoPB.enablePick')
@@ -149,26 +138,7 @@ export const useConfigStore = defineStore({
     },
     changeConfig() {
       console.log(this.specialFunc);
-      
       appStore.set(this.$state)
     },
-    changeSkinConfig() {
-      let json = {
-        "Func": {
-          "无限视距": "false",
-        },
-        "Skin": {
-          "UpKey": "45",
-          "DnKey": "46",
-        }
-      }
-      if ( this.specialFunc.enableSightDistance ) {
-        json.Func.无限视距 = "true"
-      }else {
-        json.Func.无限视距 = "false"
-      }
-
-      ipcRenderer.send('changeSkinConfig', json)
-    }
   }
 })

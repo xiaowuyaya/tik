@@ -37,6 +37,7 @@ export const currentSummonerInfo = async () => {
   }
 
   const gameStatus = await api.getGameStatus()
+  console.log('gameStatus',gameStatus)
   currentSummoner.gameStatus = translate('status', gameStatus);
 
   const summoner = await api.getCurrentSummoner()
@@ -59,7 +60,7 @@ export const currentSummonerInfo = async () => {
   currentSummoner.rank.rankedFlex = `${translate('rank', rankStatus.queueMap.RANKED_FLEX_SR.tier)} ${rankStatus.queueMap.RANKED_FLEX_SR.division} ${rankStatus.queueMap.RANKED_FLEX_SR.leaguePoints}`
 
   const hisotryMatch = await api.getHistoryMatchesByPuuid(summoner.puuid, 0, 40)
-  currentSummoner.historyMatch = hisotryMatch.games.games
+  currentSummoner.historyMatch = hisotryMatch.games.games.reverse()
 
   let totalKill = 0
   let totalDeath = 0
@@ -166,7 +167,7 @@ export const searchSummonerInfo = async (summonerName: string) => {
   currentSummoner.rank.rankedFlex = `${translate('rank', rankStatus.queueMap.RANKED_FLEX_SR.tier)} ${rankStatus.queueMap.RANKED_FLEX_SR.division} ${rankStatus.queueMap.RANKED_FLEX_SR.leaguePoints}`
 
   const hisotryMatch = await api.getHistoryMatchesByPuuid(summoner.puuid, 0, 21)
-  currentSummoner.historyMatch = hisotryMatch.games.games
+  currentSummoner.historyMatch = hisotryMatch.games.games.reverse()
 
   let totalKill = 0
   let totalDeath = 0

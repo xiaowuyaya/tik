@@ -1,4 +1,4 @@
-import { ddragonConfig } from './../utils/config';
+import {credentialsConfig, ddragonConfig} from './../utils/config';
 import { createClient, createWebSocket } from '../utils/net'
 import { panelData, appConfig } from '../utils/config'
 import * as lcuApi from './api'
@@ -18,6 +18,8 @@ export const createClientListen = () => {
   }
   client.on('disconnect', () => {
     logger.info('check for game client is quit, application will be quit now.')
+    // clear all credentials
+    credentialsConfig.reset('credentials')
     app.exit(0)
   })
   client.start()

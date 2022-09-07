@@ -2,6 +2,7 @@
 import { useConfigStore } from '@/stores/config';
 import { getToken } from '@/utils/auth';
 import { useRouter } from 'vue-router';
+import {useAppStore} from "@/stores/app";
 
 const router = useRouter()
 const configStore = useConfigStore()

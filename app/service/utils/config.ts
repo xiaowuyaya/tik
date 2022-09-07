@@ -1,15 +1,10 @@
 import Store from 'electron-store'
 
+
 export const appConfig = new Store({
   defaults: {
-    /* lcu链接凭证 */
-    credentials: '',
     rememberQuit: false,
     quitMethod: 0,
-    specialFunc: {
-      enableSkin: false,
-      enableSightDistance: false
-    },
     /* 显示符文小窗 */
     showChampTool: '',
     /* 自动接收对局 */
@@ -64,6 +59,12 @@ export const appConfig = new Store({
       chaos: [61009],
       muteAll: [60999],
     }
+  }
+})
+
+export const credentialsConfig = new Store({
+  defaults: {
+    credentials: {}
   }
 })
 

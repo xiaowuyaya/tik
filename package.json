@@ -1,6 +1,6 @@
 {
   "name": "tik",
-  "version": "3.5.1",
+  "version": "3.5.6",
   "main": "dist/app/main/index.js",
   "description": "英雄联盟进阶辅助工具，通过数据分析提升竞技体验，以及一系列基础工具",
   "author": "xiaowuyaya, Inc <liaolingwei605@163.com>",
@@ -19,7 +19,6 @@
     "animate.css": "^4.1.1",
     "electron-log": "^4.4.8",
     "electron-updater": "^5.2.1",
-    "ffi-napi": "^4.0.3",
     "getmac": "^5.20.0",
     "iohook": "^0.9.3",
     "node-fetch": "^3.2.10",

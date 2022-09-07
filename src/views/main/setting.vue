@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex">
-    <div class="flex flex-col w-[60%] h-full !mr-1">
+    <div class="flex flex-col w-[77%] h-full !mr-1">
       <a-form :model="configStore">
         <a-card :hoverable="true" :header-style="{ border: 'none' }">
           <div class="text-base font-medium text-gray-500 !mb-4">发送设置</div>
@@ -158,7 +158,7 @@
           <span>{{ appPinaStore.version }}</span>
         </a-col>
         <a-col :span="8">
-          <!-- <a-button type="text" @click="handleUpdate">检查更新</a-button> -->
+           <a-button type="text" @click="handleUpdate">检查更新</a-button>
         </a-col>
       </a-row>
       <a-row class="py-2" :gutter="12" align="center" justify="center">
@@ -179,15 +179,24 @@
           <a-button type="text" @click="shell.openExternal(qGroupLink);">点击加群</a-button>
         </a-col>
       </a-row>
-      <!-- <a-row class="py-2" :gutter="12" align="center" justify="center">
+      <a-row class="py-2" :gutter="12" align="center" justify="center">
         <a-col :span="6" class="">日志路径</a-col>
         <a-col :span="8">
-         <div class="truncate w-full">{{ logDir }}</div>
+         <div class="truncate w-full"> {{path.join(appStore.get('userData'), 'logs')}} </div>
         </a-col>
         <a-col :span="8">
-          <a-button type="text" @click="shell.openPath(logDir)">打开路径</a-button>
+          <a-button type="text" @click="shell.openPath(path.join(appStore.get('userData'), 'logs'))">打开路径</a-button>
         </a-col>
-      </a-row> -->
+      </a-row>
+      <a-row class="py-2" :gutter="12" align="center" justify="center">
+        <a-col :span="6" class="">配置文件</a-col>
+        <a-col :span="8">
+          <div class="truncate w-full"> {{path.join(appStore.get('userData'), 'config.json')}} </div>
+        </a-col>
+        <a-col :span="8">
+          <a-button type="text" @click="shell.openPath(path.join(appStore.get('userData'), 'config.json'))">打开文件</a-button>
+        </a-col>
+      </a-row>
     </a-card>
   </div>
 </template>
@@ -198,7 +207,8 @@ import { useConfigStore } from '@/stores/config';
 import { copyToClipboard } from '@/utils/tools'
 import { onBeforeMount, reactive } from 'vue';
 import { useAppStore } from '@/stores/app';
-import {  shell } from 'electron';
+import {  shell,ipcRenderer } from 'electron';
+import path from 'path'
 
 const configStore = useConfigStore();
 const appPinaStore = useAppStore();
@@ -219,6 +229,10 @@ onBeforeMount(() => {
   handleNotice('chaos');
   handleNotice('muteAll');
 });
+
+const handleUpdate = () => {
+  ipcRenderer.send('mainWin.checkUpdate')
+}
 
 /**
  * 快捷键提醒

@@ -11,6 +11,9 @@
       "url": "http://qiniu.lol-tool.com/latest"
     }
   ],
+  "releaseInfo": {
+    "releaseNotes": "**重要更新**\\r\\n修复退出程序后进程残留问题\\r\\n修复大区信息不注册导致无法录入黑名单问题\\r\\n修复客户端凭证过期不重置问题\\r\\n添加检查更新按钮\\r\\n添加日志文件路径，配置文件路径\\r\\n恢复旧版黑名单数据导入功能"
+  },
   "directories": {
     "output": "release/${version}"
   },

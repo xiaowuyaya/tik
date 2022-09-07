@@ -1,9 +1,9 @@
-import {appConfig, blacklist, windowList} from '../../service/utils/config'
-import {app, BrowserWindow, shell, ipcMain, dialog} from 'electron'
+import { appConfig, windowList } from '../../service/utils/config'
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import path from 'path'
-import {changeSkinConfig, injectSkin} from "../inject";
 import fs from 'fs'
 import _ from 'loadsh'
+import {autoUpdater} from "electron-updater";
 
 
 /* 主进程窗口 */
@@ -70,6 +70,10 @@ const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
     mainWindow.minimize()
   })
 
+  ipcMain.on('mainWin.checkUpdate', ()=> {
+    autoUpdater.checkForUpdatesAndNotify()
+  })
+
   ipcMain.on('mainWin.importBlacklistData', (event, data:any) => {
     try {
       const file = dialog.showOpenDialogSync({
@@ -119,17 +123,14 @@ const createMainWindowIpcListen = (mainWindow: BrowserWindow) => {
           throw new Error('备份文件格式有误')
         }
       }
-      event.reply('importBlacklistData.reply', {code: 200, msg: null, data: bakList})
+      if(bakList.length == 0) {
+        event.reply('importBlacklistData.reply', {code: 500, msg: '该文件黑名单玩家数量为0', data: null})
+      }else {
+        event.reply('importBlacklistData.reply', {code: 200, msg: null, data: bakList})
+      }
+
     } catch (err) {
       event.reply('importBlacklistData.reply', {code: 500, msg: err, data: null})
     }
-  })
-
-  ipcMain.handle('injectSkin', async () => {
-    injectSkin()
-  })
-
-  ipcMain.on('changeSkinConfig', (event, data:any)=> {
-    changeSkinConfig(data)
   })
 }

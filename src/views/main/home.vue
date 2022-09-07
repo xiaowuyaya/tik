@@ -10,10 +10,12 @@ import { type Component, onMounted, ref, reactive } from 'vue';
 
 const currentTabComponent = ref<Component>(NoGameStart)
 
-const appStore: ElectronStore = window.appStore
+const credentialsConfig: ElectronStore = window.credentialsConfig
 
 onMounted(() => {
-  const credentials = appStore.get('credentials')
+  const credentials = credentialsConfig.get('credentials')
+  console.log(credentials);
+
   if (credentials) currentTabComponent.value = Home
 })
 </script>

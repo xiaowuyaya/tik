@@ -13,9 +13,11 @@ declare interface Window {
   ddragonStore: any
   panelDataStore: any
   blacklistStore: any
+  credentialsConfig: any
   handle: any,
   utils: any
   lcuApi: any
+  cache: any
 }
 
 declare module "*.json" {

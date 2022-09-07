@@ -2,9 +2,9 @@
   <header class="p-2 h-16  flex justify-between items-center user-drag border-b ">
     <div class="flex items-center jusitify-between">
       <!-- LOGO -->
-      <img class="w-10" src="@/assets/logo.png" />
+      <img class="w-10 no-drag cursor-pointer" src="@/assets/logo.png" @click="shell.openExternal('https://lol-tool.com')"/>
       <!-- TITLE -->
-      <div class="font-title text-[1.4rem] text-black ml-2">英雄联盟对局助手</div>
+      <div class="font-youshe text-[1.8rem] text-black ml-2">英雄联盟对局助手</div>
       <!-- HISTORY SEARCH -->
       <div class="w-[200px] ml-[6rem] no-drag">
         <a-input-search v-model="summonerSearch" placeholder="快速搜索玩家战绩" @search="searchSummoner"
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import { useConfigStore } from '@/stores/config';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, shell } from 'electron';
 import _ from 'lodash';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';

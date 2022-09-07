@@ -100,16 +100,5 @@ export const useUserStore = defineStore({
         phone: this.phone,
       })
     },
-    async vipCheck() {
-      try {
-        const res = await vipCheck()
-        this.expiration = dayjs(res.data).format('YYYY-MM-DD HH:mm:ss')
-        return true
-      } catch (err) {
-        this.expiration = ''
-        configStore.specialFunc.enableSkin = false
-        return false
-      }
-    }
   }
 })

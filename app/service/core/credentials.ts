@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron';
 import { authenticate, AuthenticationOptions, Credentials } from "../league-connect";
 import { createClientListen, createWebsocketListen } from "./monitor";
-import { appConfig } from "../utils/config";
+import {appConfig, credentialsConfig} from "../utils/config";
 import * as api from './api'
 import log from '../utils/log';
 
@@ -33,7 +33,7 @@ export const createCredentialsService = async (mainWindow: BrowserWindow, champi
     logger.error(`get credentials throw an error: ${err}`)
    }
 
-  appConfig.set('credentials', credentials)
+  credentialsConfig.set('credentials', credentials)
 
   if (credentials) {
     createClientListen()

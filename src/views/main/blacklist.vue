@@ -189,6 +189,7 @@ const handleDeleteBlacklist = async (record: any) => {
 const inputData = async () => {
   ipcRenderer.send('mainWin.importBlacklistData');
   ipcRenderer.on('importBlacklistData.reply', async (event, message)=>{
+    console.log(message)
     if(message.code == 200) {
       for (var i = 0; i < message.data.length; i++) {
         await blacklistStore.add({
@@ -204,7 +205,7 @@ const inputData = async () => {
         duration: 3 * 1000,
       });
     }else {
-      Message.success({
+      Message.error({
         content: `读取黑名单备份文件失败:${message.msg}`,
         duration: 3 * 1000,
       });

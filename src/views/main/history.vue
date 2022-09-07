@@ -9,10 +9,10 @@ import { type Component, onMounted, ref } from 'vue';
 
 const currentTabComponent = ref<Component>(NoGameStart)
 
-const appStore: ElectronStore = window.appStore
+const credentialsConfig: ElectronStore = window.credentialsConfig
 
 onMounted(() => {
-  const credentials = appStore.get('credentials')
+  const credentials = credentialsConfig.get('credentials')
   if (credentials) currentTabComponent.value = Search
 })
 </script>

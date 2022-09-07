@@ -29,10 +29,6 @@
       <icon-bar-chart />
       英雄数据
     </a-menu-item>
-    <a-menu-item key="skin">
-      <icon-star />
-      合作功能
-    </a-menu-item>
     <a-menu-item key="setting">
       <icon-settings />
       设置

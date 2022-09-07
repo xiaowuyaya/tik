@@ -111,7 +111,7 @@
               <div class="text-base font-medium text-gray-500 mb-0.5">常用英雄</div>
               <div class="mt-5 flex items-center justify-between w-full ">
                 <div class="w-full flex flex-col justify-center items-center mx-2"
-                  v-for="(item, index) in (currentSummoner.championMastery.masteries as any)" :key="index">
+                  v-for="(item, index) in (currentSummoner.championMastery.masteries)" :key="index">
                   <a-avatar class="shadow-light-hover" :size="68" shape="circle">
                     <img :src="utils.getChampionAvatarById(item.championId)" />
                   </a-avatar>
@@ -147,7 +147,7 @@
         </template>
 
         <block class="flex justify-between w-[188px] py-1.6 cursor-pointer"
-          v-for="(item, index) in (currentSummoner.historyMatch.slice(0, 10) as any)" :key="index">
+          v-for="(item, index) in (currentSummoner.historyMatch.slice(0, 10) )" :key="index">
           <a-avatar :size="44" shape="square">
             <img :src="utils.getChampionAvatarById(item.participants[0].championId)" />
           </a-avatar>
@@ -219,6 +219,7 @@ const currentSummoner = ref({
 onMounted(async () => {
   loading.value = true
   currentSummoner.value = await handle.currentSummonerInfo()
+  console.log(currentSummoner.value)
   loading.value = false
 
   userStore.environment = currentSummoner.value.environment;
@@ -226,7 +227,6 @@ onMounted(async () => {
   userStore.summonerName = currentSummoner.value.displayName;
 
   await userStore.registerEnvironment();
-
 })
 
 ipcRenderer.on('playerStatus', (event, data) => {
