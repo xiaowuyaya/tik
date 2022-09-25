@@ -1,6 +1,6 @@
 {
   "name": "tik",
-  "version": "3.5.8",
+  "version": "3.5.12",
   "description": "英雄联盟进阶辅助工具，通过数据分析提升竞技体验，以及一系列基础工具",
   "author": "xiaowuyaya, Inc <liaolingwei605@163.com>",
   "email": "liaolingwei605@163.com",
@@ -60,7 +60,7 @@
       "mirror": "https://npmmirror.com/mirrors/electron/"
     },
     "releaseInfo": {
-      "releaseNotes": "**重要更新** \\r\\n 修复3.x.x版本之后，部分电脑不兼容问题"
+      "releaseNotes": "**一定要更新**  组排检测添加开关"
     },
     "nsis": {
       "shortcutName": "Tik 英雄联盟对局助手",
