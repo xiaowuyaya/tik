@@ -1,10 +1,26 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
 node_modules
-out/
-logs/
-public/
-run/
-.idea/
-package-lock.json
-data/system.json
-.vscode/launch.json
-data/
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+release
+.vscode/.debug.env
+dist-app
