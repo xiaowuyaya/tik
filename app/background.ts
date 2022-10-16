@@ -27,7 +27,7 @@ let mainWin: BrowserWindow | null = null
 
 app.on('ready', async () => {
   /* 检查游戏是否已启动 */
-  // checkGameClient()
+  checkGameClient()
   /* 创建托盘图标 */
   tray = await createAppTray()
   /* 创建主窗口 */
@@ -81,18 +81,21 @@ function checkGameClient() {
       const image = nativeImage.createFromPath(iconPath)
       image.isMacTemplateImage = true
 
-      dialog.showMessageBoxSync({
+      const choose = await dialog.showMessageBox({
         // type: 'icon',
         icon: image,
         title: `启动失败`,
         message: `检测到游戏客户端已启动`,
-        detail: `请先启动${$tools.APP_TITLE}到检查启动界面后再启动游戏`,
+        detail: `请先启动${$tools.APP_TITLE}到检查启动界面后再启动游戏, 如获取正常请无视`,
         defaultId: 0,
         cancelId: 0,
-        buttons: ['确定并退出']
+        buttons: ['确定并退出', '无视错误']
       })
-      app.quit()
-      process.exit(0)
+
+      if (choose.response == 0) {
+        app.quit()
+        process.exit(0)
+      }
     }
   })
 }
