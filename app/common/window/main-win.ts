@@ -2,6 +2,7 @@ import { join } from 'path';
 import { app, BrowserWindow, ipcMain, shell, dialog } from 'electron';
 import fs from 'fs'
 import _ from 'lodash'
+import { autoUpdater } from 'electron-updater';
 
 export async function createMainWindow() {
 
@@ -62,6 +63,10 @@ export async function createMainWindow() {
 
   ipcMain.on('main-hide', (_event, _args) => {
     win.hide()
+  })
+
+  ipcMain.on('check-update', (_event, _args) => {
+    autoUpdater.checkForUpdatesAndNotify()
   })
 
   /* 旧版本黑名单数据导入 */

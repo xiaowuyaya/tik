@@ -35,7 +35,7 @@ app.on('ready', async () => {
   /* 创建符文窗口 */
   await createChampionRuneWindow()
   /* 检查更新 */
-  await checkUpdate()
+  await checkUpdate(mainWin)
   /* 启用lcu服务（当客户端启动时候在启用某些符文） */
   await createCredentialsService(mainWin)
   /* 创建快捷键监听 */

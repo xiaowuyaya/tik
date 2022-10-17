@@ -58,18 +58,20 @@
               </a-space>
             </a-form-item>
             <a-form-item class="!mb-0 ml-3" label-col-flex="74px" label="发送模板">
-              <a-input class="mr-1" v-model="configStore.sendTextTemplate" @change="configStore.save" placeholder="玩家战绩发送模板"></a-input>
+              <a-input class="mr-1" v-model="configStore.sendTextTemplate" @change="configStore.save"
+                placeholder="玩家战绩发送模板"></a-input>
               <a-popover>
-              <icon-question-circle-fill class="mx-5" size="20px" />
-              <template #content>
-                <p class=" text-gray-600">发送模板必须满足格式并包含如下内容</p>
-                <p class=" text-gray-600">1. <span class="text-red-500">{称号}</span> 为定义的称号类型</p>
-                <p class=" text-gray-600">2. <span class="text-red-500">{玩家名}</span> 为当前发送的玩家游戏名</p>
-                <p class=" text-gray-600">3. <span class="text-red-500">{kda}</span> 为发送玩家的近期kda</p>
-                <p class=" text-gray-600">4. <span class="text-red-500">{胜率}</span> 为发送玩家的近期胜率</p>
-                <p class=" text-gray-600">5. <span class="text-red-500">{对局}</span> 为发送玩家的近期对局数据，通过<span class="text-blue-500">发送局数</span>定义发送数量</p>
-              </template>
-            </a-popover>
+                <icon-question-circle-fill class="mx-5" size="20px" />
+                <template #content>
+                  <p class=" text-gray-600">发送模板必须满足格式并包含如下内容</p>
+                  <p class=" text-gray-600">1. <span class="text-red-500">{称号}</span> 为定义的称号类型</p>
+                  <p class=" text-gray-600">2. <span class="text-red-500">{玩家名}</span> 为当前发送的玩家游戏名</p>
+                  <p class=" text-gray-600">3. <span class="text-red-500">{kda}</span> 为发送玩家的近期kda</p>
+                  <p class=" text-gray-600">4. <span class="text-red-500">{胜率}</span> 为发送玩家的近期胜率</p>
+                  <p class=" text-gray-600">5. <span class="text-red-500">{对局}</span> 为发送玩家的近期对局数据，通过<span
+                      class="text-blue-500">发送局数</span>定义发送数量</p>
+                </template>
+              </a-popover>
             </a-form-item>
           </div>
         </a-card>
@@ -231,8 +233,8 @@
         <a-row class="py-2" :gutter="12" align="center" justify="center">
           <a-col :span="6" class="">重置配置</a-col>
           <a-col :span="8">
-            <div class="truncate w-full" >
-             如遇配置问题请点此
+            <div class="truncate w-full">
+              如遇配置问题请点此
             </div>
           </a-col>
           <a-col :span="8">
@@ -245,7 +247,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, onBeforeMount } from 'vue'
-import { shell } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import { keyCodeOptions, keyCodeMap } from '../../utils/options'
 import { useConfigStore } from '../../store/config'
 import { copy } from '../../utils/tools'
@@ -275,10 +277,10 @@ onBeforeMount(async () => {
 
 
 function checkUpdate() {
-
+  ipcRenderer.send('check-update', '')
 }
 
-function resetStore(){
+function resetStore() {
   $store.appStore.reset()
   Message.success('重置完成')
 }

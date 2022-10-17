@@ -1,7 +1,7 @@
-import { dialog } from "electron";
+import { BrowserWindow, dialog } from "electron";
 import { autoUpdater } from "electron-updater";
 
-export async function checkUpdate() {
+export async function checkUpdate(mainWindow: BrowserWindow) {
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = false
 
@@ -9,11 +9,15 @@ export async function checkUpdate() {
 
   autoUpdater.on('checking-for-update', () => {
     $tools.log.info('[autoUpdater] checking for update...')
+    mainWindow.webContents.send('autoUpdater', {type: 'info', msg: '正在检查更新...'})
   })
 
   autoUpdater.on('update-available', info => {
     $tools.log.info(`[autoUpdater] find new version ${info.version}`)
-
+    mainWindow.webContents.send('autoUpdater', {
+      type: 'success',
+      msg: `发现新版本${info.version}，文件大小${(info.files[0].size / 1048576).toFixed(1)}mb`,
+    })
     dialog.showMessageBox({
       type: 'info',
       title: '应用更新',
@@ -34,6 +38,10 @@ export async function checkUpdate() {
 
   autoUpdater.on('error', err => {
     $tools.log.error(`[autoUpdater] updater thorw an error: ${err}`)
+    mainWindow.webContents.send('autoUpdater', {
+      type: 'error',
+      msg: `检查更新过程中发生异常错误：${err}`,
+    })
   })
 
   autoUpdater.on('update-downloaded', releaseName => {
