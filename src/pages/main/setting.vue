@@ -48,7 +48,7 @@
                 </a-form-item>
               </a-col>
             </a-row>
-            <a-form-item class="!mb-0 ml-3" label-col-flex="74px" label="黑名单提醒">
+            <a-form-item class="!mb-2 ml-3" label-col-flex="74px" label="黑名单提醒">
               <a-space size="large">
                 <a-radio v-model="configStore.blacklistNoticeAll" :value="true" @change="configStore.save">
                   所有人可见
@@ -57,10 +57,24 @@
                   仅自己可见</a-radio>
               </a-space>
             </a-form-item>
+            <a-form-item class="!mb-0 ml-3" label-col-flex="74px" label="发送模板">
+              <a-input class="mr-1" v-model="configStore.sendTextTemplate" @change="configStore.save" placeholder="玩家战绩发送模板"></a-input>
+              <a-popover>
+              <icon-question-circle-fill class="mx-5" size="20px" />
+              <template #content>
+                <p class=" text-gray-600">发送模板必须满足格式并包含如下内容</p>
+                <p class=" text-gray-600">1. <span class="text-red-500">{称号}</span> 为定义的称号类型</p>
+                <p class=" text-gray-600">2. <span class="text-red-500">{玩家名}</span> 为当前发送的玩家游戏名</p>
+                <p class=" text-gray-600">3. <span class="text-red-500">{kda}</span> 为发送玩家的近期kda</p>
+                <p class=" text-gray-600">4. <span class="text-red-500">{胜率}</span> 为发送玩家的近期胜率</p>
+                <p class=" text-gray-600">5. <span class="text-red-500">{对局}</span> 为发送玩家的近期对局数据，通过<span class="text-blue-500">发送局数</span>定义发送数量</p>
+              </template>
+            </a-popover>
+            </a-form-item>
           </div>
         </a-card>
         <!-- 自定义快捷键 -->
-        <a-card class="mt-4" :hoverable="true" :header-style="{ border: 'none' }">
+        <a-card class="mt-2" :hoverable="true" :header-style="{ border: 'none' }">
           <div class="text-lg font-medium text-gray-500 !mb-3">自定快捷键</div>
 
           <a-form-item field="settingsStore.app.spellsWin.key" label="技能窗口">
@@ -117,7 +131,7 @@
           </a-form-item>
         </a-card>
         <!-- 称号 -->
-        <a-card class="mt-4" :hoverable="true" :header-style="{ border: 'none' }">
+        <a-card class="mt-2" :hoverable="true" :header-style="{ border: 'none' }">
           <div class="text-base font-medium text-gray-500 !mb-4">自定义称号</div>
           <a-row align="center">
             <a-col :span="8">

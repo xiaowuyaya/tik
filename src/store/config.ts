@@ -40,6 +40,7 @@ interface ConfigType {
     },
   },
   "enableSendHourse": boolean,
+  "sendTextTemplate": string,
   "onlyRankData": boolean,
   "matchCount": number,
   "blacklistNoticeAll": boolean,
@@ -94,6 +95,7 @@ export const useConfigStore = defineStore({
         }
       },
       "enableSendHourse": false,
+      "sendTextTemplate": "",
       "onlyRankData": false,
       "matchCount": 0,
       "blacklistNoticeAll": false,

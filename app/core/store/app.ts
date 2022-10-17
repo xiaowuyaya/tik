@@ -56,6 +56,7 @@ export const appStore = new Store({
       },
       /* 启用马匹信息 */
       enableSendHourse: true,
+      sendTextTemplate: "{称号}:{玩家名},kda:{kda},胜率:{胜率},近期:{对局}",
       /* 仅排位数据 */
       onlyRankData: false,
       /* 发送到KD数量 */

@@ -28,8 +28,8 @@ export async function panelEvent() {
             }
           }
 
-          const msg = `${player.type}:${player.summonerName},kda:${player.matches.kda || '0.0'},胜率:${player.matches.winRate || '00.0%'
-            },近期:${matchHistoryStr}`
+          const textTemplate: string = $store.appStore.get('app.sendTextTemplate')
+          const msg = textTemplate.replace('{称号}', player.type).replace('{玩家名}', player.summonerName).replace('{kda}', player.matches.kda || '0.0').replace('{胜率}', player.matches.winRate || '00.0%').replace('{对局}', matchHistoryStr)
 
           if (gameStatus === 'ChampSelect') {
             // 通过api发送
@@ -75,8 +75,8 @@ export async function panelEvent() {
           }
         }
 
-        const msg = `${player.type}:${player.summonerName},kda:${player.matches.kda || '0.0'},胜率:${player.matches.winRate || '00.0%'
-          },近期:${matchHistoryStr}`
+        const textTemplate: string = $store.appStore.get('app.sendTextTemplate')
+        const msg = textTemplate.replace('{称号}', player.type).replace('{玩家名}', player.summonerName).replace('{kda}', player.matches.kda || '0.0').replace('{胜率}', player.matches.winRate || '00.0%').replace('{对局}', matchHistoryStr)
         // 通过hook模拟发送
         sendStringInProgress(msg)
       }
