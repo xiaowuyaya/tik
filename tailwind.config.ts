@@ -9,6 +9,11 @@ export default defineConfig({
     extend: {
       fontFamily: {
         youshe: ["YouShe"]
+      },
+      colors: {
+        black: {
+          900: '#1D2129'
+        }
       }
     },
   },

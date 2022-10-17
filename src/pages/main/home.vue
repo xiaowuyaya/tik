@@ -224,6 +224,11 @@ ipcRenderer.on('player-status', (_event, data) => {
   }
 })
 
+userStore.userInfo({
+  mac: $tools.PC_MAC,
+  clientVersion: $tools.APP_VERSION,
+}, false);
+
 onMounted(async () => {
   loading.value = true
   await summonerDataInit()

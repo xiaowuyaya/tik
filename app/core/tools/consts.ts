@@ -22,7 +22,8 @@ export const PC_MAC = getmac()
 export const HOME_URI = 'https://lol-tool.com'
 
 /* 服务器地址 */
-export const ROOT_URI = 'https://tik.lol-tool.com'
+// export const ROOT_URI = 'https://tik.lol-tool.com'
+export const ROOT_URI = 'http://localhost:3000'
 
 /* 版本校验服务器 */
 export const UPDATE_SERVER = 'http://qiniu.lol-tool.com/latest'

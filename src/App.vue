@@ -8,22 +8,23 @@ const router = useRouter()
 
 useConfigStore().init()
 
+/* 判断是否已经登入 */
+if (
+  window.location.href.indexOf('/champ-tool/rune') === -1 &&
+  window.location.href.indexOf('/champ-tool/spells') === -1
+) {
+  const token = getToken()
+
+  if (token) {
+    router.push({ name: 'home' })
+  } else {
+    router.push({ name: 'login' })
+  }
+}
+
 /* 客户端启动 */
 ipcRenderer.on('keep-alive', (data) => {
   router.push({ name: 'home' })
-
-  /* 判断是否已经登入 */
-  if (
-    window.location.href.indexOf('/champ-tool/rune') === -1 &&
-    window.location.href.indexOf('/champ-tool/spells') === -1
-  ) {
-    const token = getToken()
-    if (token) {
-      router.push({ name: 'home' })
-    } else {
-      router.push({ name: 'login' })
-    }
-  }
 
   setTimeout(() => { }, 1500);
 

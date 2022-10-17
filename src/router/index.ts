@@ -3,7 +3,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/check_launch'
+    redirect: '/account'
   },
   {
     path: '/check_launch',

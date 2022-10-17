@@ -57,6 +57,7 @@
     "league-connect": "6.0.0-rc8",
     "lodash": "^4.17.21",
     "pinia": "^2.0.23",
+    "socket.io-client": "^4.5.3",
     "superagent": "^8.0.2",
     "vue-clipboard3": "^2.0.0",
     "winax": "^3.3.4"

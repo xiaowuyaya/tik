@@ -7,6 +7,7 @@ import { getMyInfo, login, LoginClientUserDto, MyInfoDto, updateUserInfo } from 
 
 interface UserInfo {
   username: string
+  userId: string
   nickName: string
   avatarUrl: string
   email: string
@@ -23,6 +24,7 @@ export const useUserStore = defineStore({
   state: (): UserInfo => {
     return {
       username: '',
+      userId: '',
       nickName: '',
       avatarUrl: '',
       email: '',
@@ -38,6 +40,7 @@ export const useUserStore = defineStore({
     async userLogin(loginForm: LoginClientUserDto) {
       const res = await login(loginForm)
       const { token, userinfo } = res.data
+      this.userId = userinfo.userId
       this.username = userinfo.username
       this.nickName = userinfo.nickName
       this.avatarUrl = userinfo.avatarUrl
@@ -66,6 +69,7 @@ export const useUserStore = defineStore({
     async userInfo(data: MyInfoDto, showMessage: boolean = true) {
       const res = await getMyInfo(data)
       this.username = res.data.username
+      this.userId = res.data.userId
       this.nickName = res.data.nickName
       this.avatarUrl = res.data.avatarUrl
       this.email = res.data.email
