@@ -4,12 +4,15 @@
       <a-card class="flex-auto" :hoverable="true" :header-style="{ border: 'none' }">
         <c-scrollbar ref="scrollbarRef" width="100%" height="460px" trigger="hover">
           <block v-for="(item, index) in chatList" :key="index">
-            <div :class="item.userId == userStore.userId ? 'flex-row-reverse':'reverse'"
+            <div v-if="item.type == 'normal'" :class="item.userId == userStore.userId ? 'flex-row-reverse':'reverse'"
               class="flex  flex-grow w-full mb-5  h-[60%]">
-              <img class="w-[40px] h-[40px] rounded-lg" alt="avatar" :src="item.avatar" />
+              <img class="w-[36px] h-[36px] rounded-lg" alt="avatar" :src="utils.getProfileIcon(item.avatar)" />
               <div :class="item.userId == userStore.userId ?'mr-2':'ml-2'" class="flex flex-col w-full max-w-[70%]">
                 <div :class="item.userId == userStore.userId ?'justify-end':''" class="flex flex-row items-center">
-                  <div class="font-bold text-[1.1rem] font-black">{{item.environment}} {{item.summonerName}}</div>
+                  <a-tooltip content="点击复制游戏id">
+                    <div class="font-bold text-base font-black cursor-pointer" @click="copy(item.summonerName)">
+                      {{item.environment}} {{item.summonerName}}</div>
+                  </a-tooltip>
                   <div class="ml-2 font-normal leading-3">{{dayjs(item.time).format('MM-DD HH:mm:ss')}}</div>
                 </div>
                 <div :class="item.userId == userStore.userId ?'justify-end':''" class="flex">
@@ -18,6 +21,9 @@
                     {{item.msg}}</div>
                 </div>
               </div>
+            </div>
+            <div v-if="item.type == 'system'" class="flex justify-center items-center my-1">
+              <div class="bg-gray-100 text-sm p-1 rounded w-[fit-content]">{{item.msg}}</div>
             </div>
           </block>
         </c-scrollbar>
@@ -40,8 +46,8 @@
       </template>
       <c-scrollbar width="100%" height="630px" trigger="hover">
         <div class="flex justify-start items-center px-1 py-1.5" v-for="(item, index) in summonerList" :key="index">
-          <img class="w-[26px] h-[26px] rounded-full " alt="avatar" :src="item.avatar" />
-          <div class="leading-3 text-black-900">【{{item.environment}}】{{item.summonerName}}</div>
+          <img class="w-[26px] h-[26px] rounded-full " alt="avatar" :src="utils.getProfileIcon(item.avatar)" />
+          <div class="ml-1 leading-3 text-black-900 overflow-ellipsis">{{item.environment}}·{{item.summonerName}}</div>
         </div>
       </c-scrollbar>
     </a-card>
@@ -49,143 +55,23 @@
 </template>
 
 <script setup lang="ts">
+import { copy } from '../../utils/tools'
+import { Message } from '@arco-design/web-vue';
 import dayjs from 'dayjs';
 import io from 'socket.io-client';
-import { nextTick, ref, watch } from 'vue';
+import { onBeforeMount, onUnmounted, ref } from 'vue';
 import { useUserStore } from '../../store/user'
 
+const utils = $utils
 const userStore = useUserStore()
 const messageText = ref('')
 const scrollbarRef = ref();
-const summonerList = ref([
-  {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  }, {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    userId: "1",
-  },
-])
-const chatList = ref([
-  {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    time: new Date(),
-    userId: "1",
-    msg: "这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息",
-  },
-  {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    time: new Date(),
-    userId: "13",
-    msg: "这是一条测试消息这是",
-  },
-  {
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    time: new Date(),
-    userId: "1",
-    msg: "这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测试消息这是一条测",
-  }
-])
+let socket = null
+const summonerList = ref([])
+const chatList = ref([])
+
+console.log(userStore.gameAvatar);
+
 
 userStore.userInfo({
   mac: $tools.PC_MAC,
@@ -193,30 +79,57 @@ userStore.userInfo({
 }, false);
 
 
-userStore.environment = 'development'
-userStore.summonerName = 'test'
+onBeforeMount(() => {
+  socket = io(`http://localhost:3000?userId=${userStore.userId}&environment=${userStore.environment}&avatar=${userStore.gameAvatar}&summonerName=${userStore.summonerName}`, { transports: ['websocket'], autoConnect: true, reconnection: true, reconnectionAttempts: 3, });
 
-function sendMessage() {
-  chatList.value.push({
-    avatar: userStore.avatarUrl,
-    environment: "艾欧尼亚",
-    summonerName: "testtest1",
-    time: new Date(),
-    userId: "13",
-    msg: messageText.value,
+  socket.on('connect', function (connection) {
+    socket.emit('activeUser', '')
+    socket.emit('history', '')
   })
 
-  scrollbarRef.value.setScrollTop(999 * 999)
+  socket.on('message', function (data) {
+    chatList.value.push({ ...data.data, type: 'normal' })
+    scrollbarRef.value.setScrollTop(999 * 999)
+  })
 
+  socket.on('activeUser', function (data) {
+    summonerList.value = data.data
+  })
+
+  socket.on('history', function (data) {
+    let list = data.data
+    list.forEach(item  => {
+      item.type = 'normal'
+    });
+    console.log(list);
+    
+    chatList.value =list
+    scrollbarRef.value.setScrollTop(999 * 999)
+  })
+
+  socket.on('leave', function (data) {
+    chatList.value.push({ ...data, type: 'system' })
+    scrollbarRef.value.setScrollTop(999 * 999)
+  })
+
+  socket.on('join', function (data) {
+    chatList.value.push({ ...data, type: 'system' })
+    console.log(data);
+
+    scrollbarRef.value.setScrollTop(999 * 999)
+  })
+
+}),
+
+  onUnmounted(() => {
+    console.log('disconnect');
+    if (socket) socket.disconnect()
+  })
+
+function sendMessage() {
+  socket.emit('message', { msg: messageText.value })
+  scrollbarRef.value.setScrollTop(999999)
   messageText.value = ''
 }
 
-// const socket = io(`http://localhost:3000?userId=${userStore.userId}&environment=${userStore.environment}&avatar=${userStore.avatarUrl}&summonerName=${userStore.summonerName}`, { transports: ['websocket'], autoConnect: true, reconnection: true, reconnectionAttempts: 3, });
-// socket.on('connection', function (connection) {
-//   console.log('connection: ' + connection)
-// })
-
-// socket.on('message', function (data) {
-//   console.log('data: ' + data)
-// })
 </script>

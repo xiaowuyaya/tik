@@ -10,6 +10,7 @@ interface UserInfo {
   userId: string
   nickName: string
   avatarUrl: string
+  gameAvatar: string
   email: string
   phone: string
   environment: string
@@ -26,6 +27,7 @@ export const useUserStore = defineStore({
       username: '',
       userId: '',
       nickName: '',
+      gameAvatar: '',
       avatarUrl: '',
       email: '',
       phone: '',

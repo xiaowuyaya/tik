@@ -259,6 +259,7 @@ async function summonerDataInit(summonerName?: string) {
   currentSummoner.puuid = summoner.puuid
   currentSummoner.summonerLevel = summoner.summonerLevel
   currentSummoner.avatar = utils.getProfileIcon(summoner.profileIconId)
+  userStore.gameAvatar = summoner.profileIconId
 
   const environment = await $api.getEnvironment()
   currentSummoner.environment = utils.translate('environment', environment.environment)
