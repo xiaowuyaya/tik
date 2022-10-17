@@ -32,7 +32,8 @@
         <div class="flex mb-2 items-center">
           <div class="text-gray-500 text-sm">快捷输入：</div>
           <a-tag class="cursor-pointer" color="blue" bordered @click="addTextInfo(userStore.environment)">@我的大区</a-tag>
-          <a-tag class="ml-2 cursor-pointer" color="blue" bordered @click="addTextInfo(userStore.summonerName)">@我的id</a-tag>
+          <a-tag class="ml-2 cursor-pointer" color="blue" bordered @click="addTextInfo(userStore.summonerName)">@我的id
+          </a-tag>
         </div>
         <a-textarea v-model="messageText" :placeholder="`${userStore.environment} 灵活4=1， 师兄弟就来砍我`" :max-length="300"
           allow-clear show-word-limit :auto-size="{minRows:4,maxRows:4}" />
@@ -40,7 +41,8 @@
           <div>
             <div class="text-red-500" v-show="!userStore.environment || !userStore.summonerName">未获取到客户端信息，无法发送</div>
           </div>
-          <a-button class="" type="primary" size="medium" @click="sendMessage" :disabled="!userStore.environment || !userStore.summonerName">发送
+          <a-button class="" type="primary" size="medium" @click="sendMessage"
+            :disabled="!userStore.environment || !userStore.summonerName">发送
           </a-button>
         </div>
       </a-card>
@@ -83,12 +85,18 @@ userStore.userInfo({
   clientVersion: $tools.APP_VERSION,
 }, false);
 
+let KEEP_SOCKET_ALIVE = null;
+
 onBeforeMount(() => {
-  socket = io(`http://localhost:3000?userId=${userStore.userId}&environment=${userStore.environment}&avatar=${userStore.gameAvatar}&summonerName=${userStore.summonerName}`, { transports: ['websocket'], autoConnect: true, reconnection: true, reconnectionAttempts: 3, });
+  socket = io(`${$tools.ROOT_URI}?userId=${userStore.userId}&environment=${userStore.environment}&avatar=${userStore.gameAvatar}&summonerName=${userStore.summonerName}`, { transports: ['websocket'], autoConnect: true, reconnection: true, reconnectionAttempts: 3, });
 
   socket.on('connect', function (connection) {
     socket.emit('activeUser', '')
     socket.emit('history', '')
+
+    KEEP_SOCKET_ALIVE = setInterval(() => { // keep-alive
+      socket.emit('ping', '')
+    }, 10000)
   })
 
   socket.on('message', function (data) {
@@ -105,7 +113,7 @@ onBeforeMount(() => {
     list.forEach(item => {
       item.type = 'normal'
     });
-    console.log(list);
+    list = list.reverse()
 
     chatList.value = list
     scrollbarRef.value.setScrollTop(999 * 999)
@@ -127,15 +135,16 @@ onBeforeMount(() => {
 
   onUnmounted(() => {
     console.log('disconnect');
-    if (socket) socket.disconnect()
+    if (KEEP_SOCKET_ALIVE) clearInterval(KEEP_SOCKET_ALIVE)
+    if (socket) { socket.disconnect() }
   })
 
-function addTextInfo(text: string){
+function addTextInfo(text: string) {
   messageText.value = messageText.value + text
 }
 
 function sendMessage() {
-  if(messageText.value.length == 0) {
+  if (messageText.value.length == 0) {
     Message.error('发送内容不能为空。')
     return
   }

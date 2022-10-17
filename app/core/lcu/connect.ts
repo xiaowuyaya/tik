@@ -27,6 +27,7 @@ export async function http1Request(url: string, method: "GET" | "POST" | "PUT" |
     const credentials = $utils.cache.get('credentials')
     const r = await request(method, `https://127.0.0.1:${credentials.port}${url}`)
       .auth('riot', credentials.password) // 认证
+      .set('Connection', 'keep-alive')
       .send(data) //post请求参数
       .ca(credentials.certificate) // tls证书
     return r.body
@@ -68,7 +69,7 @@ export async function http2Request(url: string, method: "GET" | "POST" | "PUT" |
 export async function superagentRequest(url, method = 'GET') {
   try {
     const credentials = $utils.cache.get('credentials')
-    const r = await request(method, url).ca(credentials.certificate)
+    const r = await request(method, url).set('Connection', 'keep-alive').ca(credentials.certificate)
     return r.body
   } catch (err) {
     return null

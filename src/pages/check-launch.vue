@@ -20,21 +20,32 @@
     </div>
     <div v-show="!isClientLaunch" class="loading-title ld ld-dim" style="animation-duration:2.0s">正在等待游戏客户端启动...</div>
     <div v-show="isClientLaunch" class="loading-title">检测到客户端启动！</div>
-    <div class="loading-title-desc">请先以管理员方式运行助手后再启动登入英雄联盟客户端，如有问题请加群联系管理（群见官网）</div>
-    <div class="loading-title-desc">个人项目，如果你喜欢这个项目，不妨<span
-        class="px-1 text-red-500 cursor-pointer no-drag" @click="goDonate">赞助一下</span>开发者喝杯咖啡 </div>
+    <div class="loading-title-desc">请先以管理员方式运行助手后再启动登入英雄联盟客户端或<span class="px-1 text-red-500 cursor-pointer no-drag"
+        @click="router.push('/home')">强行进入</span>，如有问题请加群联系管理（群见官网）</div>
+    <div class="loading-title-desc">个人项目，如果你喜欢这个项目，不妨<span class="px-1 text-red-500 cursor-pointer no-drag"
+        @click="goDonate">赞助一下</span>开发者喝杯咖啡 </div>
     <div class="footer">Copyright © 2022-present XiaoWuYaYa & www.lol-tool.com Contributors</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ipcRenderer, shell } from "electron";
+import { getToken } from "../utils";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 
 const isClientLaunch = ref(false)
 
 ipcRenderer.on('keep-alive', (data) => {
   isClientLaunch.value = true
+  const token = getToken()
+  if (token) {
+    router.push({ name: 'home' })
+  } else {
+    router.push({ name: 'login' })
+  }
 })
 
 function goHome() {

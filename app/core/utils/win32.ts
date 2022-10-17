@@ -41,7 +41,7 @@ export function sendStringInProgress(msg: string){
       return
     }
     dm.setWindowState(hwnd1, 1)
-    dm.setKeypadDelay('normal', 100)
+    dm.setKeypadDelay('normal', 200)
     dm.keyPress(13)
     dm.sendString(hwnd1, `${msg}`)
     dm.keyPress(13)

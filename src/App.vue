@@ -5,29 +5,32 @@ import { getToken } from './utils/auth'
 import { ipcRenderer } from 'electron';
 
 const router = useRouter()
+const credentials = $utils.cache.get('credentials')
 
 useConfigStore().init()
 
-/* 判断是否已经登入 */
-if (
-  window.location.href.indexOf('/champ-tool/rune') === -1 &&
-  window.location.href.indexOf('/champ-tool/spells') === -1
-) {
-  const token = getToken()
+/* 判断游戏是否已经启动 */
+if (!credentials) {
+  router.push({ name: 'check_launch' })
+} else {
+  /* 判断是否已经登入 */
+  if (
+    window.location.href.indexOf('/champ-tool/rune') === -1 &&
+    window.location.href.indexOf('/champ-tool/spells') === -1
+  ) {
+    const token = getToken()
 
-  if (token) {
-    router.push({ name: 'home' })
-  } else {
-    router.push({ name: 'login' })
+    if (token) {
+      router.push({ name: 'check_launch' })
+    } else {
+      router.push({ name: 'login' })
+    }
   }
 }
 
 /* 客户端启动 */
 ipcRenderer.on('keep-alive', (data) => {
-  router.push({ name: 'home' })
-
   setTimeout(() => { }, 1500);
-
   setInterval(async () => {
     const h2 = await $api.getGameStatus()
     const h1 = await $api.getGameStatusHttp1()

@@ -2,6 +2,7 @@ import { createClient, createWebsocket } from "./connect";
 import { app, BrowserWindow } from 'electron'
 import * as service from './service'
 import _ from 'lodash'
+import { GameEvent } from "./event";
 
 export async function createClientListen() {
   const client = createClient()
@@ -27,7 +28,7 @@ export async function createWebsocketListen(mainWindow: BrowserWindow) {
   global.ws = ws // 保持单例
 
   /* SERVICE BEGIN */
-
+  const gameEvent = new GameEvent()
   const summonerInfo: any = await $api.getCurrentSummoner()
   if (!summonerInfo) {
     $tools.log.error(`[monitor] get summoner info failed, createWebsocketListen fail`)
@@ -66,8 +67,10 @@ export async function createWebsocketListen(mainWindow: BrowserWindow) {
     }
 
     if (data === 'InProgress') {
-      // 隐藏符文导入窗口
+      /* 隐藏符文导入窗口 */
       championRuneWindow.hide()
+      /* 自动禁言处理 */
+      gameEvent.handleMuteAll()
     }
   })
 

@@ -112,6 +112,13 @@ export async function getGameStatusInfo() {
   return await superagentRequest(`https://127.0.0.1:2999/liveclientdata/gamestats`)
 }
 
+/**
+ * 获取游戏中状态信息（当游戏状态处于inProgress）
+ */
+export async function getGameEventdata() {
+  return await superagentRequest(`https://127.0.0.1:2999/liveclientdata/eventdata`)
+}
+
 export async function sendMsgInChampSelect(type: 'ALL' | 'SELF', msg: string) {
   const chatId = await getConversationsId()
   const summoner: any = await getCurrentSummoner()
