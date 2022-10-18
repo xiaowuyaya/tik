@@ -19,6 +19,7 @@ export async function createClientListen() {
 
 export async function createWebsocketListen(mainWindow: BrowserWindow) {
   const championRuneWindow = BrowserWindow.fromId($utils.cache.get('window:rune'))
+  const spellHandleWindow = BrowserWindow.fromId($utils.cache.get('window:spell'))
   if (!mainWindow || !championRuneWindow) {
     $tools.log.error(`[monitor] browser window object get null, createWebsocketListen fail`)
     return
@@ -39,6 +40,7 @@ export async function createWebsocketListen(mainWindow: BrowserWindow) {
   ws.subscribe('/lol-gameflow/v1/gameflow-phase', async (data, _event) => {
     /* 状态转发到渲染进程 */
     mainWindow.webContents.send('player-status', data)
+    spellHandleWindow.webContents.send('player-status', data)
 
     if (data === 'Matchmaking') return
 

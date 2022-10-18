@@ -1,4 +1,4 @@
-import { app, dialog, nativeImage } from "electron";
+import { app, BrowserWindow, dialog, nativeImage } from "electron";
 import path from 'path'
 import fs from 'fs'
 import winax from 'winax'
@@ -55,6 +55,22 @@ export function windowKeepTop(windowTitle: string){
   if (!hwnd1) return
   dm.setWindowState(hwnd1, 8)
 }
+
+export function sendSpellsInfo ( championName: string, summonerName: string, spellName: string, cooldownBurn: number, curTime: string) {
+  const spellWindow = BrowserWindow.fromId($utils.cache.get('window:spell'))
+  const hwnd1 = dm.findWindow('', spellWindow.title)
+  if (!hwnd1) return
+  dm.setWindowState(hwnd1, 9)
+  spellWindow.hide()
+  sendStringInProgress(`${championName}:${summonerName} 已使用 ${spellName}, 技能将在${curTime} 冷却完毕`)
+  setTimeout(() => {
+    sendStringInProgress(`${championName}:${summonerName} 的 ${spellName}冷却时间还剩 30秒`)
+  }, (cooldownBurn - 30) * 1000)
+  setTimeout(() => {
+    sendStringInProgress(`${championName}:${summonerName} 的 ${spellName}已转好`)
+  }, cooldownBurn * 1000)
+}
+
 
 export function fsExistsSync(path: string) {
   try {

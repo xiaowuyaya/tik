@@ -91,6 +91,14 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () => import('../pages/championTool/rune.vue')
   },
+  {
+    path: '/champ-tool/spells',
+    name:'champ-tool-spell',
+    meta: {
+      title: 'tik 手动技能计时'
+    },
+    component: () => import('../pages/championTool/spells.vue')
+  },
 ]
 
 const router = createRouter({

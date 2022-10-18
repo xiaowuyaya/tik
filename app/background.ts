@@ -2,7 +2,7 @@ import { exec } from 'child_process'
 import { app, BrowserWindow, Tray, dialog, nativeImage } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
-import { checkUpdate, createAppTray, createChampionRuneWindow } from './common'
+import { checkUpdate, createAppTray, createChampionRuneWindow, createSpellHandleWindow } from './common'
 import { createMainWindow } from './common'
 import { createCredentialsService } from './core/lcu'
 
@@ -30,10 +30,8 @@ app.on('ready', async () => {
   checkGameClient()
   /* 创建托盘图标 */
   tray = await createAppTray()
-  /* 创建主窗口 */
-  mainWin = await createMainWindow()
-  /* 创建符文窗口 */
-  await createChampionRuneWindow()
+  /* 创建窗口 */
+  await createAllWindow()
   /* 检查更新 */
   await checkUpdate(mainWin)
   /* 启用lcu服务（当客户端启动时候在启用某些符文） */
@@ -64,6 +62,16 @@ app.on('activate', async () => {
     mainWin = await createMainWindow()
   }
 })
+
+/* 创建所有窗口 */
+async function createAllWindow() {
+  /* 创建主窗口 */
+  mainWin = await createMainWindow()
+  /* 创建符文窗口 */
+  await createChampionRuneWindow()
+  /* 创建技能监听窗口 */
+  await createSpellHandleWindow()
+}
 
 function checkGameClient() {
   $tools.log.info('[checkGameClient] 正在检查游戏是否已经启动')

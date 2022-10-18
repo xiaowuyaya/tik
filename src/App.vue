@@ -9,10 +9,11 @@ const credentials = $utils.cache.get('credentials')
 
 useConfigStore().init()
 
+/* TODO: */
 /* 判断游戏是否已经启动 */
-if (!credentials) {
-  router.push({ name: 'check_launch' })
-} else {
+// if (!credentials) {
+//   router.push({ name: 'check_launch' })
+// } else {
   /* 判断是否已经登入 */
   if (
     window.location.href.indexOf('/champ-tool/rune') === -1 &&
@@ -26,7 +27,7 @@ if (!credentials) {
       router.push({ name: 'login' })
     }
   }
-}
+// }
 
 /* 客户端启动 */
 ipcRenderer.on('keep-alive', (data) => {
