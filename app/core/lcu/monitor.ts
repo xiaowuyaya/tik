@@ -152,7 +152,7 @@ export async function createWebsocketListen(mainWindow: BrowserWindow) {
 
 let LAST_SELECT_CHAMPION_ID = 0
 const showDataInChampionToolRune = (data: any, summonerId: string, champToolWin: BrowserWindow) => {
-  if (data.timer.phase != 'BAN_PICK' || ! $store.appStore.get('app.showChampTool')) return
+  if (data.timer.phase != 'BAN_PICK' || !$store.appStore.get('app.showChampTool')) return
 
   let cellId
   let position

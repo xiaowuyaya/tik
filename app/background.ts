@@ -34,11 +34,8 @@ app.on('ready', async () => {
   await createAllWindow()
   /* 检查更新 */
   await checkUpdate(mainWin)
-  /* 启用lcu服务（当客户端启动时候在启用某些符文） */
+  /* 启用lcu服务（当客户端启动时候在启用相关依赖服务） */
   await createCredentialsService(mainWin)
-  /* 创建快捷键监听 */
-  const { createHotKeyListen } = require('./core/hotKey') // 延迟加载 防止dialog在app-ready前加载
-  await createHotKeyListen()
 })
 
 app.on('window-all-closed', () => {

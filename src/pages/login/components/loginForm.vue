@@ -61,7 +61,13 @@ const onSubmit = async () => {
   try {
     await userStore.userLogin(formState);
     setTimeout(() => {
-      router.push({ name: "home" });
+      const credentials = $utils.cache.get('credentials')
+      if (credentials) {
+        router.push({ name: "home" });
+      }else {
+        router.push({ name: "check_launch" });
+      }
+      
     }, 1000);
   } catch (err) {
     await getCaptchaImg();

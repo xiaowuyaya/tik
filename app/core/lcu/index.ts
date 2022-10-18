@@ -39,6 +39,9 @@ export async function createCredentialsService(mainWindow: BrowserWindow) {
         await createClientListen()
         /* 创建websocket监听 */
         await createWebsocketListen(mainWindow)
+        /* 创建快捷键监听 */
+        const { createHotKeyListen } = require('../hotKey') // 延迟加载 防止dialog在app-ready前加载
+        await createHotKeyListen()
 
         isLaunch = true
         /* keep-alive */
