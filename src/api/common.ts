@@ -1,8 +1,8 @@
-import { http } from "../utils";
+import { http } from "@/utils/request";
 
 /**
  * 获取验证码
- * @returns 
+ * @returns
  */
 export function getCaptcha(){
   return http.request({

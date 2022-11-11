@@ -1,5 +1,5 @@
 
-import { addBlacklist, CreatBlacklist, deleteBlacklist, DeleteBlacklist, getAllBlacklist } from '../api/blacklist'
+import { addBlacklist, CreatBlacklist, deleteBlacklist, DeleteBlacklist, getAllBlacklist } from '@/api/blacklist'
 import { defineStore } from 'pinia'
 import { Message } from '@arco-design/web-vue'
 

@@ -1,4 +1,4 @@
-import { http } from "../utils";
+import { http } from "@/utils/request";
 
 export interface CreatBlacklist {
   summonerName?: string;
@@ -29,7 +29,7 @@ export interface pageBlacklist {
 
 /**
  * 添加黑名单成员
- * @returns 
+ * @returns
  */
 export function addBlacklist(data: CreatBlacklist) {
   return http.request({
@@ -41,7 +41,7 @@ export function addBlacklist(data: CreatBlacklist) {
 
 /**
  * 更新黑名单成员
- * @returns 
+ * @returns
  */
 export function updateBlacklist(data: UpdateBlacklist) {
   return http.request({
@@ -53,7 +53,7 @@ export function updateBlacklist(data: UpdateBlacklist) {
 
 /**
  * 删除
- * @returns 
+ * @returns
  */
 export function deleteBlacklist(data: DeleteBlacklist) {
   return http.request({
@@ -65,7 +65,7 @@ export function deleteBlacklist(data: DeleteBlacklist) {
 
 /**
  * 分页查询
- * @returns 
+ * @returns
  */
 export function pageBlacklist(data: pageBlacklist) {
   return http.request({
@@ -77,7 +77,7 @@ export function pageBlacklist(data: pageBlacklist) {
 
 /**
  * 获取当前账号下所有的黑名单信息
- * @returns 
+ * @returns
  */
 export function getAllBlacklist() {
   return http.request({

@@ -1,6 +1,9 @@
 import axios, {AxiosInstance, AxiosRequestConfig} from 'axios'
 import { Message, Modal } from '@arco-design/web-vue';
 import { getToken, removeToken } from './auth'
+import { useAppStore } from '@/store/app';
+
+const appStore = useAppStore()
 
 // 接口类型和方法
 interface BaseType {
@@ -43,7 +46,7 @@ class AxiosHttpRequest implements BaseType {
   timeout: number
 
   constructor() {
-    this.baseURL = $tools.ROOT_URI
+    this.baseURL = $consts.ROOT_URI
     this.timeout = 15000
   }
 
@@ -122,7 +125,7 @@ class AxiosHttpRequest implements BaseType {
             simple: true,
             async onOk() {
               removeToken()
-              window.location.reload();
+              appStore.NEED_LOGIN = true
             },
           });
         }

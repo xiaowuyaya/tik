@@ -1,4 +1,4 @@
-import { http } from "../utils";
+import { http } from "@/utils/request";
 
 export interface CreateClientUser {
   username: string;
@@ -36,7 +36,7 @@ export interface updateClientUserInfoDto {
 
 /**
  * 用户注册
- * @returns 
+ * @returns
  */
 export function register(data: CreateClientUser) {
   return http.request({
@@ -48,8 +48,8 @@ export function register(data: CreateClientUser) {
 
 /**
  * 用户登陆
- * @param data 
- * @returns 
+ * @param data
+ * @returns
  */
 export function login(data: LoginClientUserDto) {
   return http.request({
@@ -61,8 +61,8 @@ export function login(data: LoginClientUserDto) {
 
 /**
  * 获取我的个人信息
- * @param data 
- * @returns 
+ * @param data
+ * @returns
  */
 export function getMyInfo(data: MyInfoDto) {
   return http.request({
@@ -74,8 +74,8 @@ export function getMyInfo(data: MyInfoDto) {
 
 /**
  * 更新
- * @param data 
- * @returns 
+ * @param data
+ * @returns
  */
 export function updateUserInfo(data: updateClientUserInfoDto){
   return http.request({

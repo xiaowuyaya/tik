@@ -1,103 +1,71 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/check_launch'
+    redirect: '/home'
   },
   {
     path: '/check_launch',
     name: 'check_launch',
-    component: () => import('../pages/check-launch.vue')
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('../pages/login/index.vue')
+    component: () => import('@/pages/loading.vue')
   },
   {
     path: '/main',
     name: 'main',
-    component: () => import('../pages/layout/layout.vue'),
+    component: () => import('@/components/Layout/index.vue'),
     children: [
       {
         path: '/account',
         name: 'account',
-        component: () => import('../pages/main/account.vue')
-      },
-      {
-        path: '/func',
-        name: 'func',
-        // meta: { keepAlive: true },
-        component: () => import('../pages/main/func.vue')
-      },
-      {
-        path: '/search-content',
-        name: 'search-content',
-        component: () => import('../components/history/BaseContent.vue')
-      },
-      {
-        path: '/matches-datail',
-        name: 'matches-datail',
-        component: () => import('../components/history/MatchesDetail.vue')
-      },
-      {
-        path: '/history',
-        name: 'history',
-        component: () => import('../pages/main/history.vue')
+        component: () => import('@/pages/main/account.vue')
       },
       {
         path: '/home',
         name: 'home',
-        component: () => import('../pages/main/home.vue')
+        component: () => import('@/pages/main/home.vue')
+      },
+      {
+        path: '/func',
+        name: 'func',
+        component: () => import('@/pages/main/func.vue')
       },
       {
         path: '/panel',
         name: 'panel',
-        component: () => import('../pages/main/panel.vue')
-      },
-      {
-        path: '/setting',
-        name: 'setting',
-        component: () => import('../pages/main/setting.vue')
+        component: () => import('@/pages/main/panel.vue')
       },
       {
         path: '/blacklist',
         name: 'blacklist',
-        component: () => import('../pages/main/blacklist.vue')
+        component: () => import('@/pages/main/blacklist.vue')
+      },
+      {
+        path: '/history',
+        name: 'history',
+        component: () => import('@/pages/main/history.vue')
       },
       {
         path: '/chat',
         name: 'chat',
-        component: () => import('../pages/main/chat.vue')
+        component: () => import('@/pages/main/chat.vue')
       },
       {
-        path: '/champdata',
-        name: 'champdata',
-        component: () => import('../pages/main/champData.vue')
+        path: '/search-content',
+        name: 'search-content',
+        component: () => import('@/components/history/SummonerInfo.vue')
       },
       {
-        path: '/champ-datail',
-        name: 'champ-datail',
-        component: () => import('../components/champData/ChampDetail.vue')
-      }
+        path: '/matches-datail',
+        name: 'matches-datail',
+        component: () => import('@/components/history/MatchesDetail.vue')
+      },
+      {
+        path: '/setting',
+        name: 'setting',
+        component: () => import('@/pages/main/settings.vue')
+      },
     ]
-  },
-  {
-    path: '/champ-tool/rune',
-    name:'champ-tool-rune',
-    meta: {
-      title: 'TIK RUNE'
-    },
-    component: () => import('../pages/championTool/rune.vue')
-  },
-  {
-    path: '/champ-tool/spells',
-    name:'champ-tool-spell',
-    meta: {
-      title: 'tik 手动技能计时'
-    },
-    component: () => import('../pages/championTool/spells.vue')
   },
 ]
 

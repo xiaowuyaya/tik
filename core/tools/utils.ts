@@ -1,0 +1,313 @@
+/**
+ * 工具类
+ */
+
+import _ from "lodash"
+import { ddragonStore } from "./store"
+import ffi from 'ffi-napi'
+import { app } from "electron";
+import path from "path";
+
+/**
+ * 在游戏内发送文本内容
+ * @param msg
+ */
+export function sendMsgInLeagueGame(msg: string) {
+  const dll = new ffi.Library($consts.LEAGUE_GAME_HANDLE_DLL, {
+    sendMsg: ['int', ['string']]
+  })
+  const execRes = dll.sendMsg(encodeURI(msg))
+  if (execRes == 0) {
+    $log.error(`[utils] sendMsgInLeagueGame fail`)
+  }
+  $log.info(`[utils] sendMsgInLeagueGame success.`)
+
+  return execRes
+}
+
+/**
+ * 中文转译
+ * @param type 
+ * @param key 
+ * @returns 
+ */
+export function translate(type: string, key: any): string {
+  const config = GAME_MODE_CONSTS[type]
+  /* 对queue模式枚举未进行转译的 固定返回值 */
+  if (type == 'queue') {
+    if (!hasChinese(config[key])) {
+      return '未知'
+    }
+  }
+  return config[key]
+}
+
+/**
+ * 是否包含中文
+ */
+export function hasChinese(str: string) {
+  return /[\u4E00-\u9FA5]+/g.test(str)
+}
+
+/**
+ * 获取召唤师头像图片地址
+ */
+export function getProfileIcon(profileIcon: string | number) {
+  return `https://wegame.gtimg.com/g.26-r.c2d3c/helper/lol/assis/images/resources/usericon/${profileIcon}.png`
+}
+
+/**
+ * 通过英雄id获取头像
+ */
+export function getChampionAvatarById(championId: string | number) {
+  try {
+    const data: any = ddragonStore.get('ddragon.champions')
+    const key = _.findKey(data, { championId: `${championId}` }) as string
+    const enName = data[key].enName
+    return `https://game.gtimg.cn/images/lol/act/img/champion/${enName}.png`
+  } catch (err) {
+    return `https://wegame.gtimg.com/g.26-r.c2d3c/helper/lol/assis/images/resources/usericon/29.png`
+  }
+}
+
+/**
+ * 通过英雄英文名获取头像 
+ */
+export function getChampionAvatarByEnName(enName: string) {
+  return `https://game.gtimg.cn/images/lol/act/img/champion/${enName}.png`
+}
+
+/**
+ * 通过英雄中文名获取头像
+ */
+export function getChampionAvatarByCnName(cnName: string) {
+  try {
+    const data: any = ddragonStore.get('ddragon.champions')
+    const enName = data[cnName].enName
+    return `https://game.gtimg.cn/images/lol/act/img/champion/${enName}.png`
+  } catch (err) {
+    return `https://wegame.gtimg.com/g.26-r.c2d3c/helper/lol/assis/images/resources/usericon/29.png`
+  }
+}
+
+/**
+ * 获取装备图片
+ */
+export function getItemsAvatarById(id: string | number) {
+  return `https://game.gtimg.cn/images/lol/act/img/item/${id}.png`
+}
+
+/**
+ * 获取召唤师技能信息
+ */
+export function getSpellInfoByName(spellName: string) {
+  const data: any = ddragonStore.get('ddragon.spells')
+  const key = _.findKey(data, { name: `${spellName}` }) as string
+  return data[key]
+}
+
+const GAME_MODE_CONSTS = {
+  position: {
+    bottom: '下路',
+    jungle: '打野',
+    middle: '中单',
+    support: '辅助',
+    top: '上单',
+  },
+  status: {
+    inQueue: '队列中',
+    inGame: '游戏中',
+    GameStart: '正在启动游戏',
+    championSelect: '正在选择英雄',
+    outOfGame: '正在退出游戏',
+    hosting_NORMAL: '匹配组队中-队长',
+    hosting_RANKED_SOLO_5x5: '单排组队中-队长',
+    hosting_RANKED_FLEX_SR: '组排组队中-队长',
+    hosting_ARAM_UNRANKED_5x5: '大乱斗5v5组队中-队长',
+    hosting_URF: '无限火力组队中-队长',
+    hosting_BOT: '人机组队中-队长',
+    ChampSelect: '正在选择英雄',
+    ReadyCheck: '等待接受对局',
+    InProgress: '游戏中',
+    Matchmaking: '正在寻找对局',
+    Lobby: '在房间中',
+    None: '在大厅发呆',
+  },
+  game: {
+    CLASSIC: '经典模式',
+    ARAM: '大乱斗',
+    TFT: '云顶之弈',
+    URF: '无限火力',
+    PRACTICETOOL: '自定义',
+  },
+  match: {
+    NORMAL: '匹配',
+    RANKED_SOLO_5x5: '单双排',
+    RANKED_FLEX_SR: '组排',
+    ARAM_UNRANKED_5x5: '大乱斗5v5',
+    URF: '无限火力',
+    BOT: '人机',
+    PRACTICETOOL: '自定义',
+  },
+  rank: {
+    NONE: '无',
+    IRON: '黑铁',
+    BRONZE: '青铜',
+    SILVER: '白银',
+    GOLD: '黄金',
+    PLATINUM: '白金',
+    DIAMOND: '钻石',
+    MASTER: '大师',
+    GRANDMASTER: '宗师',
+    CHALLENGER: '王者',
+  },
+  environment: {
+    HN1: '艾欧尼亚',
+    HN2: '祖安',
+    HN3: '诺克萨斯',
+    HN4: '班德尔城',
+    HN5: '皮尔特沃夫',
+    HN6: '战争学院',
+    HN7: '巨神峰 ',
+    HN8: '雷瑟守备',
+    HN9: '裁决之地',
+    HN10: '黑色玫瑰',
+    HN11: '暗影岛',
+    HN12: '钢铁烈阳 ',
+    HN13: '水晶之痕',
+    HN14: '均衡教派',
+    HN15: '影流',
+    HN16: '守望之海',
+    HN17: '征服之海',
+    HN18: '卡拉曼达',
+    HN19: '皮城警备',
+    WT1: '比尔吉沃特',
+    WT2: '德玛西亚',
+    WT3: '弗雷尔卓德',
+    WT4: '无畏先锋',
+    WT5: '恕瑞玛',
+    WT6: '扭曲丛林',
+    WT7: '巨龙之巢',
+    HN1_NEW: '艾欧尼亚',
+    HN2_NEW: '祖安',
+    HN3_NEW: '诺克萨斯',
+    HN4_NEW: '班德尔城',
+    HN5_NEW: '皮尔特沃夫',
+    HN6_NEW: '战争学院',
+    HN7_NEW: '巨神峰 ',
+    HN8_NEW: '雷瑟守备',
+    HN9_NEW: '裁决之地',
+    HN10_NEW: '黑色玫瑰',
+    HN11_NEW: '暗影岛',
+    HN12_NEW: '钢铁烈阳 ',
+    HN13_NEW: '水晶之痕',
+    HN14_NEW: '均衡教派',
+    HN15_NEW: '影流',
+    HN16_NEW: '守望之海',
+    HN17_NEW: '征服之海',
+    HN18_NEW: '卡拉曼达',
+    HN19_NEW: '皮城警备',
+    WT1_NEW: '比尔吉沃特',
+    WT2_NEW: '德玛西亚',
+    WT3_NEW: '弗雷尔卓德',
+    WT4_NEW: '无畏先锋',
+    WT5_NEW: '恕瑞玛',
+    WT6_NEW: '扭曲丛林',
+    WT7_NEW: '巨龙之巢',
+    BGP1: '男爵领域,',
+  }, // 地图id转描述
+  queue: {
+    0: '训练模式',
+    2: '匹配模式',
+    4: '单双排',
+    6: '5v5 Ranked Premade games',
+    7: 'Co-op vs AI games',
+    8: '3v3 Normal games',
+    9: '3v3 Ranked Flex games',
+    14: '5v5 Draft Pick games',
+    16: '5v5 Dominion Blind Pick games',
+    17: '5v5 Dominion Draft Pick games',
+    25: 'Dominion Co-op vs AI games',
+    31: '人机对战',
+    32: '人机对战',
+    33: '人机对战',
+    41: '3v3 Ranked Team games',
+    42: '5v5 Ranked Team games',
+    52: 'Co-op vs AI games',
+    61: '5v5 Team Builder games',
+    65: '极地乱斗',
+    67: 'ARAM Co-op vs AI games',
+    70: '克隆作战',
+    72: '1v1 Snowdown Showdown games',
+    73: '2v2 Snowdown Showdown games',
+    75: '6v6 Hexakill games',
+    76: 'Ultra Rapid Fire games',
+    78: 'One For All: Mirror Mode games',
+    83: 'Co-op vs AI Ultra Rapid Fire games',
+    91: 'Doom Bots Rank 1 games',
+    92: 'Doom Bots Rank 2 games',
+    93: 'Doom Bots Rank 5 games',
+    96: 'Ascension games',
+    98: '6v6 Hexakill games',
+    100: '极地乱斗',
+    300: 'Legend of the Poro King games',
+    310: 'Nemesis games',
+    313: 'Black Market Brawlers games',
+    315: 'Nexus Siege games',
+    317: 'Definitely Not Dominion games',
+    318: '火力',
+    325: 'All Random games',
+    400: '5v5 Draft Pick games',
+    410: '5v5 Ranked Dynamic games',
+    420: '单双排',
+    430: '匹配模式',
+    440: '灵活组排',
+    450: '极地乱斗',
+    460: '3v3 Blind Pick games',
+    470: '3v3 Ranked Flex games',
+    600: 'Blood Hunt Assassin games',
+    610: 'Dark Star: Singularity games',
+    700: 'Clash games',
+    800: '人机', //'Co-op vs. AI Intermediate Bot games',
+    810: '人机', //'Co-op vs. AI Intro Bot games',
+    820: '人机', //'Co-op vs. AI Beginner Bot games',
+    830: '人机', //'Co-op vs. AI Intro Bot games',
+    840: '人机', //'Co-op vs. AI Beginner Bot games',
+    850: '人机', //'Co-op vs. AI Intermediate Bot games',
+    900: '无限火力',
+    910: 'Ascension games',
+    920: 'Legend of the Poro King games',
+    940: 'Nexus Siege games',
+    950: 'Doom Bots Voting games',
+    960: 'Doom Bots Standard games',
+    980: 'Star Guardian Invasion: Normal games',
+    990: 'Star Guardian Invasion: Onslaught games',
+    1000: 'PROJECT: Hunters games',
+    1010: 'Snow 无限火力',
+    1020: '克隆模式',
+    1030: 'Odyssey Extraction: Intro games',
+    1040: 'Odyssey Extraction: Cadet games',
+    1050: 'Odyssey Extraction: Crewmember games',
+    1060: 'Odyssey Extraction: Captain games',
+    1070: 'Odyssey Extraction: Onslaught games',
+    1090: 'Teamfight Tactics games',
+    1100: 'Ranked Teamfight Tactics games',
+    1110: 'Teamfight Tactics Tutorial games',
+    1111: 'Teamfight Tactics test games',
+    1200: 'Nexus Blitz games',
+    1300: 'Nexus Blitz games',
+    1400: '终极魔典',
+    1900: '无限火力', // Pick URF games
+    2000: 'Tutorial 1',
+    2010: 'Tutorial 2',
+    2020: 'Tutorial 3',
+  },
+
+  opggPosition: {
+    TOP: '上单',
+    JUNGLE: '打野',
+    MID: '中单',
+    ADC: 'ad',
+    SUPPORT: '辅助',
+  },
+}

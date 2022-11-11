@@ -4,6 +4,7 @@ interface ConfigType {
   "rememberQuit": boolean,
   "quitMethod": number | string,
   "sendTogetherGame": boolean,
+  "autoTheme": boolean,
   "gameClient": {
     "gameClientFilePath": string,
     "gameType": number
@@ -58,6 +59,7 @@ export const useConfigStore = defineStore({
     return {
       "rememberQuit": false,
       "quitMethod": 0,
+      "autoTheme": true,
       "sendTogetherGame": false,
       "gameClient": {
         "gameClientFilePath": "",
@@ -117,6 +119,9 @@ export const useConfigStore = defineStore({
     },
     save() {
       $store.appStore.set('app', this.$state)
+    },
+    set(key: string, data: any){
+      $store.appStore.set(key, data)
     }
   }
 })

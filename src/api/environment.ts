@@ -1,4 +1,4 @@
-import { http } from "../utils";
+import { http } from "@/utils/request";
 
 export interface CreateEnvironmentDto {
   environment: string;
@@ -7,7 +7,7 @@ export interface CreateEnvironmentDto {
 }
 
 
- export function add(data: CreateEnvironmentDto){
+export function add(data: CreateEnvironmentDto){
   return http.request({
     url: '/environment/add',
     method: 'POST',

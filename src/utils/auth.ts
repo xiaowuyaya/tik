@@ -1,4 +1,4 @@
-export const TOKEN_KEY = 'TOKEN'
+export const TOKEN_KEY = 'TIK_TOKEN'
 
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY) || null

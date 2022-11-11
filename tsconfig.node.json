@@ -8,5 +8,5 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["package.json", "app", "types"]
+  "include": ["package.json", "core", "types"]
 }

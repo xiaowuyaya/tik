@@ -1,9 +1,11 @@
 import { defineStore } from "pinia"
 import { Message, Modal } from '@arco-design/web-vue'
-import { removeToken, setToken } from '../utils/auth';
-import { createVNode } from 'vue';
-import { add, CreateEnvironmentDto } from '../api/environment';
-import { getMyInfo, login, LoginClientUserDto, MyInfoDto, updateUserInfo } from './../api/user';
+import { removeToken, setToken } from '@/utils/auth';
+import { add, CreateEnvironmentDto } from '@/api/environment';
+import { getMyInfo, login, LoginClientUserDto, MyInfoDto, updateUserInfo } from '@/api/user';
+import {useAppStore} from "@/store/app";
+
+const appStore = useAppStore()
 
 interface UserInfo {
   username: string
@@ -51,6 +53,8 @@ export const useUserStore = defineStore({
       this.wxOpenId = userinfo.wxOpenId
       Message.success('登入成功，数据加载中...')
       setToken(token)
+      appStore.NEED_LOGIN = false
+      window.location.reload()
     },
     userLogout() {
       Modal.error({
@@ -63,6 +67,7 @@ export const useUserStore = defineStore({
         hideCancel: false,
         async onOk() {
           removeToken()
+          appStore.NEED_LOGIN = true
           window.location.reload()
         },
         onClose() {},

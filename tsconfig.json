@@ -8,13 +8,15 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "sourceMap": true,
-    "baseUrl": "./",
-    "strict": false,
-    "paths": {},
+    "baseUrl": ".",
+    "paths":{
+      "@/*": ["src/*"]
+    },
+    "strict": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["src", "types"],
+  "include": ["src","types"],
   "references": [
     { "path": "./tsconfig.node.json" }
   ]

@@ -106,8 +106,8 @@
     </a-card>
     <!-- ban reson show -->
     <a-modal v-model:visible="showBanReason" :title="`${banReasonInfo.banName}的拉黑原因`">
-     <div class="w-full">
-      <a-tag class="m-2" bordered size="large" color="blue" v-for="(item, index) in banReasonInfo.reasons" :key="index">{{item}}</a-tag></div>
+      <div class="w-full">
+        <a-tag class="m-2" bordered size="large" color="blue" v-for="(item, index) in banReasonInfo.reasons" :key="index">{{item}}</a-tag></div>
     </a-modal>
     <!-- 备份文件导入提醒 -->
     <a-modal v-model:visible="showImportBak" @ok="inputData" ok-text="开始导入">
@@ -286,38 +286,35 @@ const handleDeleteBlacklist = async (record: any) => {
 }
 
 const inputData = async () => {
-  // console.log("blacklist.inputData");
-  
-  const importResp = await ipcRenderer.invoke('main-import-blacklist')
-  console.log(importResp);
-  
-  if (importResp.code == 200) {
-    for (var i = 0; i < importResp.data.length; i++) {
-      await blacklistStore.add({
-        environment: importResp.data[i].environment,
-        summonerId: '',
-        summonerName: importResp.data[i].summonerName,
-        banName: importResp.data[i].blackName,
-        reason: importResp.data[i].reason,
-      })
-    }
-    Message.success({
-      content: `读取黑名单备份文件成功`,
-      duration: 3 * 1000,
-    })
-  } else {
-    Message.error({
-      content: `读取黑名单备份文件失败:${importResp.msg}`,
-      duration: 3 * 1000,
-    })
-  }
+  Message.info(`鉴于该功能使用次数过少，取消该功能，如有需要请联系开发者手动导入`)
+  // const importResp = await ipcRenderer.invoke('main-import-blacklist')
+  // if (importResp.code == 200) {
+  //   for (var i = 0; i < importResp.data.length; i++) {
+  //     await blacklistStore.add({
+  //       environment: importResp.data[i].environment,
+  //       summonerId: '',
+  //       summonerName: importResp.data[i].summonerName,
+  //       banName: importResp.data[i].blackName,
+  //       reason: importResp.data[i].reason,
+  //     })
+  //   }
+  //   Message.success({
+  //     content: `读取黑名单备份文件成功`,
+  //     duration: 3 * 1000,
+  //   })
+  // } else {
+  //   Message.error({
+  //     content: `读取黑名单备份文件失败:${importResp.msg}`,
+  //     duration: 3 * 1000,
+  //   })
+  // }
 }
 
 const showBanerReason = async(banName: string) => {
   const res =  await getReasonByBanName(banName)
   banReasonInfo.banName = banName
   banReasonInfo.reasons = res.data
-  
+
   showBanReason.value = true
 }
 

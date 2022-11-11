@@ -5,18 +5,18 @@
       <a-form :model="userStore" :style="{ width: '600px' }">
         <a-form-item>
           <a-upload :action="uploadReq.url" :headers="uploadReq.headers as any" :fileList="file ? [file] : [] as any"
-            accept="image/png, image/jpeg, image/gif" :show-file-list="false" @success="handleAvatarSuccess"
-            @error="handleAvatarError">
+                    accept="image/png, image/jpeg, image/gif" :show-file-list="false" @success="handleAvatarSuccess"
+                    @error="handleAvatarError">
             <template #upload-button>
               <div
-                :class="`arco-upload-list-item${file && file.status === 'error' ? ' arco-upload-list-item-error' : ''}`">
+                  :class="`arco-upload-list-item${file && file.status === 'error' ? ' arco-upload-list-item-error' : ''}`">
                 <div class="arco-upload-list-picture custom-upload-avatar" v-if="file && file.url">
                   <img :src="file.url" />
                   <div class="arco-upload-list-picture-mask">
                     <IconEdit />
                   </div>
                   <a-progress v-if="file.status === 'uploading' && file.percent < 100" :percent="file.percent"
-                    type="circle" size="mini" :style="{
+                              type="circle" size="mini" :style="{
                       position: 'absolute',
                       left: '50%',
                       top: '50%',
@@ -62,10 +62,8 @@ import { reactive, ref } from 'vue';
 
 const userStore = useUserStore();
 
-const baseUrl = import.meta.env.VITE_APP_BASE_API;
-
 const uploadReq = reactive({
-  url: baseUrl + '/user/updateAvatar',
+  url: $consts.ROOT_URI + '/user/updateAvatar',
   headers: { Authorization: getToken() },
 });
 

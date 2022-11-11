@@ -1,15 +1,6 @@
 @import './drag.less';
-
-@font-face {
-  font-family: "YouShe";
-  src: url('../assets/font/YouSheBiaoTiHei.ttf');
-}
-
-@font-face {
-  font-family: "QuanWeiJunHei";
-  src: url('../assets/font/QuanWeiJunHei.ttf');
-}
-
+@import './font.less';
+@import './theme.less';
 
 html, body, #app {
   width: 100%;
@@ -28,7 +19,7 @@ html, body, #app {
   user-select: none;
   /* 圆框需要 不然圆角会有背景色*/
   background-color: rgba(0, 0, 0, 0) !important;
-  border-radius: 8px;
+  border-radius: 2px;
   overflow: hidden;
 }
 

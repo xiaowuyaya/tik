@@ -1,13 +1,13 @@
 <template>
   <div class="w-full h-full flex justify-center ">
     <div class=" w-full pt-2 flex flex-col items-center pt-22">
-      <img class="w-64" src="../../assets/search_banner.png">
+      <img class="w-64" src="../../assets/model/search_banner.png">
       <div class="flex mt-8">
         <a-input-search :style="{
           'width': '480px',
           'height': '48px !important'
         }" v-model="summonerName" size="large" :max-length="18" placeholder="请输入需要搜索的玩家名称，仅支持当前大区"
-          @enter="searchSummoner" @search="searchSummoner" />
+                        @enter="searchSummoner" @search="searchSummoner" />
       </div>
       <a-card class="!mt-6 bg-light-100 w-[640px] " :hoverable="true" :header-style="{ border: 'none' }">
         <div class="flex flex-col">
@@ -21,11 +21,11 @@
             </a-link>
           </div>
           <div class="mt-4 flex text-gray-800">
-            <div v-if="rencentlySearchList.length == 0">暂无数据</div>
+            <div v-if="rencentlySearchList.length == 0" style="color: var(--color-text-1)">暂无数据</div>
             <div class="flex flex-wrap" v-if="rencentlySearchList.length != 0">
               <div class="m-2 cursor-pointer" v-for="(item, index) in rencentlySearchList" :key="index">
                 <a-tag size="large" color="blue" closable @click="summonerName = item"
-                  @close="deleteRencentlySearch(item)">{{ item }}</a-tag>
+                       @close="deleteRencentlySearch(item)">{{ item }}</a-tag>
               </div>
             </div>
           </div>
