@@ -1,0 +1,64 @@
+appId: cc.doii.tik.app
+productName: TikLeagueTool
+copyright: 'Copyright (C) 2022 XiaoWuYaYa.All Rights Reserved'
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+#asarUnpack:
+#  - resources/*
+afterSign: build/notarize.js
+extraResources:
+  from: resources
+  to: extraResources
+win:
+  #  executableName: LeagueClientUx # 证书 + 白名单
+  executableName: TikLeagueTool # 证书 + 白名单
+  # 获取管理员权限 最高权限
+  requestedExecutionLevel: highestAvailable
+  icon: ./build/icon_256.ico
+  # 数字签名
+#  verifyUpdateCodeSignature: false
+#  signDlls: true
+#  signingHashAlgorithms:
+#    - 'sha256'
+#  rfc3161TimeStampServer: http://timestamp.comodoca.com/rfc3161
+#  certificateFile: ./build/cert.pfx
+#  certificatePassword: xiaowuyaya
+nsis:
+  # 是否一键安装
+  oneClick: false
+  # 允许请求提升 如果为false 用户必须使用提升的权限重新启动安装程序
+  allowElevation: true
+  # 允许修改安装目录
+  allowToChangeInstallationDirectory: true
+  #  artifactName: ${productName}_${version}_!退出游戏后安装.${ext}
+  artifactName: ${productName}_${version}.${ext}
+  shortcutName: Tik英雄联盟对局助手
+  uninstallDisplayName: ${productName}
+  # 创建 桌面图标 默认创建
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  installerIcon: ./build/icon_256.ico
+  uninstallerIcon: ./build/icon_256.ico
+  installerHeaderIcon: ./build/icon_256.ico
+npmRebuild: false
+publish:
+  provider: generic
+  url: https://example.com/auto-updates
+releaseInfo:
+  releaseNotes: |
+    !!!!!!!!!!!!!! 一定要更新啊 !!!!!!!!!!!!!!
+    ====== TikLeagueTool version 4.4.26 更新内容 ======
+    ✨ 符文窗口添加刷新按钮
+    ✨ 修复黑名单无法添加提示：当前账号下无大区玩家信息的问题
+    ✨ 修复会员功能：无视野野怪计时失效的问题
+    ====== TikLeagueTool version 4.4.23 更新内容 ======
+    ✨ 紧急修复昨晚更新的bug导致战绩详情打不开的问题
+    ====== TikLeagueTool version 4.4.22 更新内容 ======
+    ✨ 群里兄弟反馈的bug都修复了，近期一区服务器有问题导致接口返回数据异常。
+    等腾讯修复了就好。
+    ✨ 没什么大问题的话，很差一段时间不会在更新了。
