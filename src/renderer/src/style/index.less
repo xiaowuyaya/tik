@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .user-drag {
+    -webkit-app-region: drag;
+  }
+
+  .no-drag {
+    -webkit-app-region: no-drag !important;
+  }
+}
+
+@font-face {
+  font-family: PingFang;
+  src: url('../assets/fonts/PingFangSCNormal.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: PingFang;
+  src: url('../assets/fonts/PingFangSCSemibold.ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: PingFang;
+  src: url('../assets/fonts/PingFangSCBold.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: YouShe;
+  src: url('../assets/fonts/YouSheBiaoTiHei.woff2');
+}
+
+html,
+body,
+#root {
+  -webkit-font-smoothing: antialiased; /*chrome、safari*/
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* 圆框需要 不然圆角会有背景色*/
+  background-color: rgba(0, 0, 0, 0) !important;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+img,
+image {
+  -webkit-user-drag: none;
+}
+
+input,
+textarea {
+  -webkit-appearance: none;
+}
+
+body,
+#app {
+  height: 100vh;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}

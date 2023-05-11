@@ -1,0 +1,9 @@
+singleQuote: true
+semi: false
+proseWrap: 'never'
+arrowParens: 'avoid'
+jsxBracketSameLine: true
+tabWidth: 2
+trailingComma: 'es5'
+useTabs: false
+printWidth: 220
